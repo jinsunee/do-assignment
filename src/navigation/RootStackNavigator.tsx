@@ -3,24 +3,27 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 
-import FirstMain from '../components/FirstMain';
+import AuthStack from '../navigation/AuthStackNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {StatusBar} from 'react-native';
 
 export type StackParamList = {
-  default: undefined;
-  FirstMain: undefined;
+  AuthStack: undefined;
 };
 
 export type StackNavigationProps<
-  T extends keyof StackParamList = 'default'
+  T extends keyof StackParamList = 'AuthStack'
 > = StackNavigationProp<StackParamList, T>;
 
 const Stack = createStackNavigator<StackParamList>();
 
 function RootStackNavigator(): React.ReactElement {
   // const { theme } = useThemeContext();
+  const renderStackElement = (): React.ReactElement => {
+    return <Stack.Screen name="AuthStack" component={AuthStack} />;
+  };
+
   return (
     <NavigationContainer>
       <StatusBar
@@ -30,16 +33,11 @@ function RootStackNavigator(): React.ReactElement {
         translucent={true}
       />
       <Stack.Navigator
-        screenOptions={
-          {
-            // headerStyle: {
-            //   backgroundColor: theme.background,
-            // },
-            // headerTitleStyle: { color: theme.fontColor },
-            // headerTintColor: theme.tintColor,
-          }
-        }>
-        <Stack.Screen name="FirstMain" component={FirstMain} />
+        screenOptions={{
+          headerShown: false,
+          animationEnabled: false,
+        }}>
+        {renderStackElement()}
       </Stack.Navigator>
     </NavigationContainer>
   );

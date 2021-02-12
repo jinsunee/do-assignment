@@ -2,6 +2,7 @@ import svgApple from '../../assets/icons/apple.svg';
 import svgBack from '../../assets/icons/back.svg';
 import svgBackBottom from '../../assets/icons/backBottom.svg';
 import svgCheck from '../../assets/icons/check.svg';
+import svgEmail from '../../assets/icons/email.svg';
 import svgGmail from '../../assets/icons/gmail.svg';
 import svgPlus from '../../assets/icons/plus.svg';
 import svgSetting from '../../assets/icons/setting.svg';
@@ -16,6 +17,7 @@ export const SvgBackBottom = svgBackBottom;
 export const SvgPlus = svgPlus;
 export const SvgApple = svgApple;
 export const SvgGmail = svgGmail;
+export const SvgEmail = svgEmail;
 export const SvgSetting = svgSetting;
 export const SvgStudentBlack = svgStudentBlack;
 export const SvgTeacherBlack = svgTeacherBlack;
@@ -28,6 +30,7 @@ export default [
   SvgPlus,
   SvgApple,
   SvgGmail,
+  SvgEmail,
   SvgSetting,
   SvgStudentBlack,
   SvgTeacherBlack,

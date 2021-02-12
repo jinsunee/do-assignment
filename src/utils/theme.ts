@@ -13,11 +13,15 @@ export const colors = {
 export const light = {
   background: colors.light,
   font: colors.black,
+  primary: colors.primary,
+  negative: colors.negative,
 };
 
 export const dark = {
   background: colors.dark,
   font: colors.light,
+  primary: colors.primary,
+  negative: colors.negative,
 };
 
 export type Theme = typeof light;

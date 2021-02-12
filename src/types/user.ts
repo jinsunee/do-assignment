@@ -9,3 +9,8 @@ export enum UserType {
   STUDENT = 1,
   TEACHER = 2,
 }
+
+export enum SignInType {
+  APPLE = 'Apple',
+  EMAIL = '이메일',
+}
