@@ -1,4 +1,5 @@
 import Button from '../../shared/Button';
+import {Container} from '../../shared';
 import KeyboardWrapper from '../../shared/KeyboardWrapper';
 import NavigationBar from '../../shared/NavigationBar';
 import React from 'react';
@@ -41,11 +42,6 @@ function Layout(props: Props): React.ReactElement {
     </Container>
   );
 }
-
-const Container = styled.View`
-  flex: 1;
-  background-color: ${({theme}) => theme.background};
-`;
 
 const Wrapper = styled.View`
   padding: 30px 15px;

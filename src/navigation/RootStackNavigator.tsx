@@ -3,13 +3,15 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 
-import AuthStack from '../navigation/AuthStackNavigator';
+// import AuthStack from '../navigation/AuthStackNavigator';
+import FirstStack from '../navigation/FirstStackNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {StatusBar} from 'react-native';
 
 export type StackParamList = {
   AuthStack: undefined;
+  FirstStack: undefined;
 };
 
 export type StackNavigationProps<
@@ -21,7 +23,8 @@ const Stack = createStackNavigator<StackParamList>();
 function RootStackNavigator(): React.ReactElement {
   // const { theme } = useThemeContext();
   const renderStackElement = (): React.ReactElement => {
-    return <Stack.Screen name="AuthStack" component={AuthStack} />;
+    // return <Stack.Screen name="AuthStack" component={AuthStack} />;
+    return <Stack.Screen name="FirstStack" component={FirstStack} />;
   };
 
   return (

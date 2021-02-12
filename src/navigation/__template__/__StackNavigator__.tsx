@@ -16,16 +16,11 @@ export type StackNavigationProps<
 const Stack = createStackNavigator<StackParamList>();
 
 function __StackNavigator(): React.ReactElement {
-  // const { theme } = useThemeContext();
   return (
     <Stack.Navigator
       screenOptions={
         {
-          // headerStyle: {
-          //   backgroundColor: theme.background,
-          // },
-          // headerTitleStyle: { color: theme.fontColor },
-          // headerTintColor: theme.tintColor,
+          // headerShown: false,
         }
       }>
       {/* <Stack.Screen name="Screen" component={Screen} /> */}

@@ -1,4 +1,4 @@
-import {Container} from '../../shared/style';
+import {Container} from '../../shared';
 import React from 'react';
 import SignInButton from './SignInButton';
 import {SignInType} from '../../types';

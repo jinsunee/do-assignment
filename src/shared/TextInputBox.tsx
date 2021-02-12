@@ -5,6 +5,7 @@ import styled from '@emotion/native';
 
 interface Props {
   title?: string;
+  subTitleText?: string;
   warningText?: string;
   warnignColor?: string;
   textInputProps: TextInputProps;
@@ -13,6 +14,7 @@ interface Props {
 function TextInputBox(props: Props): React.ReactElement {
   const {
     title = 'TextInput Title',
+    subTitleText = '',
     warningText = '',
     warnignColor = colors.negative,
     textInputProps,
@@ -20,9 +22,13 @@ function TextInputBox(props: Props): React.ReactElement {
 
   return (
     <Container>
-      <Title>{title}</Title>
+      <TitleWrapper>
+        <Title>{title}</Title>
+        <SubTitle>{subTitleText}</SubTitle>
+      </TitleWrapper>
       <Input
         {...textInputProps}
+        placeholderTextColor={colors.blueGrey}
         warning={warningText ? true : false}
         warnignColor={warnignColor}
       />
@@ -37,11 +43,22 @@ const Container = styled.View`
   padding-bottom: 10px;
 `;
 
+const TitleWrapper = styled.View`
+  flex-direction: row;
+  align-items: flex-end;
+`;
+
 const Title = styled.Text`
   font-weight: bold;
   font-size: 16px;
   line-height: 20px;
-  color: #000000;
+  color: ${({theme}) => theme.font};
+  margin-right: 5px;
+`;
+
+const SubTitle = styled.Text`
+  font-size: 11px;
+  color: ${colors.blueGrey};
 `;
 
 const Input = styled.TextInput<{

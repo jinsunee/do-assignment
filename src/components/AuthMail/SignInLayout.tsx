@@ -2,7 +2,7 @@ import Button from '../../shared/Button';
 import KeyboardWrapper from '../../shared/KeyboardWrapper';
 import NavigationBar from '../../shared/NavigationBar';
 import React from 'react';
-import TextInputBox from '../../shared/TextInputBox';
+import {TextInputBox} from '../../shared';
 import styled from '@emotion/native';
 
 interface Props {

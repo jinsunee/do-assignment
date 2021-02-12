@@ -1,10 +1,11 @@
-const grey: string[] = ['F2F2F2'];
+const gray: string[] = ['#F2F2F2'];
+const black: string[] = ['#121212', '#353535'];
 
 export const colors = {
   light: '#ffffff',
   dark: '#121212',
-  black: '#000000',
-  grey,
+  black,
+  gray,
   blueGrey: '#C1C8DD',
   primary: '#4360D7',
   negative: '#F37B7B',
@@ -12,7 +13,7 @@ export const colors = {
 
 export const light = {
   background: colors.light,
-  font: colors.black,
+  font: colors.black[0],
   primary: colors.primary,
   negative: colors.negative,
 };
