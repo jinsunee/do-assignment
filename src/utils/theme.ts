@@ -1,4 +1,4 @@
-const gray: string[] = ['#F2F2F2'];
+const gray: string[] = ['#F2F2F2', '#E5E5E5'];
 const black: string[] = ['#121212', '#353535'];
 
 export const colors = {

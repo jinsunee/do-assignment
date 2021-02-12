@@ -19,6 +19,7 @@ function useTheme() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [themeString]);
   return {
+    themeContext: themeString,
     theme: themeString === ThemeType.LIGHT ? light : dark,
     toggleTheme,
   };
