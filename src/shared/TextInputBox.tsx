@@ -40,7 +40,7 @@ function TextInputBox(props: Props): React.ReactElement {
 }
 
 const Container = styled.View`
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 `;
 
 const TitleWrapper = styled.View`

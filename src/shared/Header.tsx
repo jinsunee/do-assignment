@@ -1,5 +1,4 @@
 import {HeaderElementType} from '../types';
-import {IconButton} from '../shared';
 import React from 'react';
 import {SvgBack} from '../utils/Icons';
 import styled from '@emotion/native';
@@ -69,6 +68,7 @@ const Container = styled.View<{
 }>`
   flex-direction: row;
   padding: ${({paddingTop}) => paddingTop + 15}px 15px 15px 15px;
+  margin: 0px 5px;
   justify-content: space-between;
 `;
 
@@ -77,6 +77,10 @@ const LeftWrapper = styled.View``;
 const RightWrapper = styled.View`
   flex-direction: row;
   justify-content: flex-end;
+`;
+
+const IconButton = styled.TouchableOpacity`
+  padding: 15px;
 `;
 
 export default Header;

@@ -1,45 +1,62 @@
+import {HeaderElementType, StudentListItemType} from '../../types';
+
+import {ActivityIndicator} from 'react-native';
+import {Header} from '../../shared';
 import React from 'react';
-import {SvgBack} from '../../utils/Icons';
-// import {RootStackNavigationProps} from '../navigation/RootStackaNavigator';
+import StudentItem from './StudentItem';
 import styled from '@emotion/native';
-import useTheme from '../../hooks/useTheme';
-import useUserProvider from '../../hooks/useUser';
 
-function Layout(): React.ReactElement {
-  const {user} = useUserProvider();
-  const {theme, toggleTheme} = useTheme();
+interface Props {
+  loading: boolean;
+  items?: StudentListItemType[] | null;
+}
 
-  const themeChange = () => {
-    toggleTheme();
+function Layout(props: Props): React.ReactElement {
+  const {loading, items} = props;
+  const leftElements: HeaderElementType[] = [
+    {
+      key: '자주학원 코딩선생님 박진선',
+      element: <Title>자주학원 코딩선생님 박진선</Title>,
+      onPressElement: () => console.log(),
+    },
+  ];
+
+  const renderStudentList = (): React.ReactElement[] | React.ReactElement => {
+    if (loading || !items) {
+      return <ActivityIndicator />;
+    }
+
+    return (
+      <Wrapper>
+        {items.map((item) => (
+          <StudentItem key={item.studentUID} item={item} />
+        ))}
+      </Wrapper>
+    );
   };
 
   return (
     <Container>
-      <SvgBack fill={theme.font} />
-      <StyledText>redux value :{user.userType}</StyledText>
-      <StyledButton onPress={themeChange}>
-        <StyledText>Change Theme</StyledText>
-      </StyledButton>
+      <Header leftElements={leftElements} />
+      {renderStudentList()}
     </Container>
   );
 }
 
 const Container = styled.View`
   flex: 1;
-  justify-content: center;
-  align-items: center;
   background-color: ${({theme}) => theme.background};
 `;
 
-const StyledText = styled.Text`
-  font-size: 16px;
+const Title = styled.Text`
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 21px;
   color: ${({theme}) => theme.font};
 `;
 
-const StyledButton = styled.TouchableOpacity`
-  padding: 20px;
-  border-width: 1px;
-  border-color: ${({theme}) => theme.font};
+const Wrapper = styled.ScrollView`
+  padding: 5px 15px;
 `;
 
 export default Layout;

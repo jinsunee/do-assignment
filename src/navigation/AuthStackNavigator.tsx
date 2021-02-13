@@ -8,29 +8,29 @@ import AuthMain from '../components/AuthMain';
 import React from 'react';
 import VerifyEmail from '../components/VerifyEmail';
 
-export type StackParamList = {
+export type AuthStackParamList = {
   AuthMain: undefined;
   AuthMail: undefined;
   VerifyEmail: undefined;
 };
 
 export type StackNavigationProps<
-  T extends keyof StackParamList = 'AuthMain'
-> = StackNavigationProp<StackParamList, T>;
+  T extends keyof AuthStackParamList = 'AuthMain'
+> = StackNavigationProp<AuthStackParamList, T>;
 
-const Stack = createStackNavigator<StackParamList>();
+const AuthStack = createStackNavigator<AuthStackParamList>();
 
 function AuthStackNavigator(): React.ReactElement {
   // const { theme } = useThemeContext();
   return (
-    <Stack.Navigator
+    <AuthStack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
-      <Stack.Screen name="AuthMain" component={AuthMain} />
-      <Stack.Screen name="AuthMail" component={AuthMail} />
-    </Stack.Navigator>
+      <AuthStack.Screen name="VerifyEmail" component={VerifyEmail} />
+      <AuthStack.Screen name="AuthMain" component={AuthMain} />
+      <AuthStack.Screen name="AuthMail" component={AuthMail} />
+    </AuthStack.Navigator>
   );
 }
 

@@ -11,7 +11,3 @@ export const Container = styled.View<{
 export const BoldText = styled.Text`
   font-weight: bold;
 `;
-
-export const IconButton = styled.TouchableOpacity`
-  padding: 15px;
-`;
