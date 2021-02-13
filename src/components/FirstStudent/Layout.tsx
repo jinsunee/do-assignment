@@ -1,7 +1,7 @@
 import {ButtonFixedOnButtom} from '../../shared';
 import {Container} from '../../shared';
+import Header from '../../shared/Header';
 import KeyboardWrapper from '../../shared/KeyboardWrapper';
-import NavigationBar from '../../shared/NavigationBar';
 import React from 'react';
 import {TextInputBox} from '../../shared';
 import styled from '@emotion/native';
@@ -27,7 +27,7 @@ function Layout(props: Props): React.ReactElement {
 
   return (
     <Container>
-      <NavigationBar />
+      <Header />
       <KeyboardWrapper>
         <Wrapper>
           <Title>학생이시군요!</Title>

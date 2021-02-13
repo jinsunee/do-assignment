@@ -1,6 +1,6 @@
 import Button from '../../shared/Button';
+import Header from '../../shared/Header';
 import KeyboardWrapper from '../../shared/KeyboardWrapper';
-import NavigationBar from '../../shared/NavigationBar';
 import React from 'react';
 import {TextInputBox} from '../../shared';
 import styled from '@emotion/native';
@@ -18,7 +18,7 @@ function Layout(props: Props): React.ReactElement {
 
   return (
     <Container>
-      <NavigationBar />
+      <Header />
       <KeyboardWrapper>
         <Wrapper>
           <Title>이메일로 계속하기</Title>
