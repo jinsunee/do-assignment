@@ -1,4 +1,4 @@
-import {HeaderElementType, SettingMenuItemType} from '../../types';
+import {HeaderElementType, SettingMenuItemType, UserType} from '../../types';
 import {SvgStudentBlack, SvgTeacherBlack} from '../../utils/Icons';
 
 import {Header} from '../../shared';
@@ -12,10 +12,16 @@ interface Props {
   updateInformation: SettingMenuItemType[];
   aboutApp: SettingMenuItemType[];
   onPressSignOut: () => void;
+  userType?: UserType;
 }
 
 function Layout(props: Props): React.ReactElement {
-  const {updateInformation, aboutApp, onPressSignOut} = props;
+  const {
+    updateInformation,
+    aboutApp,
+    onPressSignOut,
+    userType = UserType.TEACHER,
+  } = props;
 
   const {showActionSheetWithOptions} = useActionSheet();
 
@@ -57,14 +63,38 @@ function Layout(props: Props): React.ReactElement {
     return aboutApp.map((item) => <MenuItem key={item.key} item={item} />);
   };
 
+  if (userType === UserType.TEACHER) {
+    return (
+      <Container>
+        <Header leftElements={leftElements} />
+        <ProfileWrapper>
+          <UserNameText>
+            <BoldText>박진선</BoldText>선생님
+          </UserNameText>
+          <SvgTeacherBlack />
+        </ProfileWrapper>
+        <ItemGroupWrapper>
+          <Title>정보 수정</Title>
+          {renderUpdateInformation()}
+        </ItemGroupWrapper>
+        <ItemGroupWrapper>{renderAboutApp()}</ItemGroupWrapper>
+        <ItemGroupWrapper>
+          <SignOutButton onPress={_pressLogout}>
+            <SignOutText>로그아웃</SignOutText>
+          </SignOutButton>
+        </ItemGroupWrapper>
+      </Container>
+    );
+  }
+
   return (
     <Container>
-      <Header leftElements={leftElements} />
+      <Header />
       <ProfileWrapper>
         <UserNameText>
-          <BoldText>박진선</BoldText>선생님
+          <BoldText>박진선</BoldText>학생
         </UserNameText>
-        <SvgTeacherBlack />
+        <SvgStudentBlack />
       </ProfileWrapper>
       <ItemGroupWrapper>
         <Title>정보 수정</Title>

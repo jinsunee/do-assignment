@@ -3,15 +3,17 @@ import {
   TransitionPresets,
   createStackNavigator,
 } from '@react-navigation/stack';
+import {ThemeType, UpdateInfromationScreenType} from '../types';
 
 import AddAssignment from '../components/AddAssignment';
 import {NavigationContainer} from '@react-navigation/native';
 import {Platform} from 'react-native';
 import React from 'react';
 import {StatusBar} from 'react-native';
+import StudentStack from './StudentStackNavigator';
 import {SvgBack} from '../utils/Icons';
 import TeacherBottomTab from './TeacherBottomNavigator';
-import {ThemeType} from '../types';
+import UpdateInformation from '../components/UpdateInformation';
 import WebView from '../components/WebView';
 import useTheme from '../hooks/useTheme';
 
@@ -19,10 +21,15 @@ export type StackParamList = {
   AuthStack: undefined;
   FirstStack: undefined;
   TeacherBottomTab: undefined;
+  StudentStack: undefined;
   WebView: {
     uri: string;
   };
   AddAssignment: undefined;
+  UpdateInformation: {
+    screenType: UpdateInfromationScreenType;
+    classRoomUID: string;
+  };
 };
 
 export type StackNavigationProps<
@@ -34,9 +41,7 @@ const Stack = createStackNavigator<StackParamList>();
 function RootStackNavigator(): React.ReactElement {
   const {theme, themeContext} = useTheme();
   const renderStackElement = (): React.ReactElement => {
-    return (
-      <Stack.Screen name="TeacherBottomTab" component={TeacherBottomTab} />
-    );
+    return <Stack.Screen name="StudentStack" component={StudentStack} />;
   };
 
   return (
@@ -84,6 +89,7 @@ function RootStackNavigator(): React.ReactElement {
             ...TransitionPresets.ModalSlideFromBottomIOS,
           }}
         />
+        <Stack.Screen name="UpdateInformation" component={UpdateInformation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

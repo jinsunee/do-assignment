@@ -81,6 +81,8 @@ const RightWrapper = styled.View`
 
 const IconButton = styled.TouchableOpacity`
   padding: 15px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Header;

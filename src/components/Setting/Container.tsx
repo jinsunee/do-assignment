@@ -1,12 +1,19 @@
-import {SettingMenuItemType, UpdateInfromationScreenType} from '../../types';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {
+  SettingMenuItemType,
+  UpdateInfromationScreenType,
+  UserType,
+} from '../../types';
 
 import {Alert} from 'react-native';
 import Layout from './Layout';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {StackParamList} from '../../navigation/StudentStackNavigator';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<StackParamList, 'Setting'>>();
+
   const goToUpdateInformation = (screenName: string, paramsObject?: Object) => {
     if (paramsObject) {
       navigation?.navigate(screenName, paramsObject);
@@ -15,6 +22,7 @@ function Page(): React.ReactElement {
 
     navigation?.navigate(screenName);
   };
+
   const updateInformation: SettingMenuItemType[] = [
     {
       key: '클래스 정보',
@@ -61,6 +69,7 @@ function Page(): React.ReactElement {
       updateInformation={updateInformation}
       aboutApp={aboutApp}
       onPressSignOut={requestSignOut}
+      userType={route?.params?.userType || UserType.TEACHER}
     />
   );
 }
