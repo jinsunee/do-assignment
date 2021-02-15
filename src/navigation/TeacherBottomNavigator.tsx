@@ -3,11 +3,17 @@ import {
   createMaterialBottomTabNavigator,
 } from '@react-navigation/material-bottom-tabs';
 import React, {ReactElement} from 'react';
+import {
+  StackNavigationProp,
+  createStackNavigator,
+} from '@react-navigation/stack';
 import {SvgList, SvgSetting, SvgStudentCheck} from '../utils/Icons';
 
 import Setting from '../components/Setting';
 import TeacherAssignmentList from '../components/TeacherAssignmentList';
 import TeacherStudentList from '../components/TeacherStudentList';
+import UpdateInformation from '../components/UpdateInformation';
+import {UpdateInfromationScreenType} from '../types';
 import {colors} from '../utils/theme';
 import useTheme from '../hooks/useTheme';
 
@@ -23,7 +29,7 @@ export type __BottomTabNavigationProps<
 
 const Tab = createMaterialBottomTabNavigator<__BottomTabParamList>();
 
-function TeacherBottomTab(): ReactElement {
+function BottomTab(): ReactElement {
   const {theme} = useTheme();
 
   const barStyle = {
@@ -72,4 +78,30 @@ function TeacherBottomTab(): ReactElement {
   );
 }
 
-export default TeacherBottomTab;
+export type StackParamList = {
+  BottomTab: undefined;
+  UpdateInformation: {
+    screenType: UpdateInfromationScreenType;
+    classRoomUID: string;
+  };
+};
+
+export type StackNavigationProps<
+  T extends keyof StackParamList = 'BottomTab'
+> = StackNavigationProp<StackParamList, T>;
+
+const Stack = createStackNavigator<StackParamList>();
+
+function TeacherStackNavigator(): React.ReactElement {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="BottomTab" component={BottomTab} />
+      <Stack.Screen name="UpdateInformation" component={UpdateInformation} />
+    </Stack.Navigator>
+  );
+}
+
+export default TeacherStackNavigator;

@@ -28,3 +28,15 @@ export enum ModeType {
   DATE_TIME = 'datetime',
   COUNTDOWN = 'countdown',
 }
+
+export interface SettingMenuItemType {
+  key: string;
+  leftString: string;
+  rightString?: string;
+  onPressMenuItem?: () => void;
+}
+
+export enum UpdateInfromationScreenType {
+  PROFILE = 'profile',
+  CLASS_INFORMATION = 'class information',
+}

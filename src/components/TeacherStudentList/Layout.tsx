@@ -29,7 +29,11 @@ function Layout(props: Props): React.ReactElement {
     return (
       <Wrapper>
         {items.map((item) => (
-          <StudentItem key={item.studentUID} item={item} />
+          <StudentItem
+            key={item.studentUID}
+            item={item}
+            press={() => console.log()}
+          />
         ))}
       </Wrapper>
     );

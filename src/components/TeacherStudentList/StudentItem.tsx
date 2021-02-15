@@ -5,21 +5,23 @@ import styled from '@emotion/native';
 
 interface Props {
   item: StudentListItemType;
+  press: () => void;
 }
 
 function StudentItem(props: Props): React.ReactElement {
   const {
     item: {studentName},
+    press,
   } = props;
 
   return (
-    <Container>
+    <Container onPress={press}>
       <StyledText>{studentName}</StyledText>
     </Container>
   );
 }
 
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   background-color: ${colors.blueGrey};
   border-radius: 10px;
   margin: 5px 0;
