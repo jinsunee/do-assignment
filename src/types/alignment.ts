@@ -1,7 +1,8 @@
 export interface AssingmentItemType {
   key: string;
   title: string;
-  date: string;
+  description?: string;
+  date?: Date;
   onPressElement: () => void;
   status: AssignmentStatus;
 }
@@ -13,13 +14,22 @@ export enum AssignmentStatus {
   LAST = '지난과제',
 }
 
-export interface AnswerType {
+export interface StudentAnswerType {
   assignmentUID: string;
   index: number;
   question: string;
   answer: string;
 }
 
-export interface StudentSubmitAnswerType extends AnswerType {
-  studentAnswer: string;
+export interface AssignmentQuestion {
+  index: number;
+  question: string;
+  answer: string;
+}
+
+// 채점 상태
+export enum MarkStatus {
+  CORRECT = 'correct',
+  INCORRECT = 'incorrect',
+  NOT_YET = 'not yet',
 }

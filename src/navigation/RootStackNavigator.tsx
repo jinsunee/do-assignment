@@ -1,5 +1,6 @@
 import {
   AssignmentStatus,
+  AssingmentItemType,
   StudentListItemType,
   ThemeType,
   UpdateInfromationScreenType,
@@ -10,7 +11,7 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 
-import AddAssignment from '../components/AddAssignment';
+import EditHomework from '../components/EditHomework';
 import HomeworkResult from '../components/HomeworkResult';
 import {NavigationContainer} from '@react-navigation/native';
 import {Platform} from 'react-native';
@@ -19,6 +20,7 @@ import {StatusBar} from 'react-native';
 import StudentStack from './StudentStackNavigator';
 import {SvgBack} from '../utils/Icons';
 import TeacherBottomTab from './TeacherBottomNavigator';
+import TeacherHomeworkDetail from '../components/TeacherHomeworkDetail';
 import UpdateInformation from '../components/UpdateInformation';
 import WebView from '../components/WebView';
 import useTheme from '../hooks/useTheme';
@@ -40,6 +42,10 @@ export type StackParamList = {
     student?: StudentListItemType;
     assignmentStatus: AssignmentStatus;
   };
+  EditHomework: undefined;
+  TeacherHomeworkDetail: {
+    assignmentItem: AssingmentItemType;
+  };
 };
 
 export type StackNavigationProps<
@@ -51,7 +57,9 @@ const Stack = createStackNavigator<StackParamList>();
 function RootStackNavigator(): React.ReactElement {
   const {theme, themeContext} = useTheme();
   const renderStackElement = (): React.ReactElement => {
-    return <Stack.Screen name="StudentStack" component={StudentStack} />;
+    return (
+      <Stack.Screen name="TeacherBottomTab" component={TeacherBottomTab} />
+    );
   };
 
   return (
@@ -93,14 +101,18 @@ function RootStackNavigator(): React.ReactElement {
           }}
         />
         <Stack.Screen
-          name="AddAssignment"
-          component={AddAssignment}
+          name="EditHomework"
+          component={EditHomework}
           options={{
             ...TransitionPresets.ModalSlideFromBottomIOS,
           }}
         />
         <Stack.Screen name="UpdateInformation" component={UpdateInformation} />
         <Stack.Screen name="HomeworkResult" component={HomeworkResult} />
+        <Stack.Screen
+          name="TeacherHomeworkDetail"
+          component={TeacherHomeworkDetail}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

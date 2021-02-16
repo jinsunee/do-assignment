@@ -23,7 +23,11 @@ function AssignmentItem(props: Props): React.ReactElement {
             <TitleWrapper>
               <StyledText>{title}</StyledText>
             </TitleWrapper>
-            <StyledText>{date}</StyledText>
+            {date ? (
+              <StyledText>{`${date?.getFullYear()}/${
+                date?.getMonth() + 1
+              }/${date?.getDate()} ${date?.getHours()}:${date?.getMinutes()}:${date?.getSeconds()}`}</StyledText>
+            ) : null}
           </View>
         </Container>
       );
@@ -37,7 +41,11 @@ function AssignmentItem(props: Props): React.ReactElement {
             <TitleWrapper>
               <StyledText>{title}</StyledText>
             </TitleWrapper>
-            <StyledText>{date}</StyledText>
+            {date ? (
+              <StyledText>{`${date?.getFullYear()}/${
+                date?.getMonth() + 1
+              }/${date?.getDate()} ${date?.getHours()}:${date?.getMinutes()}:${date?.getSeconds()}`}</StyledText>
+            ) : null}
           </View>
           <Submit>
             <SubmitText>제출하기</SubmitText>
@@ -54,7 +62,11 @@ function AssignmentItem(props: Props): React.ReactElement {
             <TitleWrapper>
               <StyledText color={colors.blueGray[0]}>{title}</StyledText>
             </TitleWrapper>
-            <StyledText color={colors.blueGray[0]}>{date}</StyledText>
+            {date ? (
+              <StyledText color={colors.blueGray[0]}>{`${date?.getFullYear()}/${
+                date?.getMonth() + 1
+              }/${date?.getDate()} ${date?.getHours()}:${date?.getMinutes()}:${date?.getSeconds()}`}</StyledText>
+            ) : null}
           </View>
           <CompletedSubmit>
             <CompletedText>제출완료</CompletedText>
@@ -73,7 +85,11 @@ function AssignmentItem(props: Props): React.ReactElement {
             <TitleWrapper>
               <StyledText color={colors.blueGray[0]}>{title}</StyledText>
             </TitleWrapper>
-            <StyledText color={colors.blueGray[0]}>{date}</StyledText>
+            {date ? (
+              <StyledText color={colors.blueGray[0]}>{`${date?.getFullYear()}/${
+                date?.getMonth() + 1
+              }/${date?.getDate()} ${date?.getHours()}:${date?.getMinutes()}:${date?.getSeconds()}`}</StyledText>
+            ) : null}
           </View>
         </Container>
       );

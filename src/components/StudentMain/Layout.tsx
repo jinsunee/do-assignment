@@ -46,7 +46,7 @@ function Layout(props: Props): React.ReactElement {
 
       return (
         <>
-          <Wrapper>{elements}</Wrapper>
+          <Wrapper showsVerticalScrollIndicator={false}>{elements}</Wrapper>
         </>
       );
     }
