@@ -140,7 +140,7 @@ const Title = styled.Text`
 
 const ExpireDateButton = styled.TouchableOpacity`
   border-width: 1px;
-  border-color: ${colors.blueGrey};
+  border-color: ${colors.blueGray[0]};
   padding: 10px;
   margin-top: 10px;
   border-radius: 10px;
@@ -149,7 +149,7 @@ const ExpireDateButton = styled.TouchableOpacity`
 const ExpireDateText = styled.Text`
   font-size: 16px;
   font-weight: 500;
-  color: ${colors.blueGrey};
+  color: ${colors.blueGray[0]};
   margin-top: 5px;
 `;
 

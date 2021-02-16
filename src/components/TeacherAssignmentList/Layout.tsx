@@ -104,7 +104,7 @@ const PlusButton = styled.TouchableOpacity`
 const EmptyItemsText = styled.Text`
   font-size: 20px;
   font-weight: bold;
-  color: ${colors.blueGrey};
+  color: ${colors.blueGray[0]};
   margin-bottom: 20px;
 `;
 

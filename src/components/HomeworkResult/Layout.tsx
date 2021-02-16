@@ -40,7 +40,6 @@ const StyledButton = styled.TouchableOpacity`
   padding: 20px;
   border-width: 1px;
   border-color: ${({theme}) => theme.font};
-  border-radius: 10px;
 `;
 
 export default Layout;

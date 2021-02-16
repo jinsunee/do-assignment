@@ -5,6 +5,11 @@ export interface User {
   classRoomsUID: string[];
 }
 
+export interface StudentListItemType {
+  studentUID: string;
+  studentName: string;
+}
+
 export enum UserType {
   STUDENT = 1,
   TEACHER = 2,

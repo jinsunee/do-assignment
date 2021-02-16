@@ -34,7 +34,7 @@ function TeacherBottomNavigator(): ReactElement {
   return (
     <Tab.Navigator
       activeColor={colors.primary}
-      inactiveColor={colors.blueGrey}
+      inactiveColor={colors.blueGray[0]}
       barStyle={barStyle}>
       <Tab.Screen
         name="TeacherAssignmentList"
@@ -42,7 +42,7 @@ function TeacherBottomNavigator(): ReactElement {
         options={{
           tabBarLabel: '과제',
           tabBarIcon: ({focused}: {focused: boolean}): React.ReactElement => (
-            <SvgList fill={focused ? colors.primary : colors.blueGrey} />
+            <SvgList fill={focused ? colors.primary : colors.blueGray[0]} />
           ),
         }}
       />
@@ -53,7 +53,7 @@ function TeacherBottomNavigator(): ReactElement {
           tabBarLabel: '학생관리',
           tabBarIcon: ({focused}: {focused: boolean}): React.ReactElement => (
             <SvgStudentCheck
-              fill={focused ? colors.primary : colors.blueGrey}
+              fill={focused ? colors.primary : colors.blueGray[0]}
             />
           ),
         }}
@@ -64,7 +64,7 @@ function TeacherBottomNavigator(): ReactElement {
         options={{
           tabBarLabel: '설정',
           tabBarIcon: ({focused}: {focused: boolean}): React.ReactElement => (
-            <SvgSetting fill={focused ? colors.primary : colors.blueGrey} />
+            <SvgSetting fill={focused ? colors.primary : colors.blueGray[0]} />
           ),
         }}
       />

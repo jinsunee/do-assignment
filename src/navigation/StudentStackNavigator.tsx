@@ -6,11 +6,13 @@ import {
 import React from 'react';
 import Setting from '../components/Setting';
 import StudentHomeworkForm from '../components/StudentHomeworkForm';
+import StudentHomeworkInformation from '../components/StudentHomeworkInformation';
 import StudentMain from '../components/StudentMain';
 import {UserType} from '../types';
 
 export type StackParamList = {
   StudentMain: undefined;
+  StudentHomeworkInformation: undefined;
   StudentHomeworkForm: undefined;
   Setting: {
     userType?: UserType;
@@ -30,6 +32,10 @@ function StudentStackNavigator(): React.ReactElement {
         headerShown: false,
       }}>
       <Stack.Screen name="StudentMain" component={StudentMain} />
+      <Stack.Screen
+        name="StudentHomeworkInformation"
+        component={StudentHomeworkInformation}
+      />
       <Stack.Screen
         name="StudentHomeworkForm"
         component={StudentHomeworkForm}

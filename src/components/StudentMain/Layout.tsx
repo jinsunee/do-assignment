@@ -88,38 +88,11 @@ const Wrapper = styled.ScrollView`
   padding: 5px 15px;
 `;
 
-const PlusButton = styled.TouchableOpacity`
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  right: 20px;
-  bottom: 40px;
-  background-color: ${({theme}) => theme.primary};
-  justify-content: center;
-  align-items: center;
-  border-radius: 30px;
-`;
-
 const EmptyItemsText = styled.Text`
   font-size: 20px;
   font-weight: bold;
-  color: ${colors.blueGrey};
+  color: ${colors.blueGray[0]};
   margin-bottom: 20px;
-`;
-
-const EmptyAddAssignmentButton = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  border-width: 1px;
-  border-color: ${({theme}) => theme.primary};
-  padding: 15px;
-`;
-
-const EmptyAddAssignmentText = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  color: ${({theme}) => theme.primary};
 `;
 
 export default Layout;

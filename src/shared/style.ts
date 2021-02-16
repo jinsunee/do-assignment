@@ -11,3 +11,8 @@ export const Container = styled.View<{
 export const BoldText = styled.Text`
   font-weight: bold;
 `;
+
+export const RowView = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;

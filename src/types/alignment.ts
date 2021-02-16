@@ -8,15 +8,15 @@ export interface AssingmentItemType {
 
 export enum AssignmentStatus {
   DEFAULT = 'default',
-  SUBMIT = '제출하기',
-  COMPLETE = '제출완료',
+  COMPLETED = '제출완료',
+  NOT_YET = '미제출',
   LAST = '지난과제',
 }
 
 export interface AnswerType {
-  assignmentAnswerUID?: string;
+  assignmentUID: string;
   index: number;
-  problemTitle: string;
+  question: string;
   answer: string;
 }
 

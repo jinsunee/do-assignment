@@ -22,7 +22,7 @@ function StudentItem(props: Props): React.ReactElement {
 }
 
 const Container = styled.TouchableOpacity`
-  background-color: ${colors.blueGrey};
+  background-color: ${colors.blueGray[0]};
   border-radius: 10px;
   margin: 5px 0;
   padding: 20px 10px;

@@ -17,11 +17,6 @@ export interface HeaderElementType {
   onPressElement: () => void;
 }
 
-export interface StudentListItemType {
-  studentUID: string;
-  studentName: string;
-}
-
 export enum ModeType {
   TIME = 'time',
   DATE = 'date',

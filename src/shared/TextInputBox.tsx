@@ -28,7 +28,7 @@ function TextInputBox(props: Props): React.ReactElement {
       </TitleWrapper>
       <Input
         {...textInputProps}
-        placeholderTextColor={colors.blueGrey}
+        placeholderTextColor={colors.blueGray[0]}
         warning={warningText ? true : false}
         warnignColor={warnignColor}
       />
@@ -58,7 +58,7 @@ const Title = styled.Text`
 
 const SubTitle = styled.Text`
   font-size: 11px;
-  color: ${colors.blueGrey};
+  color: ${colors.blueGray[0]};
 `;
 
 const Input = styled.TextInput<{
@@ -72,7 +72,7 @@ const Input = styled.TextInput<{
   margin-top: 5px;
   border-bottom-width: 1px;
   border-bottom-color: ${({warning, warnignColor}) =>
-    warning ? warnignColor : colors.blueGrey};
+    warning ? warnignColor : colors.blueGray[0]};
 `;
 
 const WarningWrapper = styled.View`

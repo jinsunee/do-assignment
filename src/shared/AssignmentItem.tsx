@@ -18,6 +18,7 @@ function AssignmentItem(props: Props): React.ReactElement {
     case AssignmentStatus.DEFAULT: {
       return (
         <Container onPress={onPressElement}>
+          <LeftLine />
           <View>
             <TitleWrapper>
               <StyledText>{title}</StyledText>
@@ -27,9 +28,11 @@ function AssignmentItem(props: Props): React.ReactElement {
         </Container>
       );
     }
-    case AssignmentStatus.SUBMIT: {
+    case AssignmentStatus.NOT_YET: {
       return (
         <Container onPress={onPressElement}>
+          <LeftLine />
+
           <View>
             <TitleWrapper>
               <StyledText>{title}</StyledText>
@@ -42,14 +45,16 @@ function AssignmentItem(props: Props): React.ReactElement {
         </Container>
       );
     }
-    case AssignmentStatus.COMPLETE: {
+    case AssignmentStatus.COMPLETED: {
       return (
-        <Container onPress={onPressElement} color={colors.blueGrey}>
+        <Container onPress={onPressElement} color={colors.blueGray[0]}>
+          <LeftLine />
+
           <View>
             <TitleWrapper>
-              <StyledText color={colors.blueGrey}>{title}</StyledText>
+              <StyledText color={colors.blueGray[0]}>{title}</StyledText>
             </TitleWrapper>
-            <StyledText color={colors.blueGrey}>{date}</StyledText>
+            <StyledText color={colors.blueGray[0]}>{date}</StyledText>
           </View>
           <CompletedSubmit>
             <CompletedText>제출완료</CompletedText>
@@ -61,12 +66,14 @@ function AssignmentItem(props: Props): React.ReactElement {
     case AssignmentStatus.LAST:
     default: {
       return (
-        <Container onPress={onPressElement} color={colors.blueGrey}>
+        <Container onPress={onPressElement} color={colors.blueGray[0]}>
+          <LeftLine />
+
           <View>
             <TitleWrapper>
-              <StyledText color={colors.blueGrey}>{title}</StyledText>
+              <StyledText color={colors.blueGray[0]}>{title}</StyledText>
             </TitleWrapper>
-            <StyledText color={colors.blueGrey}>{date}</StyledText>
+            <StyledText color={colors.blueGray[0]}>{date}</StyledText>
           </View>
         </Container>
       );
@@ -79,13 +86,22 @@ interface Color {
 }
 
 const Container = styled.TouchableOpacity<Color>`
-  border-radius: 10px;
-  border-width: 1px;
-  border-color: ${({color}) => color || colors.primary};
-  padding: 10px;
+  height: 90px;
+  padding: 15px;
   margin: 5px 0;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  background-color: ${({theme}) => theme.background};
+  box-shadow: 0px 0px 2px #c1c8dd;
+`;
+
+const LeftLine = styled.View`
+  position: absolute;
+  left: 0;
+  height: 90px;
+  width: 3px;
+  background-color: ${({theme}) => theme.primary};
 `;
 
 const TitleWrapper = styled.View`
@@ -118,7 +134,7 @@ const CompletedSubmit = styled.View`
   height: 60px;
   border-radius: 30px;
   border-width: 1px;
-  border-color: ${colors.blueGrey};
+  border-color: ${colors.blueGray[0]};
   justify-content: center;
   align-items: center;
 `;
@@ -126,7 +142,7 @@ const CompletedSubmit = styled.View`
 const CompletedText = styled.Text`
   font-weight: bold;
   font-size: 12px;
-  color: ${colors.blueGrey};
+  color: ${colors.blueGray[0]};
 `;
 
 export default AssignmentItem;

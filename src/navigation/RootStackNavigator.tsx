@@ -1,11 +1,17 @@
 import {
+  AssignmentStatus,
+  StudentListItemType,
+  ThemeType,
+  UpdateInfromationScreenType,
+} from '../types';
+import {
   StackNavigationProp,
   TransitionPresets,
   createStackNavigator,
 } from '@react-navigation/stack';
-import {ThemeType, UpdateInfromationScreenType} from '../types';
 
 import AddAssignment from '../components/AddAssignment';
+import HomeworkResult from '../components/HomeworkResult';
 import {NavigationContainer} from '@react-navigation/native';
 import {Platform} from 'react-native';
 import React from 'react';
@@ -29,6 +35,10 @@ export type StackParamList = {
   UpdateInformation: {
     screenType: UpdateInfromationScreenType;
     classRoomUID: string;
+  };
+  HomeworkResult: {
+    student?: StudentListItemType;
+    assignmentStatus: AssignmentStatus;
   };
 };
 
@@ -90,6 +100,7 @@ function RootStackNavigator(): React.ReactElement {
           }}
         />
         <Stack.Screen name="UpdateInformation" component={UpdateInformation} />
+        <Stack.Screen name="HomeworkResult" component={HomeworkResult} />
       </Stack.Navigator>
     </NavigationContainer>
   );
