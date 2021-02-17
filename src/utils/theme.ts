@@ -1,6 +1,7 @@
 const gray: string[] = ['#F2F2F2', '#E5E5E5', '#999999'];
 const black: string[] = ['#121212', '#353535'];
-const blueGray: string[] = ['#C1C8DD', '#F0F2F8'];
+const blueGray: string[] = ['#C1C8DD', '#F0F2F8', '#EEF1FA'];
+const navy: string[] = ['#334476'];
 
 export const colors = {
   light: '#ffffff',
@@ -8,6 +9,7 @@ export const colors = {
   black,
   gray,
   blueGray,
+  navy,
   primary: '#4360D7',
   negative: '#F37B7B',
 };

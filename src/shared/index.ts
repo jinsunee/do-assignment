@@ -1,4 +1,5 @@
 import AssignmentItem from './AssignmentItem';
+import BottomModal from './BottomModal';
 import Button from './Button';
 import ButtonFixedOnButtom from './ButtonFixedOnBottom';
 import DatePicker from './DatePicker';
@@ -14,5 +15,6 @@ export {
   ButtonFixedOnButtom,
   AssignmentItem,
   DatePicker,
+  BottomModal,
 };
 export * from './style';

@@ -2,6 +2,7 @@ import {
   AssignmentStatus,
   AssingmentItemType,
   StudentListItemType,
+  StudentSubmitStatusType,
   ThemeType,
   UpdateInfromationScreenType,
 } from '../types';
@@ -39,8 +40,10 @@ export type StackParamList = {
     classRoomUID: string;
   };
   HomeworkResult: {
-    student?: StudentListItemType;
-    assignmentStatus: AssignmentStatus;
+    assingmentUID: string;
+    studentUID: string;
+    studentName: string;
+    submitStatus: StudentSubmitStatusType;
   };
   EditHomework: undefined;
   TeacherHomeworkDetail: {

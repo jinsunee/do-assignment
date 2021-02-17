@@ -1,3 +1,5 @@
+import {StudentListItemType} from './user';
+
 export interface AssingmentItemType {
   key: string;
   title: string;
@@ -9,9 +11,19 @@ export interface AssingmentItemType {
 
 export enum AssignmentStatus {
   DEFAULT = 'default',
-  COMPLETED = '제출완료',
+  COMPLETED = '제출 완료',
   NOT_YET = '미제출',
   LAST = '지난과제',
+}
+
+export interface StudentSubmitStatus extends StudentListItemType {
+  submitStatus: StudentSubmitStatusType;
+  onPressElement: () => void;
+}
+
+export enum StudentSubmitStatusType {
+  COMPLETED = '제출 완료',
+  NOT_YET = '미제출',
 }
 
 export interface StudentAnswerType {
@@ -27,9 +39,17 @@ export interface AssignmentQuestion {
   answer: string;
 }
 
+export interface SubmitAnswersType {
+  submitAnswerUID: string;
+  index: number;
+  question: string;
+  answer: string;
+  submitValue: string;
+  markStatus: MarkStatus;
+}
+
 // 채점 상태
 export enum MarkStatus {
   CORRECT = 'correct',
   INCORRECT = 'incorrect',
-  NOT_YET = 'not yet',
 }
