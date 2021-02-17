@@ -26,6 +26,28 @@ function Layout(props: Props): React.ReactElement {
     changeMarkStatus,
   } = props;
 
+  const flatListHeader = (): React.ReactElement => {
+    return (
+      <FlatListHeader>
+        <TopWrapper>
+          <StudentName>
+            <BoldText>{studentName}</BoldText> 학생
+          </StudentName>
+          <Submit>
+            <SubmitStatusText fontColor={colors.primary}>
+              제출 완료
+            </SubmitStatusText>
+            {submitTime ? (
+              <SubmitTime>{`${submitTime.getFullYear()}/${
+                submitTime.getMonth() + 1
+              }/${submitTime.getDate()} ${submitTime.getHours()}:${submitTime.getMinutes()}:${submitTime.getSeconds()}`}</SubmitTime>
+            ) : null}
+          </Submit>
+        </TopWrapper>
+      </FlatListHeader>
+    );
+  };
+
   if (loading) {
     return (
       <Container>
@@ -58,6 +80,7 @@ function Layout(props: Props): React.ReactElement {
               changeMarkStatus={() => changeMarkStatus(index)}
             />
           )}
+          ListHeaderComponent={flatListHeader}
         />
       </Container>
     );
@@ -119,5 +142,16 @@ const SubmitStatusText = styled.Text<SubmitStatusStyleProps>`
 `;
 
 const ListContainer = styled.FlatList``;
+
+const FlatListHeader = styled.View``;
+
+const Submit = styled.View`
+  align-items: flex-end;
+`;
+
+const SubmitTime = styled.Text`
+  font-size: 14px;
+  color: ${({theme}) => theme.font};
+`;
 
 export default Layout;

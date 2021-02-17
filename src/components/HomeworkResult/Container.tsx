@@ -46,10 +46,6 @@ function Page(): React.ReactElement {
   };
 
   useEffect(() => {
-    console.log(submitAnswers);
-  }, [submitAnswers]);
-
-  useEffect(() => {
     fetchItems();
   }, []);
 
