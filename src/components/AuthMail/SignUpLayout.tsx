@@ -22,8 +22,8 @@ function Layout(props: Props): React.ReactElement {
     onChangePassword,
     confirmPassword,
     onChangeConfirmPassword,
-    warning,
-    warningConfirm = '비밀번호가 일치하지 않아요.',
+    warning = '',
+    warningConfirm = '',
     loadingSubmit,
     onSubmit,
   } = props;

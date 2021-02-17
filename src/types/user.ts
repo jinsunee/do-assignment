@@ -1,8 +1,11 @@
+import {FirebaseAuthTypes} from '@react-native-firebase/auth';
+
 export interface User {
-  userType: UserType;
-  userUID: string;
-  userName: string;
-  classRoomsUID: string[];
+  userType?: UserType;
+  displayName: string | null;
+  email: string | null;
+  emailVerified: boolean;
+  uid: string;
 }
 
 export interface StudentListItemType {

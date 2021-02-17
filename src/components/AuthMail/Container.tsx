@@ -1,10 +1,13 @@
+import {CommonActions, useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
+import {confirmSignIn, signInEmail} from '../../apis/fetch';
 import {validateEmail, validatePassword} from '../../utils/common';
 
 import InsertEmailLayout from './InsertEmailLayout';
 import SignInLayout from './SignInLayout';
 import SignUpLayout from './SignUpLayout';
-import {useNavigation} from '@react-navigation/native';
+import {signUpEmail} from '../../apis/insert';
+import useFirebaseUser from '../../hooks/useFirebaseUser';
 
 enum ScreenType {
   INSERT_EMAIL,
@@ -13,6 +16,8 @@ enum ScreenType {
 }
 
 function Page(): React.ReactElement {
+  const {firebaseUser} = useFirebaseUser();
+
   const [screenType, setScreenType] = useState<ScreenType>(
     ScreenType.INSERT_EMAIL,
   );
@@ -26,18 +31,6 @@ function Page(): React.ReactElement {
 
   const navigation = useNavigation();
 
-  const onChageEmail = (text: string) => {
-    setEmail(text);
-  };
-
-  const onChagePassword = (text: string) => {
-    setPassword(text);
-  };
-
-  const onChageConfirmPassword = (text: string) => {
-    setConfirmPassword(text);
-  };
-
   switch (screenType) {
     case ScreenType.INSERT_EMAIL:
     default: {
@@ -47,6 +40,15 @@ function Page(): React.ReactElement {
           if (!validateEmail(email)) {
             setWarning('이메일 형식으로 올바르게 입력해주세요.');
             setLoading(false);
+            return;
+          }
+
+          const isJoined = (await confirmSignIn(email)) || firebaseUser;
+
+          if (isJoined) {
+            setScreenType(ScreenType.SIGN_IN);
+            setLoading(false);
+            setWarning('');
             return;
           }
 
@@ -61,7 +63,7 @@ function Page(): React.ReactElement {
       return (
         <InsertEmailLayout
           email={email}
-          onChageEmail={onChageEmail}
+          onChageEmail={setEmail}
           loadingSubmit={loading}
           onSubmit={requestConfirmJoined}
           warning={warning}
@@ -72,17 +74,23 @@ function Page(): React.ReactElement {
       const requestSignIn = async () => {
         try {
           setLoading(true);
-          if (!validateEmail(password)) {
+          if (!password) {
+            setWarning('비밀번호를 입력해주세요.');
+            setLoading(false);
+            return;
+          }
+
+          const result = await signInEmail(email, password);
+          if (!result) {
             setWarning('다른 비밀번호를 입력해주세요.');
             setLoading(false);
             return;
           }
 
-          // const result = await signIn(email, password);
-          // if (!result) {
-          setWarning('다른 비밀번호를 입력해주세요.');
-          // setLoading(false);
-          // }
+          if (!result.emailVerified) {
+            navigation?.navigate('VerifyEmail', {email: result.email});
+          }
+          setLoading(false);
         } catch (error) {
           console.log(error);
         }
@@ -91,7 +99,7 @@ function Page(): React.ReactElement {
       return (
         <SignInLayout
           password={password}
-          onChangePassword={onChagePassword}
+          onChangePassword={setPassword}
           loadingSubmit={loading}
           onSubmit={requestSignIn}
           warning={warning}
@@ -99,8 +107,20 @@ function Page(): React.ReactElement {
       );
     }
     case ScreenType.SIGN_UP: {
-      const goToVerifyEmail = () => {
-        navigation.navigate('VerifyEmail');
+      const goToVerifyEmail = (emailInput: string) => {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'VerifyEmail',
+                params: {
+                  email: emailInput,
+                },
+              },
+            ],
+          }),
+        );
       };
 
       const requestSignUp = async () => {
@@ -109,21 +129,27 @@ function Page(): React.ReactElement {
 
           if (!validatePassword(password)) {
             setWarning('6자 이상의 비밀번호를 입력해주세요.');
+            setWarningConfirm('');
             setLoading(false);
             return;
           }
 
           if (password !== confirmPassword) {
             setWarningConfirm('같은 비밀번호를 입력해주세요.');
+            setWarning('');
             setLoading(false);
             return;
           }
 
+          const result = await signUpEmail(email, password);
+
+          if (result) {
+            goToVerifyEmail(email);
+            return;
+          }
           setWarning('');
           setWarningConfirm('');
           setLoading(false);
-          // await signUpEmail(email, password);
-          goToVerifyEmail();
         } catch (error) {
           console.log(error);
         }
@@ -132,9 +158,9 @@ function Page(): React.ReactElement {
       return (
         <SignUpLayout
           password={password}
-          onChangePassword={onChagePassword}
+          onChangePassword={setPassword}
           confirmPassword={confirmPassword}
-          onChangeConfirmPassword={onChageConfirmPassword}
+          onChangeConfirmPassword={setConfirmPassword}
           loadingSubmit={loading}
           onSubmit={requestSignUp}
           warning={warning}

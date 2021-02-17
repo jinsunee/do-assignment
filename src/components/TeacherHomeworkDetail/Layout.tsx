@@ -184,7 +184,9 @@ const MenuItem = styled.TouchableOpacity<MenuItemStyleProps>`
     return theme.background;
   }};
   margin-right: 10px;
-  border-radius: 20px;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MenuItemText = styled.Text<MenuItemStyleProps>`

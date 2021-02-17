@@ -22,7 +22,8 @@ interface Props {
   setExpireDate: (input: Date) => void;
   warningExpireDate: string;
   questions: AssignmentQuestion[];
-  setQuestions: (input: AssignmentQuestion[]) => void;
+  onChangeQuestion: (index: number, text: string) => void;
+  onChangeAnswer: (index: number, text: string) => void;
   onPressSubmit: () => void;
 }
 
@@ -45,7 +46,8 @@ function Layout(props: Props): React.ReactElement {
     setExpireDate,
     warningExpireDate,
     questions,
-    setQuestions,
+    onChangeQuestion,
+    onChangeAnswer,
     onPressSubmit,
   } = props;
 
@@ -57,41 +59,14 @@ function Layout(props: Props): React.ReactElement {
     },
   ];
 
-  const _onChangeText = (
-    type: QuestionItemInput,
-    index: number,
-    text: string,
-  ) => {
-    const newObject =
-      type === QuestionItemInput.ANSWER
-        ? {
-            ...questions[index],
-            answer: text,
-          }
-        : {
-            ...questions[index],
-            question: text,
-          };
-
-    setQuestions([
-      ...questions.slice(0, index),
-      newObject,
-      ...questions.slice(index + 1),
-    ]);
-  };
-
   const renderQuestions = (): React.ReactElement[] => {
-    return questions?.map(({index, question, answer}) => (
+    return questions?.map(({index, question, answer}, ind) => (
       <QuestionItem
         index={index}
         question={question}
         answer={answer}
-        onChangeTextQuestion={(text) =>
-          _onChangeText(QuestionItemInput.QUESTION, index, text)
-        }
-        onChangeTextAnswer={(text) =>
-          _onChangeText(QuestionItemInput.QUESTION, index, text)
-        }
+        onChangeTextQuestion={(text) => onChangeQuestion(ind, text)}
+        onChangeTextAnswer={(text) => onChangeAnswer(ind, text)}
       />
     ));
   };

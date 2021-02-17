@@ -1,10 +1,9 @@
 import {
-  AssignmentStatus,
   AssingmentItemType,
-  StudentListItemType,
   StudentSubmitStatusType,
   ThemeType,
   UpdateInfromationScreenType,
+  UserType,
 } from '../types';
 import {
   StackNavigationProp,
@@ -12,7 +11,9 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 
+import AuthStack from './AuthStackNavigator';
 import EditHomework from '../components/EditHomework';
+import FirstStack from './FirstStackNavigator';
 import HomeworkResult from '../components/HomeworkResult';
 import {NavigationContainer} from '@react-navigation/native';
 import {Platform} from 'react-native';
@@ -24,7 +25,9 @@ import TeacherBottomTab from './TeacherBottomNavigator';
 import TeacherHomeworkDetail from '../components/TeacherHomeworkDetail';
 import UpdateInformation from '../components/UpdateInformation';
 import WebView from '../components/WebView';
+import useFirebaseUser from '../hooks/useFirebaseUser';
 import useTheme from '../hooks/useTheme';
+import useUser from '../hooks/useUser';
 
 export type StackParamList = {
   AuthStack: undefined;
@@ -59,9 +62,53 @@ const Stack = createStackNavigator<StackParamList>();
 
 function RootStackNavigator(): React.ReactElement {
   const {theme, themeContext} = useTheme();
+  const {firebaseUser} = useFirebaseUser();
+
   const renderStackElement = (): React.ReactElement => {
+    if (!firebaseUser) {
+      return (
+        <Stack.Screen
+          name="AuthStack"
+          component={AuthStack}
+          options={{
+            animationEnabled: false,
+          }}
+        />
+      );
+    }
+
+    if (!firebaseUser?.displayName) {
+      return (
+        <Stack.Screen
+          name="FirstStack"
+          component={FirstStack}
+          options={{
+            animationEnabled: false,
+          }}
+        />
+      );
+    }
+
+    if (firebaseUser.userType === UserType.TEACHER) {
+      return (
+        <Stack.Screen
+          name="TeacherBottomTab"
+          component={TeacherBottomTab}
+          options={{
+            animationEnabled: false,
+          }}
+        />
+      );
+    }
+
     return (
-      <Stack.Screen name="TeacherBottomTab" component={TeacherBottomTab} />
+      <Stack.Screen
+        name="StudentStack"
+        component={StudentStack}
+        options={{
+          animationEnabled: false,
+        }}
+      />
     );
   };
 

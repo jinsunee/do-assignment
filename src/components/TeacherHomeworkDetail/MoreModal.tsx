@@ -54,7 +54,8 @@ type WrapperStyleProps = {
 
 const Wrapper = styled.View<WrapperStyleProps>`
   background-color: ${({theme}): string => theme.background};
-  border-radius: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   align-items: center;
   padding: 50px 15px ${({bottomPadding}) => `${bottomPadding + 20}px`} 15px;
 `;

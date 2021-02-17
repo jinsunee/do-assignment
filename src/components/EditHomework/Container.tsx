@@ -26,15 +26,32 @@ function Page(): React.ReactElement {
       question: '',
       answer: '',
     },
-    {
-      index: 2,
-      question: '',
-      answer: '',
-    },
   ]);
 
   const requestSubmit = () => {
     console.log(123);
+  };
+
+  const _onChangeQuestion = (index: number, text: string) => {
+    setQuestions((prev) => [
+      ...prev.slice(0, index),
+      {
+        ...prev[index],
+        question: text,
+      },
+      ...prev.slice(index + 1),
+    ]);
+  };
+
+  const _onChangeAnswer = (index: number, text: string) => {
+    setQuestions((prev) => [
+      ...prev.slice(0, index),
+      {
+        ...prev[index],
+        answer: text,
+      },
+      ...prev.slice(index + 1),
+    ]);
   };
 
   return (
@@ -52,7 +69,8 @@ function Page(): React.ReactElement {
       setExpireDate={setExpireDate}
       warningExpireDate={warningExpireDate}
       questions={questions}
-      setQuestions={setQuestions}
+      onChangeQuestion={_onChangeQuestion}
+      onChangeAnswer={_onChangeAnswer}
     />
   );
 }

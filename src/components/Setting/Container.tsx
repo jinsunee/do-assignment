@@ -5,10 +5,10 @@ import {
   UserType,
 } from '../../types';
 
-import {Alert} from 'react-native';
 import Layout from './Layout';
 import React from 'react';
 import {StackParamList} from '../../navigation/StudentStackNavigator';
+import {signOut} from '../../apis/delete';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
@@ -60,8 +60,8 @@ function Page(): React.ReactElement {
     },
   ];
 
-  const requestSignOut = () => {
-    Alert.alert('SignOut!');
+  const requestSignOut = async () => {
+    await signOut();
   };
 
   return (

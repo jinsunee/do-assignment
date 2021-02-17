@@ -6,12 +6,13 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useTheme from '../../hooks/useTheme';
 
 interface Props {
+  email: string;
   resendEmail: () => void;
   goToSignIn: () => void;
 }
 
 function Layout(props: Props): React.ReactElement {
-  const {resendEmail, goToSignIn} = props;
+  const {email, resendEmail, goToSignIn} = props;
 
   const insets = useSafeAreaInsets();
   const {theme} = useTheme();
@@ -39,7 +40,7 @@ function Layout(props: Props): React.ReactElement {
       <Wrapper>
         <Title>이메일 인증!</Title>
         <SubTitle>
-          <BoldText>jsunee7246@gmail.com</BoldText>으로 인증메일을 전송했어요.
+          <BoldText>{email}</BoldText>으로 인증메일을 전송했어요.
         </SubTitle>
         <SubTitle>메일함을 확인해주세요!</SubTitle>
         <ButtonWrapper>

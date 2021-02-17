@@ -6,10 +6,12 @@ import React from 'react';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import ThemeProvider from './themeProvider';
-import {userReducer} from './/userProvider';
+import {firebaseUserReducer} from './firebaseUserProvider';
+import {userReducer} from './userProvider';
 
 const rootReducer = combineReducers({
   userReducer,
+  firebaseUserReducer,
 });
 
 const store = createStore(rootReducer);

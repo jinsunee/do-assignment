@@ -50,7 +50,7 @@ function SubmitAnswerItem(props: Props) {
           color={
             markStatus === MarkStatus.CORRECT ? colors.primary : colors.negative
           }>
-          {index}
+          {index}번
         </IndexNumber>
         {renderMarkStatusButton()}
       </RowWrapper>
