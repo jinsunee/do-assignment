@@ -3,7 +3,6 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 const firebaseAuth = auth();
-const db = firestore();
 
 export async function signUpEmail(
   email: string,
@@ -38,6 +37,7 @@ export async function insertTeacher(
   accessCode: string,
 ): Promise<string> {
   try {
+    const db = firestore();
     const currentUser = firebaseAuth.currentUser;
 
     if (currentUser) {
@@ -45,20 +45,20 @@ export async function insertTeacher(
       const createdAt = firestore.Timestamp.fromDate(new Date());
 
       const snapshot = await Promise.all([
-        userRef.set({
+        await userRef.set({
           userType: UserType.TEACHER,
           userName,
           email,
           createdAt,
         }),
-        db.collection('classRooms').add({
+        await db.collection('classRooms').add({
           accessCode,
           classRoomName,
           teacherUID: userUID,
           teacherName: userName,
           createdAt,
         }),
-        currentUser.updateProfile({
+        await currentUser.updateProfile({
           displayName: userName,
         }),
       ]);
@@ -74,6 +74,50 @@ export async function insertTeacher(
     }
 
     return '';
+  } catch (error) {
+    console.log(error);
+    return '';
+  }
+}
+
+export async function insertStudent(
+  classRoomUID: string,
+  userName: string,
+): Promise<string> {
+  try {
+    const currentUser = auth().currentUser;
+    const db = firestore();
+
+    if (currentUser) {
+      const userRef = db.collection('users').doc(currentUser.uid);
+      const createdAt = firestore.Timestamp.fromDate(new Date());
+
+      await Promise.all([
+        await userRef.set({
+          userType: UserType.STUDENT,
+          userName,
+          email: currentUser.email,
+          createdAt,
+        }),
+        await userRef.collection('classRooms').doc(classRoomUID).set({
+          createdAt,
+        }),
+        await db
+          .collection('classRooms')
+          .doc(classRoomUID)
+          .collection('students')
+          .doc(currentUser.uid)
+          .set({
+            userName,
+            createdAt,
+          }),
+        await currentUser.updateProfile({
+          displayName: userName,
+        }),
+      ]);
+    }
+
+    return 'success';
   } catch (error) {
     console.log(error);
     return '';

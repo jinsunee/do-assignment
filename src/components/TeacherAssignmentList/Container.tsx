@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 
 import {AssingmentItemType} from '../../types';
 import Layout from './Layout';
-import {assignmentsDummy as items} from '../../../assets/dummy/assignments';
+// import {assignmentsDummy as items} from '../../../assets/dummy/assignments';
 import {useNavigation} from '@react-navigation/native';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
 
   const [assignmentItems, setAssignmentItems] = useState<
-    AssingmentItemType[]
+    AssingmentItemType[] | null
   >();
 
   useEffect(() => {
@@ -17,15 +17,15 @@ function Page(): React.ReactElement {
   }, []);
 
   const fetchItems = () => {
-    const tmp: AssingmentItemType[] = items.map((item) => ({
-      ...item,
-      onPressElement: () =>
-        goToHomeworkDetail({
-          assignmentItem: item,
-        }),
-    }));
+    // const tmp: AssingmentItemType[] = items?.map((item) => ({
+    //   ...item,
+    //   onPressElement: () =>
+    //     goToHomeworkDetail({
+    //       assignmentItem: item,
+    //     }),
+    // }));
 
-    setAssignmentItems(tmp);
+    setAssignmentItems(null);
   };
 
   const goToEditHomework = () => {

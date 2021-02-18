@@ -25,7 +25,7 @@ import TeacherBottomTab from './TeacherBottomNavigator';
 import TeacherHomeworkDetail from '../components/TeacherHomeworkDetail';
 import UpdateInformation from '../components/UpdateInformation';
 import WebView from '../components/WebView';
-import useFirebaseUser from '../hooks/useFirebaseUser';
+import auth from '@react-native-firebase/auth';
 import useTheme from '../hooks/useTheme';
 import useUser from '../hooks/useUser';
 
@@ -62,10 +62,10 @@ const Stack = createStackNavigator<StackParamList>();
 
 function RootStackNavigator(): React.ReactElement {
   const {theme, themeContext} = useTheme();
-  const {firebaseUser} = useFirebaseUser();
+  const {user} = useUser();
 
   const renderStackElement = (): React.ReactElement => {
-    if (!firebaseUser) {
+    if (!user || !user.emailVerified) {
       return (
         <Stack.Screen
           name="AuthStack"
@@ -77,7 +77,7 @@ function RootStackNavigator(): React.ReactElement {
       );
     }
 
-    if (!firebaseUser?.displayName) {
+    if (!user?.displayName) {
       return (
         <Stack.Screen
           name="FirstStack"
@@ -89,7 +89,7 @@ function RootStackNavigator(): React.ReactElement {
       );
     }
 
-    if (firebaseUser.userType === UserType.TEACHER) {
+    if (user?.userType === UserType.TEACHER) {
       return (
         <Stack.Screen
           name="TeacherBottomTab"

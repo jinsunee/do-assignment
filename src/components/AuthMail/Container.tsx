@@ -7,7 +7,7 @@ import InsertEmailLayout from './InsertEmailLayout';
 import SignInLayout from './SignInLayout';
 import SignUpLayout from './SignUpLayout';
 import {signUpEmail} from '../../apis/insert';
-import useFirebaseUser from '../../hooks/useFirebaseUser';
+import useUser from '../../hooks/useUser';
 
 enum ScreenType {
   INSERT_EMAIL,
@@ -16,7 +16,7 @@ enum ScreenType {
 }
 
 function Page(): React.ReactElement {
-  const {firebaseUser} = useFirebaseUser();
+  const {user, setUser} = useUser();
 
   const [screenType, setScreenType] = useState<ScreenType>(
     ScreenType.INSERT_EMAIL,
@@ -43,9 +43,9 @@ function Page(): React.ReactElement {
             return;
           }
 
-          const isJoined = (await confirmSignIn(email)) || firebaseUser;
+          const isJoined = await confirmSignIn(email);
 
-          if (isJoined) {
+          if (isJoined || user) {
             setScreenType(ScreenType.SIGN_IN);
             setLoading(false);
             setWarning('');
@@ -87,8 +87,12 @@ function Page(): React.ReactElement {
             return;
           }
 
-          if (!result.emailVerified) {
-            navigation?.navigate('VerifyEmail', {email: result.email});
+          if (user) {
+            setUser({
+              ...user,
+              email: result.email,
+              emailVerified: result.emailVerified,
+            });
           }
           setLoading(false);
         } catch (error) {
@@ -110,7 +114,7 @@ function Page(): React.ReactElement {
       const goToVerifyEmail = (emailInput: string) => {
         navigation.dispatch(
           CommonActions.reset({
-            index: 0,
+            index: 1,
             routes: [
               {
                 name: 'VerifyEmail',

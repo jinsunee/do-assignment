@@ -46,7 +46,7 @@ function TeacherBottomNavigator(): ReactElement {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="TeacherStudentList"
         component={TeacherStudentList}
         options={{
@@ -57,7 +57,7 @@ function TeacherBottomNavigator(): ReactElement {
             />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Setting"
         component={Setting}

@@ -4,10 +4,10 @@ import Layout from './Layout';
 import {UserType} from '../../types';
 import {fetchAccessCodeSize} from '../../apis/fetch';
 import {insertTeacher} from '../../apis/insert';
-import useFirebaseUser from '../../hooks/useFirebaseUser';
+import useUser from '../../hooks/useUser';
 
 function Page(): React.ReactElement {
-  const {firebaseUser, setFirebaseUser} = useFirebaseUser();
+  const {user, setUser} = useUser();
 
   const [userName, setUserName] = useState<string>('');
   const [classRoomName, setClassRoomName] = useState<string>('');
@@ -20,7 +20,7 @@ function Page(): React.ReactElement {
 
   const requestSubmit = async () => {
     try {
-      if (!firebaseUser) {
+      if (!user) {
         return;
       }
 
@@ -44,16 +44,16 @@ function Page(): React.ReactElement {
       }
 
       const result = await insertTeacher(
-        firebaseUser.uid,
+        user.uid,
         userName,
-        firebaseUser.email || '',
+        user.email || '',
         classRoomName,
         accessCode,
       );
 
       if (result) {
-        setFirebaseUser({
-          ...firebaseUser,
+        setUser({
+          ...user,
           displayName: userName,
           userType: UserType.TEACHER,
         });

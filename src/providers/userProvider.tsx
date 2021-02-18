@@ -1,4 +1,4 @@
-import {User, UserType} from '../types';
+import {User} from '../types';
 
 const SET_USER = 'user/SET_USER' as const;
 const RESET_USER = 'user/RESET_USER' as const;
@@ -12,18 +12,16 @@ export const resetUserAction = () => ({
   type: RESET_USER,
 });
 
-type UserAction =
+type FirebaseUserAction =
   | ReturnType<typeof setUserAction>
   | ReturnType<typeof resetUserAction>;
 
-const intialState: User = {
-  userType: UserType.STUDENT,
-  userUID: '',
-  userName: '',
-  classRoomsUID: [''],
-};
+const intialState: User | null = null;
 
-export function userReducer(state: User = intialState, action: UserAction) {
+export function userReducer(
+  state: User | null = intialState,
+  action: FirebaseUserAction,
+) {
   switch (action.type) {
     case SET_USER: {
       return action.payload;

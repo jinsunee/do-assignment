@@ -1,5 +1,3 @@
-import {FirebaseAuthTypes} from '@react-native-firebase/auth';
-
 export interface User {
   userType?: UserType;
   displayName: string | null;

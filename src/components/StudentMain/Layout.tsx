@@ -26,11 +26,11 @@ function Layout(props: Props): React.ReactElement {
   ];
 
   const rightElements: HeaderElementType[] = [
-    {
-      key: 'filter button',
-      element: <SvgFilter fill={theme.font} />,
-      onPressElement: () => console.log(),
-    },
+    // {
+    //   key: 'filter button',
+    //   element: <SvgFilter fill={theme.font} />,
+    //   onPressElement: () => console.log(),
+    // },
     {
       key: 'setting button',
       element: <SvgSetting fill={theme.font} />,

@@ -7,22 +7,26 @@ import {TextInputBox} from '../../shared';
 import styled from '@emotion/native';
 
 interface Props {
+  loading: boolean;
   userName: string;
   setUserName: (input: string) => void;
   warningUserName: string;
   accessCode: string;
   setAccessCode: (input: string) => void;
   warningAccessCode: string;
+  onPressButton: () => void;
 }
 
 function Layout(props: Props): React.ReactElement {
   const {
+    loading,
     userName,
     setUserName,
     warningUserName,
     accessCode,
     setAccessCode,
     warningAccessCode,
+    onPressButton,
   } = props;
 
   return (
@@ -55,7 +59,7 @@ function Layout(props: Props): React.ReactElement {
           </ButtonWrapper>
         </Wrapper>
       </KeyboardWrapper>
-      <ButtonFixedOnButtom onPressSubmit={() => console.log()} />
+      <ButtonFixedOnButtom onPressSubmit={onPressButton} loading={loading} />
     </Container>
   );
 }

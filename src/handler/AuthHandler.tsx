@@ -4,40 +4,40 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import Spinner from 'react-native-spinkit';
 import {fetchUserType} from '../apis/fetch';
 import styled from '@emotion/native';
-import useFirebaseUser from '../hooks/useFirebaseUser';
+import useUser from '../hooks/useUser';
 
 interface Props {
   children?: React.ReactChild;
 }
 
 function AuthHandler({children}: Props) {
-  const {firebaseUser, setFirebaseUser, resetFirebaseUser} = useFirebaseUser();
+  const {setUser, resetUser} = useUser();
   const [loading, setLoading] = useState<boolean>(false);
 
-  async function onAuthStateChanged(user: FirebaseAuthTypes.User) {
+  async function onAuthStateChanged(firebaseUser: FirebaseAuthTypes.User) {
     setLoading(true);
-    if (!user) {
-      resetFirebaseUser();
+    if (!firebaseUser) {
+      resetUser();
       setLoading(false);
       return;
     }
 
-    const result = await fetchUserType(user.uid);
+    const result = await fetchUserType(firebaseUser.uid);
 
     if (result) {
-      setFirebaseUser({
-        uid: user.uid,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        displayName: user.displayName,
+      setUser({
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        emailVerified: firebaseUser.emailVerified,
+        displayName: firebaseUser.displayName,
         userType: result,
       });
     } else {
-      setFirebaseUser({
-        uid: user.uid,
-        email: user.email,
-        emailVerified: user.emailVerified,
-        displayName: user.displayName,
+      setUser({
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        emailVerified: firebaseUser.emailVerified,
+        displayName: firebaseUser.displayName,
       });
     }
     setLoading(false);
@@ -48,10 +48,6 @@ function AuthHandler({children}: Props) {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
-
-  useEffect(() => {
-    console.log('firebaseUser', firebaseUser);
-  }, [firebaseUser]);
 
   if (loading) {
     return (

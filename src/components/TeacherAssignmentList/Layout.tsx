@@ -9,7 +9,7 @@ import styled from '@emotion/native';
 import useTheme from '../../hooks/useTheme';
 
 interface Props {
-  items?: AssingmentItemType[];
+  items?: AssingmentItemType[] | null;
   onPressAddButton: () => void;
 }
 
@@ -25,13 +25,13 @@ function Layout(props: Props): React.ReactElement {
     },
   ];
 
-  const rightElements: HeaderElementType[] = [
-    {
-      key: 'filter button',
-      element: <SvgFilter fill={theme.font} />,
-      onPressElement: () => console.log(),
-    },
-  ];
+  // const rightElements: HeaderElementType[] = [
+  //   {
+  //     key: 'filter button',
+  //     element: <SvgFilter fill={theme.font} />,
+  //     onPressElement: () => console.log(),
+  //   },
+  // ];
 
   const renderAssignments = (): React.ReactElement[] | React.ReactElement => {
     if (items) {
@@ -61,7 +61,7 @@ function Layout(props: Props): React.ReactElement {
 
   return (
     <Container>
-      <Header leftElements={leftElements} rightElements={rightElements} />
+      <Header leftElements={leftElements} />
       {renderAssignments()}
     </Container>
   );

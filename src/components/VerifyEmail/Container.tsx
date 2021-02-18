@@ -1,14 +1,11 @@
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-
-import {AuthStackParamList} from '../../navigation/AuthStackNavigator';
 import Layout from './Layout';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
+import useUser from '../../hooks/useUser';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<AuthStackParamList, 'VerifyEmail'>>();
-
-  const {email} = route.params;
+  const {user} = useUser();
 
   const requestResendEmail = async () => {
     try {
@@ -29,7 +26,7 @@ function Page(): React.ReactElement {
 
   return (
     <Layout
-      email={email}
+      email={user?.email || ''}
       resendEmail={requestResendEmail}
       goToSignIn={goToFirstEmail}
     />
