@@ -15,6 +15,7 @@ import svgSmile from '../../assets/icons/smile.svg';
 import svgStudentBlack from '../../assets/icons/student_black.svg';
 import svgStudentCheck from '../../assets/icons/studentCheck.svg';
 import svgTeacherBlack from '../../assets/icons/teacher_black.svg';
+import svgTime from '../../assets/icons/time.svg';
 import svgTrash from '../../assets/icons/trash.svg';
 
 export const SvgBack = svgBack;
@@ -35,6 +36,7 @@ export const SvgStudentCheck = svgStudentCheck;
 export const SvgTrash = svgTrash;
 export const SvgCalendar = svgCalendar;
 export const SvgMore = svgMore;
+export const SvgTime = svgTime;
 
 export default [
   SvgBack,
@@ -54,4 +56,5 @@ export default [
   SvgTrash,
   SvgCalendar,
   SvgMore,
+  SvgTime,
 ];

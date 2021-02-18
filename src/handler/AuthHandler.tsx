@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {fetchClassRoom, fetchUserType} from '../apis/fetch';
 
 import Spinner from 'react-native-spinkit';
-import {fetchUserType} from '../apis/fetch';
 import styled from '@emotion/native';
+import useClassRoom from '../hooks/useClassRoom';
 import useUser from '../hooks/useUser';
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 
 function AuthHandler({children}: Props) {
   const {setUser, resetUser} = useUser();
+  const {setClassRoom, resetClassRoom, classRoom} = useClassRoom();
   const [loading, setLoading] = useState<boolean>(false);
 
   async function onAuthStateChanged(firebaseUser: FirebaseAuthTypes.User) {
@@ -22,15 +24,21 @@ function AuthHandler({children}: Props) {
       return;
     }
 
-    const result = await fetchUserType(firebaseUser.uid);
+    const result = await Promise.all([
+      await fetchUserType(firebaseUser.uid),
+      await fetchClassRoom(firebaseUser.uid),
+    ]);
 
-    if (result) {
+    const userTypeResult = result[0];
+    const classRoomResult = result[1];
+
+    if (userTypeResult) {
       setUser({
         uid: firebaseUser.uid,
         email: firebaseUser.email,
         emailVerified: firebaseUser.emailVerified,
         displayName: firebaseUser.displayName,
-        userType: result,
+        userType: userTypeResult,
       });
     } else {
       setUser({
@@ -40,6 +48,11 @@ function AuthHandler({children}: Props) {
         displayName: firebaseUser.displayName,
       });
     }
+
+    if (classRoomResult) {
+      setClassRoom(classRoomResult);
+    }
+
     setLoading(false);
   }
 
@@ -48,6 +61,10 @@ function AuthHandler({children}: Props) {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
+
+  useEffect(() => {
+    console.log('12312312312313', classRoom);
+  }, [classRoom]);
 
   if (loading) {
     return (

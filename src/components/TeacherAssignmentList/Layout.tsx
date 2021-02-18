@@ -6,7 +6,7 @@ import {Header} from '../../shared';
 import React from 'react';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
-import useTheme from '../../hooks/useTheme';
+import useClassRoom from '../../hooks/useClassRoom';
 
 interface Props {
   items?: AssingmentItemType[] | null;
@@ -15,12 +15,12 @@ interface Props {
 
 function Layout(props: Props): React.ReactElement {
   const {items, onPressAddButton} = props;
-  const {theme} = useTheme();
+  const {classRoom} = useClassRoom();
 
   const leftElements: HeaderElementType[] = [
     {
-      key: '자주학원 코딩선생님 박진선',
-      element: <Title>자주학원 코딩선생님 박진선</Title>,
+      key: classRoom?.classRoomUID || '',
+      element: <Title>{classRoom?.classRoomName || ''}</Title>,
       onPressElement: () => console.log(),
     },
   ];

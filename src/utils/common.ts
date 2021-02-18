@@ -19,6 +19,12 @@ export const validateUserName = (userName: string): boolean => {
   return reg.test(userName);
 };
 
+// 숫자일 때만 true, not ? false,
+export const validateNumber = (input: any): boolean => {
+  const reg = /^([0-9])$/;
+  return reg.test(input);
+};
+
 export const dataForSearching = (userName: string): string[] => {
   const userNameForSearching: string[] = [];
 

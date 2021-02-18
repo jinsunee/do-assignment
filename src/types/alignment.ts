@@ -1,11 +1,22 @@
 import {StudentListItemType} from './user';
 
+// 지우기
 export interface AssingmentItemType {
   key: string;
   title: string;
   description?: string;
   date?: Date;
   onPressElement: () => void;
+  status: AssignmentStatus;
+}
+// end of 지우기
+
+export interface Assignment {
+  assignmentUID: string;
+  title: string;
+  description?: string;
+  expireDate: string;
+  limitTime: Date;
   status: AssignmentStatus;
 }
 

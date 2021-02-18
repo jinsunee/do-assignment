@@ -12,7 +12,7 @@ export const resetUserAction = () => ({
   type: RESET_USER,
 });
 
-type FirebaseUserAction =
+type UserAction =
   | ReturnType<typeof setUserAction>
   | ReturnType<typeof resetUserAction>;
 
@@ -20,7 +20,7 @@ const intialState: User | null = null;
 
 export function userReducer(
   state: User | null = intialState,
-  action: FirebaseUserAction,
+  action: UserAction,
 ) {
   switch (action.type) {
     case SET_USER: {

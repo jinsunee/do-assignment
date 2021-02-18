@@ -1,10 +1,10 @@
 export * from './user';
 export * from './theme';
 export * from './alignment';
+export * from './classRoom';
 
 import React from 'react';
 import {StackNavigationOptions} from '@react-navigation/stack';
-
 export interface NavigatorType {
   name: string;
   component: any;

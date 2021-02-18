@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {AssignmentQuestion} from '../../types';
 import Layout from './Layout';
@@ -15,10 +15,12 @@ function Page(): React.ReactElement {
   const [title, setTitle] = useState<string>('');
 
   const [description, setDescription] = useState<string>('');
-  const [warningDescription, setWarningDescription] = useState<string>('');
 
   const [expireDate, setExpireDate] = useState<Date | undefined>();
   const [warningExpireDate, setWarningExpireDate] = useState<string>('');
+
+  const [limitTime, setLimitTime] = useState<string>();
+  const [warningLimitTime, setWarningLimitTime] = useState<string>('');
 
   const [questions, setQuestions] = useState<AssignmentQuestion[]>([
     {
@@ -27,6 +29,17 @@ function Page(): React.ReactElement {
       answer: '',
     },
   ]);
+
+  const addQuestions = () => {
+    setQuestions([
+      ...questions,
+      {
+        index: questions.length + 1,
+        question: '',
+        answer: '',
+      },
+    ]);
+  };
 
   const requestSubmit = () => {
     console.log(123);
@@ -42,6 +55,10 @@ function Page(): React.ReactElement {
       ...prev.slice(index + 1),
     ]);
   };
+
+  useEffect(() => {
+    console.log(questions);
+  }, [questions]);
 
   const _onChangeAnswer = (index: number, text: string) => {
     setQuestions((prev) => [
@@ -64,13 +81,16 @@ function Page(): React.ReactElement {
       warningTitle={warningTitle}
       description={description}
       setDescription={setDescription}
-      warningDescription={warningDescription}
       expireDate={expireDate}
       setExpireDate={setExpireDate}
       warningExpireDate={warningExpireDate}
+      limitTime={limitTime}
+      setLimitTime={setLimitTime}
+      warningLimitTime={warningLimitTime}
       questions={questions}
       onChangeQuestion={_onChangeQuestion}
       onChangeAnswer={_onChangeAnswer}
+      addQuestions={addQuestions}
     />
   );
 }

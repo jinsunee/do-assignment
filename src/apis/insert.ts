@@ -123,3 +123,10 @@ export async function insertStudent(
     return '';
   }
 }
+
+export async function insertAssignment(title: string, description?: string) {
+  try {
+  } catch (error) {
+    console.log(error);
+  }
+}
