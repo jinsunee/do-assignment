@@ -8,12 +8,12 @@ import {Assignment} from '../types';
 import {RootState} from '../providers';
 import {useCallback} from 'react';
 
-export default function useUserProvider() {
+export default function useAssignment() {
   const assignment = useSelector((state: RootState) => state.assignmentReducer);
   const dispatch = useDispatch();
 
   const setAssignments = useCallback(
-    (input: Assignment) => dispatch(setAssignmentsAction(input)),
+    (input: Assignment[]) => dispatch(setAssignmentsAction(input)),
     [dispatch],
   );
 

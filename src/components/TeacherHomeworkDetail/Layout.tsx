@@ -4,8 +4,8 @@ import {
   StudentSubmitStatus,
 } from '../../types';
 import {BoldText, Header} from '../../shared';
+import {KeyboardWrapper, LoadingScreen} from '../../shared';
 
-import {KeyboardWrapper} from '../../shared';
 import MoreModal from './MoreModal';
 import QuestionList from './QuestionsList';
 import React from 'react';
@@ -16,23 +16,26 @@ import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
 
 interface Props {
+  loading: boolean;
   title: string;
   date?: Date;
   description?: string;
   renderListType: RenderListType;
   onPressMenuItem: (renderListType: RenderListType) => void;
   loadingSubmitStatusItems: boolean;
-  submitStatusItems: StudentSubmitStatus[] | undefined | null;
+  submitStatusItems: StudentSubmitStatus[] | null | undefined;
   loadingQuestionList: boolean;
   questionList: AssignmentQuestion[] | undefined | null;
   shownModal: boolean;
   handleModal: () => void;
   onPressEdit: () => void;
   onPressRemove: () => void;
+  assignmentUID: string;
 }
 
 function Layout(props: Props): React.ReactElement {
   const {
+    loading,
     title,
     date,
     description,
@@ -46,6 +49,7 @@ function Layout(props: Props): React.ReactElement {
     handleModal,
     onPressEdit,
     onPressRemove,
+    assignmentUID,
   } = props;
 
   const rightElements: HeaderElementType[] = [
@@ -89,14 +93,24 @@ function Layout(props: Props): React.ReactElement {
         <StudentSubmitList
           loading={loadingSubmitStatusItems}
           items={submitStatusItems}
+          assignmentUID={assignmentUID}
         />
       );
     }
   };
 
+  const renderLoading = (): React.ReactElement | null => {
+    if (loading) {
+      return <LoadingScreen />;
+    }
+
+    return null;
+  };
+
   return (
     <Container>
       <Header rightElements={rightElements} />
+      {renderLoading()}
       <KeyboardWrapper>
         <Wrapper>
           <TitleWrapper>

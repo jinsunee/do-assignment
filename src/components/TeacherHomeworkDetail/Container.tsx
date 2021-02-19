@@ -1,16 +1,13 @@
-import {
-  AssignmentQuestion,
-  AssignmentStatus,
-  StudentSubmitStatus,
-  StudentSubmitStatusType,
-} from '../../types';
+import {AssignmentQuestion, StudentSubmitStatus} from '../../types';
 import React, {useEffect, useState} from 'react';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {fetchQuestionsAnswers, fetchSubmitList} from '../../apis/fetch';
 
 import Layout from './Layout';
 import {StackParamList} from '../../navigation/RootStackNavigator';
-import {questions as dummyQuestions} from '../../../assets/dummy/questions';
-import {submitStatusItems as dummySubmit} from '../../../assets/dummy/submitStatusItems';
+import {deleteAssignment} from '../../apis/delete';
+import useAssignment from '../../hooks/useAssignment';
+import useClassRoom from '../../hooks/useClassRoom';
 
 export enum RenderListType {
   SUBMIT_STATUS = '제출현황',
@@ -19,9 +16,12 @@ export enum RenderListType {
 
 function Page(): React.ReactElement {
   const route = useRoute<RouteProp<StackParamList, 'TeacherHomeworkDetail'>>();
+  const {classRoom} = useClassRoom();
+  const {assignment, setAssignments} = useAssignment();
   const navigation = useNavigation();
+
   const {
-    assignmentItem: {title, date, description},
+    assignment: {assignmentUID, title, expireDate, description},
   } = route.params;
 
   const [renderListType, setRenderListType] = useState<RenderListType>(
@@ -45,6 +45,8 @@ function Page(): React.ReactElement {
   );
   const [questionList, setQuestionList] = useState<AssignmentQuestion[]>();
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const onPressMenuItem = (input: RenderListType) => {
     setRenderListType(input);
 
@@ -58,48 +60,34 @@ function Page(): React.ReactElement {
     }
   };
 
-  const goToHomeworkResult = (
-    studentUID: string,
-    studentName: string,
-    assignmentUID: string,
-    submitStatus: StudentSubmitStatusType,
-  ) => {
-    if (navigation) {
-      navigation.navigate('HomeworkResult', {
-        studentUID,
-        studentName,
-        assignmentUID,
-        submitStatus,
-      });
-    }
-  };
-
-  const fetchSubmitStatusItems = () => {
+  const fetchSubmitStatusItems = async () => {
     setLoadingSubmitStatusItems(true);
 
-    const tmp = dummySubmit.map((item) => {
-      const {studentUID, studentName, submitStatus} = item;
-      return {
-        ...item,
-        onPressElement: () =>
-          goToHomeworkResult(studentUID, studentName, '123', submitStatus),
-      };
-    });
+    const result = await fetchSubmitList(
+      classRoom?.classRoomUID || '',
+      assignmentUID,
+    );
 
-    setSubmitStatusItems(tmp);
+    if (result) {
+      setSubmitStatusItems(result);
+    }
 
-    setTimeout(() => {
-      setLoadingSubmitStatusItems(false);
-    }, 2000);
+    setLoadingSubmitStatusItems(false);
   };
 
-  const fetchQuestions = () => {
+  const fetchQuestions = async () => {
     setLoadingQuestionList(true);
 
-    setTimeout(() => {
-      setQuestionList(dummyQuestions);
-      setLoadingQuestionList(false);
-    }, 2000);
+    const result = await fetchQuestionsAnswers(
+      classRoom?.classRoomUID || '',
+      assignmentUID,
+    );
+
+    if (result) {
+      setQuestionList(result);
+    }
+
+    setLoadingQuestionList(false);
   };
 
   useEffect(() => {
@@ -110,14 +98,41 @@ function Page(): React.ReactElement {
     setShownModal((prev) => !prev);
   };
 
-  const onPressEdit = () => console.log(123);
-  const onPressRemove = () => console.log(123);
+  const onPressEdit = () => {
+    setShownModal(false);
+
+    navigation.navigate('EditHomework', {
+      assignment: route.params.assignment,
+      questions: questionList,
+    });
+  };
+
+  const onPressRemove = async () => {
+    if (classRoom?.classRoomUID && assignment) {
+      setLoading(true);
+      setShownModal(false);
+      const result = await deleteAssignment(
+        classRoom.classRoomUID,
+        assignmentUID,
+      );
+
+      if (result) {
+        const newAssignments = assignment.filter(
+          (a) => a.assignmentUID !== assignmentUID,
+        );
+        setAssignments(newAssignments);
+        navigation.goBack();
+      }
+      setLoading(false);
+    }
+  };
 
   return (
     <Layout
+      loading={loading}
       title={title}
-      date={date}
-      description={description || '121312'}
+      date={expireDate}
+      description={description || ''}
       renderListType={renderListType}
       onPressMenuItem={onPressMenuItem}
       loadingSubmitStatusItems={loadingSubmitStatusItems}
@@ -128,6 +143,7 @@ function Page(): React.ReactElement {
       handleModal={handleModal}
       onPressEdit={onPressEdit}
       onPressRemove={onPressRemove}
+      assignmentUID={assignmentUID}
     />
   );
 }

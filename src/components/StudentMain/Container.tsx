@@ -1,61 +1,40 @@
 import {AssignmentStatus, UserType} from '../../types';
 import React, {useEffect, useState} from 'react';
 
-import {AssingmentItemType} from '../../types';
+import {Assignment} from '../../types';
 import Layout from './Layout';
-import {assignmentsDummy} from '../../../assets/dummy/assignments';
+import {fetchAssignmentStudent} from '../../apis/fetch';
+import useClassRoom from '../../hooks/useClassRoom';
 import {useNavigation} from '@react-navigation/native';
+import useUser from '../../hooks/useUser';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
+  const {classRoom} = useClassRoom();
+  const {user} = useUser();
 
   const [loading, setLoading] = useState<boolean>();
-  const [items, setItems] = useState<AssingmentItemType[]>();
+  const [items, setItems] = useState<Assignment[]>();
 
-  const fetchItems = () => {
+  const fetchItems = async () => {
     setLoading(true);
-    const onPressElement = (assignmentStatus: AssignmentStatus) => {
-      if (assignmentStatus === AssignmentStatus.NOT_YET) {
-        goToStudentHomeworkForm();
-        return;
-      }
 
-      goToHomeworkResult(assignmentStatus);
-    };
-
-    const tmpItems: AssingmentItemType[] | undefined = assignmentsDummy.map(
-      (item) => {
-        return {
-          ...item,
-          onPressElement: () => onPressElement(item.status),
-        };
-      },
+    const result = await fetchAssignmentStudent(
+      classRoom?.classRoomUID || '',
+      user?.uid || '',
     );
 
-    setItems(tmpItems);
-    setTimeout(() => {
-      setLoading(true);
-    }, 2000);
+    if (result) {
+      setItems(result);
+    }
+
+    setLoading(true);
   };
 
   useEffect(() => {
     fetchItems();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const goToHomeworkResult = (assignmentStatus: AssignmentStatus) => {
-    if (navigation) {
-      navigation.navigate('HomeworkResult', {
-        assignmentStatus,
-      });
-    }
-  };
-
-  const goToStudentHomeworkForm = () => {
-    if (navigation) {
-      navigation.navigate('StudentHomeworkInformation');
-    }
-  };
 
   const goToSetting = () => {
     if (navigation) {

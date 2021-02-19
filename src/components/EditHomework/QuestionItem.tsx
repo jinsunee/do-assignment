@@ -9,6 +9,7 @@ interface Props {
   answer: string;
   onChangeTextQuestion: (text: string) => void;
   onChangeTextAnswer: (text: string) => void;
+  removeQuestion: (index: number) => void;
 }
 
 function QuestionItem(props: Props) {
@@ -18,11 +19,12 @@ function QuestionItem(props: Props) {
     answer,
     onChangeTextQuestion,
     onChangeTextAnswer,
+    removeQuestion,
   } = props;
 
   return (
     <Container>
-      <IndexNumber>{index}</IndexNumber>
+      <IndexNumber>{index + 1}</IndexNumber>
       <QuestionInput
         value={question}
         onChangeText={onChangeTextQuestion}
@@ -35,7 +37,7 @@ function QuestionItem(props: Props) {
         placeholder={'답을 입력해주세요.'}
         placeholderTextColor={colors.blueGray[0]}
       />
-      <TrashButton>
+      <TrashButton onPress={() => removeQuestion(index)}>
         <SvgTrash width={20} height={20} />
       </TrashButton>
     </Container>

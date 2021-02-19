@@ -1,11 +1,12 @@
 import {AssignmentQuestion, HeaderElementType} from '../../types';
-import {Keyboard, KeyboardAvoidingView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SvgPlus2, SvgTime} from '../../utils/Icons';
 
 import DatePicker from './DatePicker';
 import Header from '../../shared/Header';
+import {Keyboard} from 'react-native';
 import {LayoutType} from './Container';
+import {LoadingScreen} from '../../shared';
 import QuestionItem from './QuestionItem';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
@@ -31,11 +32,7 @@ interface Props {
   onChangeAnswer: (index: number, text: string) => void;
   onPressSubmit: () => void;
   addQuestions: () => void;
-}
-
-enum QuestionItemInput {
-  QUESTION,
-  ANSWER,
+  removeQuestion: (index: number) => void;
 }
 
 function Layout(props: Props): React.ReactElement {
@@ -58,6 +55,7 @@ function Layout(props: Props): React.ReactElement {
     onChangeAnswer,
     onPressSubmit,
     addQuestions,
+    removeQuestion,
   } = props;
 
   const {theme} = useTheme();
@@ -83,13 +81,14 @@ function Layout(props: Props): React.ReactElement {
   ];
 
   const renderQuestions = (): React.ReactElement[] => {
-    return questions?.map(({index, question, answer}, ind) => (
+    return questions?.map(({question, answer}, index) => (
       <QuestionItem
         index={index}
         question={question}
         answer={answer}
-        onChangeTextQuestion={(text) => onChangeQuestion(ind, text)}
-        onChangeTextAnswer={(text) => onChangeAnswer(ind, text)}
+        onChangeTextQuestion={(text) => onChangeQuestion(index, text)}
+        onChangeTextAnswer={(text) => onChangeAnswer(index, text)}
+        removeQuestion={removeQuestion}
       />
     ));
   };
@@ -108,20 +107,36 @@ function Layout(props: Props): React.ReactElement {
     return null;
   };
 
+  const renderLoading = (): React.ReactElement | null => {
+    if (loading) {
+      return <LoadingScreen />;
+    }
+
+    return null;
+  };
+
+  const renderLayoutTitle = (): React.ReactElement => {
+    if (layoutType === LayoutType.ADD_HOMEWORK) {
+      return <Title>과제 추가</Title>;
+    }
+
+    return <Title>과제 수정</Title>;
+  };
+
   return (
     <Container>
       <Header rightElements={rightElements} />
-      <KeyboardAvoidingView behavior={'padding'} style={{flex: 1}}>
+      {renderLoading()}
+      <KeyboardView behavior={'padding'}>
         <Wrapper>
-          <TitleWrapper>
-            <Title>과제 추가</Title>
-          </TitleWrapper>
+          <TitleWrapper>{renderLayoutTitle()}</TitleWrapper>
           <AssignmentTitleInput
             value={title}
             onChangeText={setTitle}
             placeholder={'제목을 입력해주세요'}
             placeholderTextColor={colors.blueGray[0]}
             multiline={true}
+            warning={warningTitle}
           />
           <DescriptionInput
             value={description}
@@ -130,15 +145,19 @@ function Layout(props: Props): React.ReactElement {
             placeholderTextColor={colors.blueGray[0]}
             multiline={true}
           />
-          <DatePicker expireDate={expireDate} setExpireDate={setExpireDate} />
-          <LimitTimeWrapper>
+          <DatePicker
+            expireDate={expireDate}
+            setExpireDate={setExpireDate}
+            warning={warningExpireDate}
+          />
+          <LimitTimeWrapper warning={warningLimitTime}>
             <SvgTime fill={limitTime ? theme.font : colors.blueGray[0]} />
             <LimitTimeInput
               value={limitTime}
               onChangeText={setLimitTime}
               placeholder={'과제수행시간(분)'}
               placeholderTextColor={colors.blueGray[0]}
-              maxLength={10}
+              // maxLength={10}
               returnKeyType="done"
               keyboardType="number-pad"
             />
@@ -147,7 +166,7 @@ function Layout(props: Props): React.ReactElement {
           {renderQuestions()}
         </Wrapper>
         {renderBottomWrapper()}
-      </KeyboardAvoidingView>
+      </KeyboardView>
       <BottomWrapper>
         <AddButton bottom={`${insets.bottom}px`} onPress={addQuestions}>
           <SvgPlus2 width={15} height={15} fill={colors.light} />
@@ -160,6 +179,10 @@ function Layout(props: Props): React.ReactElement {
 const Container = styled.View`
   flex: 1;
   background-color: ${({theme}) => theme.background};
+`;
+
+const KeyboardView = styled.KeyboardAvoidingView`
+  flex: 1;
 `;
 
 const Wrapper = styled.ScrollView`
@@ -182,11 +205,17 @@ const SubmitText = styled.Text`
   color: ${({theme}) => theme.primary};
 `;
 
-const AssignmentTitleInput = styled.TextInput`
+type WarningStyleProps = {
+  warning: string;
+};
+
+const AssignmentTitleInput = styled.TextInput<WarningStyleProps>`
   font-weight: bold;
   font-size: 22px;
   color: ${({theme}) => theme.font};
   padding: 10px 0;
+  border-bottom-width: ${({warning}) => (warning ? '2px' : '0px')};
+  border-bottom-color: ${colors.negative};
 `;
 
 const DescriptionInput = styled.TextInput`
@@ -196,10 +225,12 @@ const DescriptionInput = styled.TextInput`
   padding: 5px 0;
 `;
 
-const LimitTimeWrapper = styled.View`
+const LimitTimeWrapper = styled.View<WarningStyleProps>`
   flex-direction: row;
   align-items: center;
   margin-bottom: 30px;
+  border-bottom-width: ${({warning}) => (warning ? '2px' : '0px')};
+  border-bottom-color: ${colors.negative};
 `;
 
 const LimitTimeInput = styled.TextInput`

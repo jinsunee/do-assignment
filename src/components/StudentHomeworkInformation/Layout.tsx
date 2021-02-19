@@ -1,23 +1,50 @@
 import {BoldText, Header, RowView} from '../../shared';
 
-import {ActivityIndicator} from 'react-native';
+import {Assignment} from '../../types';
+import {LoadingScreen} from '../../shared';
 import React from 'react';
+import Spinner from 'react-native-spinkit';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
 
 interface Props {
   onPressGetStarted: () => void;
   loading: boolean;
+  item: Assignment;
+  questionsSize: number;
+  loadingStart: boolean;
 }
 
 function Layout(props: Props): React.ReactElement {
-  const {onPressGetStarted, loading} = props;
+  const {
+    onPressGetStarted,
+    loading,
+    item: {title, limitTime},
+    questionsSize,
+    loadingStart,
+  } = props;
 
-  const renderButton = (): React.ReactElement => {
+  const renderLoading = (): React.ReactElement | null => {
     if (loading) {
+      return <LoadingScreen />;
+    }
+
+    return null;
+  };
+
+  const renderStartButton = (): React.ReactElement => {
+    if (loadingStart) {
       return (
         <Button onPress={onPressGetStarted}>
-          <ActivityIndicator size={16} color={colors.light} />
+          <Spinner
+            type={'ThreeBounce'}
+            color={colors.light}
+            style={
+              {
+                // alignSelf: 'center',
+              }
+            }
+          />
         </Button>
       );
     }
@@ -32,21 +59,22 @@ function Layout(props: Props): React.ReactElement {
   return (
     <Container>
       <Header />
+      {renderLoading()}
       <Wrapper>
-        <Title>수력충전</Title>
+        <Title>{title}</Title>
         <MenuItem>
           <MenuItemText>
             <BoldText>제한시간</BoldText>
           </MenuItemText>
-          <MenuItemText>30분</MenuItemText>
+          <MenuItemText>{limitTime}분</MenuItemText>
         </MenuItem>
         <MenuItem>
           <MenuItemText>
             <BoldText>문제 수</BoldText>
           </MenuItemText>
-          <MenuItemText>20문제</MenuItemText>
+          <MenuItemText>{questionsSize}문제</MenuItemText>
         </MenuItem>
-        {renderButton()}
+        {renderStartButton()}
       </Wrapper>
     </Container>
   );

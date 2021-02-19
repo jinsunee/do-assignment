@@ -1,15 +1,15 @@
-import {AssingmentItemType, HeaderElementType} from '../../types';
-import {SvgFilter, SvgPlus2} from '../../utils/Icons';
+import {Assignment, HeaderElementType} from '../../types';
 
 import {AssignmentItem} from '../../shared';
 import {Header} from '../../shared';
 import React from 'react';
+import {SvgPlus2} from '../../utils/Icons';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
 import useClassRoom from '../../hooks/useClassRoom';
 
 interface Props {
-  items?: AssingmentItemType[] | null;
+  items?: Assignment[] | null;
   onPressAddButton: () => void;
 }
 
@@ -34,28 +34,28 @@ function Layout(props: Props): React.ReactElement {
   // ];
 
   const renderAssignments = (): React.ReactElement[] | React.ReactElement => {
-    if (items) {
-      const elements = items.map((item) => (
-        <AssignmentItem key={item.key} item={item} />
-      ));
-
+    if (!items || items?.length === 0) {
       return (
-        <>
-          <Wrapper>{elements}</Wrapper>
-          <PlusButton onPress={onPressAddButton}>
-            <SvgPlus2 />
-          </PlusButton>
-        </>
+        <EmptyWrapper>
+          <EmptyItemsText>새로운 과제를 추가해보세요 :)</EmptyItemsText>
+          <EmptyAddAssignmentButton onPress={onPressAddButton}>
+            <EmptyAddAssignmentText>과제추가하기</EmptyAddAssignmentText>
+          </EmptyAddAssignmentButton>
+        </EmptyWrapper>
       );
     }
 
+    const elements = items?.map((item) => (
+      <AssignmentItem key={item.assignmentUID} item={item} />
+    ));
+
     return (
-      <EmptyWrapper>
-        <EmptyItemsText>새로운 과제를 추가해보세요 :)</EmptyItemsText>
-        <EmptyAddAssignmentButton onPress={onPressAddButton}>
-          <EmptyAddAssignmentText>과제추가하기</EmptyAddAssignmentText>
-        </EmptyAddAssignmentButton>
-      </EmptyWrapper>
+      <>
+        <Wrapper>{elements}</Wrapper>
+        <PlusButton onPress={onPressAddButton}>
+          <SvgPlus2 />
+        </PlusButton>
+      </>
     );
   };
 

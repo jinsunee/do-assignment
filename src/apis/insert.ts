@@ -1,4 +1,5 @@
-import {UserType} from '../types';
+import {AssignmentQuestion, UserType} from '../types';
+
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
@@ -124,9 +125,94 @@ export async function insertStudent(
   }
 }
 
-export async function insertAssignment(title: string, description?: string) {
+export async function insertAssignment(
+  classRoomUID: string,
+  title: string,
+  description?: string,
+  // @ts-ignore
+  expireDate: Date,
+  limitTime: string,
+  questions: AssignmentQuestion[],
+): Promise<string> {
   try {
+    const db = firestore();
+    const assignmentRef = db
+      .collection('classRooms')
+      .doc(classRoomUID)
+      .collection('assignments');
+
+    const insertAssignmentObject = description
+      ? {
+          title,
+          description,
+          expireDate: expireDate,
+          limitTime: parseInt(limitTime),
+        }
+      : {
+          title,
+          expireDate: expireDate,
+          limitTime: parseInt(limitTime),
+        };
+
+    const snapshot = await assignmentRef.add(insertAssignmentObject);
+
+    if (snapshot) {
+      questions.forEach(async (q, index) => {
+        await Promise.all([
+          await assignmentRef
+            .doc(snapshot.id)
+            .collection('questions')
+            .doc(index.toString())
+            .set({
+              index,
+              question: q.question,
+            }),
+          await assignmentRef
+            .doc(snapshot.id)
+            .collection('answers')
+            .doc(index.toString())
+            .set({
+              answer: q.answer,
+            }),
+        ]);
+      });
+
+      return snapshot.id;
+    }
+
+    return '';
   } catch (error) {
     console.log(error);
+    return '';
+  }
+}
+
+export async function insertStartAssignment(
+  classRoomUID: string,
+  assignmentUID: string,
+  studentUID: string,
+  studentName: string,
+): Promise<boolean> {
+  try {
+    const db = firestore();
+
+    const startAt = firestore.Timestamp.fromDate(new Date());
+
+    await db
+      .collection('classRooms')
+      .doc(classRoomUID)
+      .collection('assignments')
+      .doc(assignmentUID)
+      .collection('submitList')
+      .doc(studentUID)
+      .set({
+        userName: studentName,
+        startAt,
+      });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 }

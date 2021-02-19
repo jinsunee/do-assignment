@@ -10,10 +10,11 @@ import useTheme from '../../hooks/useTheme';
 interface Props {
   expireDate: Date | undefined;
   setExpireDate: (input: Date) => void;
+  warning: string;
 }
 
 function DatePicker(props: Props): React.ReactElement {
-  const {expireDate, setExpireDate} = props;
+  const {expireDate, setExpireDate, warning} = props;
   const {theme} = useTheme();
 
   const [isDatePickerVisible, setIsDatePickerVisible] = useState<boolean>(
@@ -104,17 +105,23 @@ function DatePicker(props: Props): React.ReactElement {
   };
 
   return (
-    <Container>
+    <Container warning={warning}>
       <SvgCalendar fill={expireDate ? theme.font : colors.blueGray[0]} />
       {renderDatePicker()}
     </Container>
   );
 }
 
-const Container = styled.View`
+type WarningStyleProps = {
+  warning: string;
+};
+
+const Container = styled.View<WarningStyleProps>`
   flex-direction: row;
   align-items: center;
   margin: 10px 0;
+  border-bottom-width: ${({warning}) => (warning ? '2px' : '0px')};
+  border-bottom-color: ${colors.negative};
 `;
 
 const ExpireDateButton = styled.TouchableOpacity`

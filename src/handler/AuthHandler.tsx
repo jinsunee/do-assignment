@@ -4,6 +4,7 @@ import {fetchClassRoom, fetchUserType} from '../apis/fetch';
 
 import Spinner from 'react-native-spinkit';
 import styled from '@emotion/native';
+import useAssignment from '../hooks/useAssignment';
 import useClassRoom from '../hooks/useClassRoom';
 import useUser from '../hooks/useUser';
 
@@ -14,6 +15,8 @@ interface Props {
 function AuthHandler({children}: Props) {
   const {setUser, resetUser} = useUser();
   const {setClassRoom, resetClassRoom, classRoom} = useClassRoom();
+  const {assignment} = useAssignment();
+
   const [loading, setLoading] = useState<boolean>(false);
 
   async function onAuthStateChanged(firebaseUser: FirebaseAuthTypes.User) {
@@ -63,8 +66,8 @@ function AuthHandler({children}: Props) {
   }, []);
 
   useEffect(() => {
-    console.log('12312312312313', classRoom);
-  }, [classRoom]);
+    console.log('12312312312313', assignment);
+  }, [assignment]);
 
   if (loading) {
     return (

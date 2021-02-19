@@ -1,3 +1,4 @@
+import {Assignment, SubmitAnswersType, UserType} from '../types';
 import {
   StackNavigationProp,
   createStackNavigator,
@@ -8,12 +9,18 @@ import Setting from '../components/Setting';
 import StudentHomeworkForm from '../components/StudentHomeworkForm';
 import StudentHomeworkInformation from '../components/StudentHomeworkInformation';
 import StudentMain from '../components/StudentMain';
-import {UserType} from '../types';
 
 export type StackParamList = {
   StudentMain: undefined;
-  StudentHomeworkInformation: undefined;
-  StudentHomeworkForm: undefined;
+  StudentHomeworkInformation: {
+    classRoomUID: string;
+    assignment: Assignment;
+  };
+  StudentHomeworkForm: {
+    classRoomUID: string;
+    assignment: Assignment;
+    questions: SubmitAnswersType[];
+  };
   Setting: {
     userType?: UserType;
   };

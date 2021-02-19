@@ -1,32 +1,65 @@
-import {AssignmentStatus, AssingmentItemType} from '../types';
+import {Assignment, AssignmentStatus, StudentSubmitStatusType} from '../types';
 
 import React from 'react';
 import {View} from 'react-native';
 import {colors} from '../utils/theme';
 import styled from '@emotion/native';
+import useClassRooms from '../hooks/useClassRoom';
+import {useNavigation} from '@react-navigation/native';
+import useUser from '../hooks/useUser';
 
 interface Props {
-  item: AssingmentItemType;
+  item: Assignment;
 }
 
 function AssignmentItem(props: Props): React.ReactElement {
   const {
-    item: {onPressElement, title, date, status},
+    item: {title, expireDate, status, assignmentUID},
   } = props;
+  const navigation = useNavigation();
+  const {user} = useUser();
+  const {classRoom} = useClassRooms();
+
+  const goToHomeworkDetail = () => {
+    if (status === AssignmentStatus.DEFAULT) {
+      navigation.navigate('TeacherHomeworkDetail', {
+        assignment: props.item,
+      });
+      return;
+    }
+
+    if (status === AssignmentStatus.COMPLETED) {
+      navigation.navigate('HomeworkResult', {
+        assignmentUID,
+        studentUID: user?.uid || '',
+        studentName: user?.displayName || '',
+        submitStatus: StudentSubmitStatusType.COMPLETED,
+      });
+
+      return;
+    }
+
+    if (navigation) {
+      navigation.navigate('StudentHomeworkInformation', {
+        classRoomUID: classRoom?.classRoomUID || '',
+        assignment: props.item,
+      });
+    }
+  };
 
   switch (status) {
     case AssignmentStatus.DEFAULT: {
       return (
-        <Container onPress={onPressElement}>
+        <Container onPress={goToHomeworkDetail}>
           <LeftLine />
           <View>
             <TitleWrapper>
-              <StyledText>{title}</StyledText>
+              <Title>{title}</Title>
             </TitleWrapper>
-            {date ? (
-              <StyledText>{`${date?.getFullYear()}/${
-                date?.getMonth() + 1
-              }/${date?.getDate()} ${date?.getHours()}:${date?.getMinutes()}:${date?.getSeconds()}`}</StyledText>
+            {expireDate ? (
+              <ExpireDate>{`${expireDate?.getFullYear()}/${
+                expireDate?.getMonth() + 1
+              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}:${expireDate?.getSeconds()} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
         </Container>
@@ -34,17 +67,17 @@ function AssignmentItem(props: Props): React.ReactElement {
     }
     case AssignmentStatus.NOT_YET: {
       return (
-        <Container onPress={onPressElement}>
+        <Container onPress={goToHomeworkDetail}>
           <LeftLine />
 
           <View>
             <TitleWrapper>
-              <StyledText>{title}</StyledText>
+              <Title>{title}</Title>
             </TitleWrapper>
-            {date ? (
-              <StyledText>{`${date?.getFullYear()}/${
-                date?.getMonth() + 1
-              }/${date?.getDate()} ${date?.getHours()}:${date?.getMinutes()}:${date?.getSeconds()}`}</StyledText>
+            {expireDate ? (
+              <ExpireDate>{`${expireDate?.getFullYear()}/${
+                expireDate?.getMonth() + 1
+              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}:${expireDate?.getSeconds()} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
           <Submit>
@@ -55,17 +88,17 @@ function AssignmentItem(props: Props): React.ReactElement {
     }
     case AssignmentStatus.COMPLETED: {
       return (
-        <Container onPress={onPressElement} color={colors.blueGray[0]}>
+        <Container onPress={goToHomeworkDetail} color={colors.blueGray[0]}>
           <LeftLine />
-
           <View>
             <TitleWrapper>
-              <StyledText color={colors.blueGray[0]}>{title}</StyledText>
+              <Title color={colors.blueGray[0]}>{title}</Title>
             </TitleWrapper>
-            {date ? (
-              <StyledText color={colors.blueGray[0]}>{`${date?.getFullYear()}/${
-                date?.getMonth() + 1
-              }/${date?.getDate()} ${date?.getHours()}:${date?.getMinutes()}:${date?.getSeconds()}`}</StyledText>
+            {expireDate ? (
+              <ExpireDate
+                color={colors.blueGray[0]}>{`${expireDate?.getFullYear()}/${
+                expireDate?.getMonth() + 1
+              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}:${expireDate?.getSeconds()} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
           <CompletedSubmit>
@@ -78,17 +111,18 @@ function AssignmentItem(props: Props): React.ReactElement {
     case AssignmentStatus.LAST:
     default: {
       return (
-        <Container onPress={onPressElement} color={colors.blueGray[0]}>
+        <Container onPress={goToHomeworkDetail} color={colors.blueGray[0]}>
           <LeftLine />
 
           <View>
             <TitleWrapper>
-              <StyledText color={colors.blueGray[0]}>{title}</StyledText>
+              <Title color={colors.blueGray[0]}>{title}</Title>
             </TitleWrapper>
-            {date ? (
-              <StyledText color={colors.blueGray[0]}>{`${date?.getFullYear()}/${
-                date?.getMonth() + 1
-              }/${date?.getDate()} ${date?.getHours()}:${date?.getMinutes()}:${date?.getSeconds()}`}</StyledText>
+            {expireDate ? (
+              <ExpireDate
+                color={colors.blueGray[0]}>{`${expireDate?.getFullYear()}/${
+                expireDate?.getMonth() + 1
+              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}:${expireDate?.getSeconds()} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
         </Container>
@@ -124,9 +158,14 @@ const TitleWrapper = styled.View`
   height: 40px;
 `;
 
-const StyledText = styled.Text<Color>`
-  color: ${({color, theme}) => color || theme.font};
+const Title = styled.Text<Color>`
   font-weight: bold;
+  color: ${({color, theme}) => color || theme.font};
+  font-size: 16px;
+`;
+
+const ExpireDate = styled.Text<Color>`
+  color: ${({color, theme}) => color || theme.font};
   font-size: 14px;
 `;
 

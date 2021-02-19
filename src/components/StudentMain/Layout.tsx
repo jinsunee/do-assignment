@@ -1,15 +1,15 @@
-import {AssingmentItemType, HeaderElementType} from '../../types';
-import {SvgFilter, SvgSetting} from '../../utils/Icons';
+import {Assignment, HeaderElementType} from '../../types';
 
 import {AssignmentItem} from '../../shared';
 import {Header} from '../../shared';
 import React from 'react';
+import {SvgSetting} from '../../utils/Icons';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
 import useTheme from '../../hooks/useTheme';
 
 interface Props {
-  items?: AssingmentItemType[];
+  items?: Assignment[];
   onPressSetting: () => void;
 }
 
@@ -41,7 +41,7 @@ function Layout(props: Props): React.ReactElement {
   const renderAssignments = (): React.ReactElement[] | React.ReactElement => {
     if (items) {
       const elements = items.map((item) => (
-        <AssignmentItem key={item.key} item={item} />
+        <AssignmentItem key={item.assignmentUID} item={item} />
       ));
 
       return (

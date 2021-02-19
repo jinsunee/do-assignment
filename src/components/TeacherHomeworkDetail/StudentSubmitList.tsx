@@ -7,11 +7,12 @@ import styled from '@emotion/native';
 
 interface Props {
   loading: boolean;
-  items: StudentSubmitStatus[] | undefined | null;
+  items: StudentSubmitStatus[] | null | undefined;
+  assignmentUID: string;
 }
 
-function QuestionList(props: Props): React.ReactElement {
-  const {loading, items} = props;
+function StudentSubmitList(props: Props): React.ReactElement {
+  const {loading, items, assignmentUID} = props;
 
   if (loading) {
     return (
@@ -21,22 +22,26 @@ function QuestionList(props: Props): React.ReactElement {
     );
   }
 
-  if (!items) {
+  if (items) {
     return (
-      <Container>
-        <EmptyText>클래스에 가입한 학생이 없어요 :(</EmptyText>
-      </Container>
+      <ListContainer
+        data={items}
+        keyExtractor={(item, index): string => index.toString()}
+        renderItem={({item}) => (
+          <StudentSubmitItem
+            key={item.studentUID}
+            item={item}
+            assignmentUID={assignmentUID}
+          />
+        )}
+      />
     );
   }
 
   return (
-    <ListContainer
-      data={items}
-      keyExtractor={(item, index): string => index.toString()}
-      renderItem={({item}) => (
-        <StudentSubmitItem key={item.studentUID} item={item} />
-      )}
-    />
+    <Container>
+      <EmptyText>클래스에 가입한 학생이 없어요 :(</EmptyText>
+    </Container>
   );
 }
 
@@ -57,4 +62,4 @@ const ListContainer = styled.FlatList`
   margin: 15px 0;
 `;
 
-export default QuestionList;
+export default StudentSubmitList;

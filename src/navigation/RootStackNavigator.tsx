@@ -1,5 +1,6 @@
 import {
-  AssingmentItemType,
+  Assignment,
+  AssignmentQuestion,
   StudentSubmitStatusType,
   ThemeType,
   UpdateInfromationScreenType,
@@ -25,7 +26,6 @@ import TeacherBottomTab from './TeacherBottomNavigator';
 import TeacherHomeworkDetail from '../components/TeacherHomeworkDetail';
 import UpdateInformation from '../components/UpdateInformation';
 import WebView from '../components/WebView';
-import auth from '@react-native-firebase/auth';
 import useTheme from '../hooks/useTheme';
 import useUser from '../hooks/useUser';
 
@@ -48,9 +48,12 @@ export type StackParamList = {
     studentName: string;
     submitStatus: StudentSubmitStatusType;
   };
-  EditHomework: undefined;
+  EditHomework: {
+    assignment?: Assignment;
+    questions?: AssignmentQuestion[];
+  };
   TeacherHomeworkDetail: {
-    assignmentItem: AssingmentItemType;
+    assignment: Assignment;
   };
 };
 

@@ -1,47 +1,73 @@
+import {ActivityIndicator, Alert} from 'react-native';
+import {Assignment, SubmitAnswersType} from '../../types';
 import {BoldText, TextInputBox} from '../../shared';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
-import {ActivityIndicator} from 'react-native';
-import {AnswerType} from '../../types';
 import KeyboardWrapper from '../../shared/KeyboardWrapper';
 import {colors} from '../../utils/theme';
+import {millisToHoursAndMinutesAndSeconds} from '../../utils/common';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Props {
-  limitTime: number;
-  answers: AnswerType[];
-  setAnswers: (input: AnswerType[]) => void;
+  assignment: Assignment;
+  submitList: SubmitAnswersType[];
+  setSubmitList: (input: SubmitAnswersType[]) => void;
   loading: boolean;
   onPressSubmit: () => void;
+  goToStudentMain: () => void;
 }
 
 function Layout(props: Props): React.ReactElement {
-  const {limitTime, answers, setAnswers, loading, onPressSubmit} = props;
+  const {
+    assignment,
+    submitList,
+    setSubmitList,
+    loading,
+    onPressSubmit,
+    goToStudentMain,
+  } = props;
   const insets = useSafeAreaInsets();
-  const [restTime, setRestTime] = useState<number>(limitTime - 20);
+
+  const [restTime, setRestTime] = useState<string>('');
+
+  // const로 입장시간부터 입력받는다.
+  const endTimeMilli = (parseInt(2) - 1) * 60000 + Date.now();
+
+  useEffect(() => {
+    setInterval(() => {
+      setRestTime(millisToHoursAndMinutesAndSeconds(endTimeMilli - Date.now()));
+    }, 1000);
+  }, []);
+
+  useEffect(() => {
+    if (restTime === '00:00:00') {
+      Alert.alert('시험이 종료되었습니다.');
+      goToStudentMain();
+    }
+  }, [restTime]);
 
   const _onChangeAnswer = (index: number, value: string) => {
     const tmpArr = [
-      ...answers.slice(0, index),
+      ...submitList.slice(0, index),
       {
-        ...answers[index],
+        ...submitList[index],
         answer: value,
       },
-      ...answers.slice(index + 1),
+      ...submitList.slice(index + 1),
     ];
 
-    setAnswers(tmpArr);
+    setSubmitList(tmpArr);
   };
 
   const renderAnswers = (): React.ReactElement[] => {
-    return answers.map((item, index) => {
-      const {assignmentUID, answer, question} = item;
+    return submitList.map((item, index) => {
+      const {questionUID, answer, question} = item;
       return (
         <QuestionWrapper>
-          <QuestionNumber>{index + 1}</QuestionNumber>
+          <QuestionNumber>{index + 1}번</QuestionNumber>
           <TextInputBox
-            key={assignmentUID}
+            key={questionUID}
             title={question}
             textInputProps={{
               value: answer,
@@ -75,7 +101,7 @@ function Layout(props: Props): React.ReactElement {
       <TopWrapper style={{paddingTop: insets.top + 15}}>
         <TimeButton>
           <TimeText>
-            제출까지 <BoldText>{restTime}:01</BoldText> 남음
+            제출까지 <BoldText>{restTime} </BoldText> 남음
           </TimeText>
         </TimeButton>
         <Title>제목제목</Title>

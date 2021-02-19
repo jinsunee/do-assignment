@@ -3,18 +3,32 @@ import {StudentSubmitStatus, StudentSubmitStatusType} from '../../types';
 import React from 'react';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   item: StudentSubmitStatus;
+  assignmentUID: string;
 }
 
 function StudentSubmitList(props: Props) {
   const {
-    item: {studentName, onPressElement, submitStatus},
+    item: {studentUID, studentName, submitStatus},
+    assignmentUID,
   } = props;
 
+  const navigation = useNavigation();
+
+  const goToHomeworkResult = () => {
+    navigation.navigate('HomeworkResult', {
+      assignmentUID,
+      studentUID,
+      studentName,
+      submitStatus,
+    });
+  };
+
   return (
-    <Container onPress={onPressElement}>
+    <Container onPress={goToHomeworkResult}>
       <StudentName>{studentName}</StudentName>
       <SubmitStatus
         textColor={

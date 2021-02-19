@@ -33,7 +33,9 @@ function QuestionList(props: Props): React.ReactElement {
     <ListContainer
       data={items}
       keyExtractor={(item, index): string => index.toString()}
-      renderItem={({item}) => <Question key={item.question} item={item} />}
+      renderItem={({item, index}) => (
+        <Question key={item.questionUID} item={item} index={index} />
+      )}
     />
   );
 }

@@ -1,57 +1,29 @@
-import {CommonActions, useNavigation} from '@react-navigation/native';
+import {
+  CommonActions,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 
 import {Alert} from 'react-native';
-import {AnswerType} from '../../types';
 import Layout from './Layout';
+import {StackParamList} from '../../navigation/StudentStackNavigator';
+import {SubmitAnswersType} from '../../types';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<StackParamList, 'StudentHomeworkForm'>>();
+  const {classRoomUID, assignment, questions} = route.params;
 
-  const limitTime = 30;
-
-  const [answers, setAnswers] = useState<AnswerType[]>([
-    {
-      assignmentUID: '123',
-      index: 1,
-      question: '문제 입니다',
-      answer: '',
-    },
-    {
-      assignmentUID: '123',
-      index: 1,
-      question: '문제 입니다',
-      answer: '',
-    },
-    {
-      assignmentUID: '123',
-      index: 1,
-      question: '문제 입니다',
-      answer: '',
-    },
-    {
-      assignmentUID: '123',
-      index: 1,
-      question: '문제 입니다',
-      answer: '',
-    },
-    {
-      assignmentUID: '123',
-      index: 1,
-      question: '문제 입니다',
-      answer: '',
-    },
-    {
-      assignmentUID: '123',
-      index: 1,
-      question: '문제 입니다',
-      answer: '',
-    },
-  ]);
-
+  const [submitList, setSubmitList] = useState<SubmitAnswersType[]>(questions);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const requestSubmit = () => {
+  const requestSubmit = async () => {
+    goToStudentMain();
+  };
+
+  const goToStudentMain = () => {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -61,7 +33,7 @@ function Page(): React.ReactElement {
   };
 
   const pressSubmitAnswers = async () => {
-    const isFilledAll = answers?.some((a) => a.answer === '');
+    const isFilledAll = submitList?.some((s) => s.answer === '');
 
     if (isFilledAll) {
       Alert.alert(
@@ -95,11 +67,12 @@ function Page(): React.ReactElement {
 
   return (
     <Layout
-      limitTime={limitTime}
-      answers={answers}
-      setAnswers={setAnswers}
+      assignment={assignment}
+      submitList={submitList}
+      setSubmitList={setSubmitList}
       loading={loading}
       onPressSubmit={pressSubmitAnswers}
+      goToStudentMain={goToStudentMain}
     />
   );
 }
