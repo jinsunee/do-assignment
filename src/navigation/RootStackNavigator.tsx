@@ -44,7 +44,7 @@ export type StackParamList = {
   };
   HomeworkResult: {
     classRoomUID: string;
-    assingmentUID: string;
+    assignmentUID: string;
     studentUID: string;
     studentName: string;
     submitStatus: StudentSubmitStatusType;

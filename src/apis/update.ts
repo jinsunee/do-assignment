@@ -1,4 +1,4 @@
-import {Assignment, AssignmentQuestion} from '../types';
+import {Assignment, AssignmentQuestion, MarkStatus} from '../types';
 
 import firestore from '@react-native-firebase/firestore';
 
@@ -57,6 +57,34 @@ export async function updateAssignment(
         }),
       ]);
     });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function updateMarkStatus(
+  classRoomUID: string,
+  assignmentUID: string,
+  studentUID: string,
+  submitAnswerUID: string,
+  markStatus: MarkStatus,
+): Promise<boolean> {
+  try {
+    await firestore()
+      .collection('classRooms')
+      .doc(classRoomUID)
+      .collection('assignments')
+      .doc(assignmentUID)
+      .collection('submitList')
+      .doc(studentUID)
+      .collection('submitAnswers')
+      .doc(submitAnswerUID)
+      .update({
+        markStatus,
+      });
 
     return true;
   } catch (error) {

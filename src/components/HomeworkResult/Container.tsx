@@ -5,10 +5,10 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import Layout from './Layout';
 import {StackParamList} from '../../navigation/RootStackNavigator';
 import {fetchSubmitResult} from '../../apis/fetch';
+import {updateMarkStatus} from '../../apis/update';
 
 function Page(): React.ReactElement {
   const route = useRoute<RouteProp<StackParamList, 'HomeworkResult'>>();
-  const navigation = useNavigation();
   const {
     classRoomUID,
     studentUID,
@@ -22,8 +22,29 @@ function Page(): React.ReactElement {
 
   const [submitAnswers, setSubmitAnswers] = useState<SubmitAnswersType[]>();
 
-  const changeMarkStatus = (index: number) => {
+  const changeMarkStatus = async (index: number) => {
     if (submitAnswers) {
+      const markStatus =
+        submitAnswers[index].markStatus === MarkStatus.CORRECT
+          ? MarkStatus.INCORRECT
+          : MarkStatus.CORRECT;
+
+      console.log(
+        classRoomUID,
+        assignmentUID,
+        studentUID,
+        submitAnswers[index].questionUID,
+        markStatus,
+      );
+
+      await updateMarkStatus(
+        classRoomUID,
+        assignmentUID,
+        studentUID,
+        submitAnswers[index].questionUID,
+        markStatus,
+      );
+
       const tmp = [
         ...submitAnswers.slice(0, index),
         {
@@ -55,10 +76,6 @@ function Page(): React.ReactElement {
 
     setLoading(false);
   };
-
-  useEffect(() => {
-    console.log(submitAnswers);
-  }, [submitAnswers]);
 
   useEffect(() => {
     fetchItems();
