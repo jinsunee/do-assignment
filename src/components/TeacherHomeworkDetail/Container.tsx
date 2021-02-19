@@ -143,6 +143,7 @@ function Page(): React.ReactElement {
       handleModal={handleModal}
       onPressEdit={onPressEdit}
       onPressRemove={onPressRemove}
+      classRoomUID={classRoom?.classRoomUID || ''}
       assignmentUID={assignmentUID}
     />
   );

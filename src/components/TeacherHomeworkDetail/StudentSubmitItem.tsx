@@ -6,24 +6,28 @@ import styled from '@emotion/native';
 import {useNavigation} from '@react-navigation/native';
 
 interface Props {
+  classRoomUID: string;
   item: StudentSubmitStatus;
   assignmentUID: string;
 }
 
 function StudentSubmitList(props: Props) {
   const {
-    item: {studentUID, studentName, submitStatus},
+    item: {studentUID, studentName, submitStatus, submitTime},
     assignmentUID,
+    classRoomUID,
   } = props;
 
   const navigation = useNavigation();
 
   const goToHomeworkResult = () => {
     navigation.navigate('HomeworkResult', {
+      classRoomUID,
       assignmentUID,
       studentUID,
       studentName,
       submitStatus,
+      submitTime,
     });
   };
 

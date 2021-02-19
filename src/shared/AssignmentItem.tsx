@@ -10,15 +10,18 @@ import useUser from '../hooks/useUser';
 
 interface Props {
   item: Assignment;
+  onPressItem: () => {};
 }
 
 function AssignmentItem(props: Props): React.ReactElement {
   const {
-    item: {title, expireDate, status, assignmentUID},
+    item: {title, expireDate, status, assignmentUID, submitTime},
   } = props;
   const navigation = useNavigation();
   const {user} = useUser();
   const {classRoom} = useClassRooms();
+
+  console.log('submitTime', submitTime);
 
   const goToHomeworkDetail = () => {
     if (status === AssignmentStatus.DEFAULT) {
@@ -30,10 +33,12 @@ function AssignmentItem(props: Props): React.ReactElement {
 
     if (status === AssignmentStatus.COMPLETED) {
       navigation.navigate('HomeworkResult', {
+        classRoomUID: classRoom?.classRoomUID || '',
         assignmentUID,
         studentUID: user?.uid || '',
         studentName: user?.displayName || '',
         submitStatus: StudentSubmitStatusType.COMPLETED,
+        submitTime: submitTime,
       });
 
       return;

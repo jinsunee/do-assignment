@@ -30,6 +30,7 @@ interface Props {
   handleModal: () => void;
   onPressEdit: () => void;
   onPressRemove: () => void;
+  classRoomUID: string;
   assignmentUID: string;
 }
 
@@ -49,6 +50,7 @@ function Layout(props: Props): React.ReactElement {
     handleModal,
     onPressEdit,
     onPressRemove,
+    classRoomUID,
     assignmentUID,
   } = props;
 
@@ -94,6 +96,7 @@ function Layout(props: Props): React.ReactElement {
           loading={loadingSubmitStatusItems}
           items={submitStatusItems}
           assignmentUID={assignmentUID}
+          classRoomUID={classRoomUID}
         />
       );
     }

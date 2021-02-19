@@ -10,17 +10,41 @@ import {Alert} from 'react-native';
 import Layout from './Layout';
 import {StackParamList} from '../../navigation/StudentStackNavigator';
 import {SubmitAnswersType} from '../../types';
+import {insertSubmitAnswers} from '../../apis/insert';
+import useUser from '../../hooks/useUser';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<StackParamList, 'StudentHomeworkForm'>>();
   const {classRoomUID, assignment, questions} = route.params;
 
+  const {user} = useUser();
+
   const [submitList, setSubmitList] = useState<SubmitAnswersType[]>(questions);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const _onChangeAnswer = (index: number, text: string) => {
+    setSubmitList((prev) => [
+      ...prev.slice(0, index),
+      {
+        ...prev[index],
+        submitValue: text,
+      },
+      ...prev.slice(index + 1),
+    ]);
+  };
+
   const requestSubmit = async () => {
-    goToStudentMain();
+    const result = await insertSubmitAnswers(
+      classRoomUID,
+      assignment.assignmentUID,
+      user?.uid || '',
+      submitList,
+    );
+
+    if (result) {
+      goToStudentMain();
+    }
   };
 
   const goToStudentMain = () => {
@@ -69,10 +93,10 @@ function Page(): React.ReactElement {
     <Layout
       assignment={assignment}
       submitList={submitList}
-      setSubmitList={setSubmitList}
       loading={loading}
       onPressSubmit={pressSubmitAnswers}
       goToStudentMain={goToStudentMain}
+      onChangeAnswer={_onChangeAnswer}
     />
   );
 }

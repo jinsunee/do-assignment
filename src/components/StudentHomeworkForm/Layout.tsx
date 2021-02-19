@@ -12,27 +12,27 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 interface Props {
   assignment: Assignment;
   submitList: SubmitAnswersType[];
-  setSubmitList: (input: SubmitAnswersType[]) => void;
   loading: boolean;
   onPressSubmit: () => void;
   goToStudentMain: () => void;
+  onChangeAnswer: (index: number, value: string) => void;
 }
 
 function Layout(props: Props): React.ReactElement {
   const {
-    assignment,
+    assignment: {limitTime},
     submitList,
-    setSubmitList,
     loading,
     onPressSubmit,
     goToStudentMain,
+    onChangeAnswer,
   } = props;
   const insets = useSafeAreaInsets();
 
   const [restTime, setRestTime] = useState<string>('');
 
   // const로 입장시간부터 입력받는다.
-  const endTimeMilli = (parseInt(2) - 1) * 60000 + Date.now();
+  const endTimeMilli = (parseInt(limitTime) - 1) * 60000 + Date.now();
 
   useEffect(() => {
     setInterval(() => {
@@ -47,22 +47,9 @@ function Layout(props: Props): React.ReactElement {
     }
   }, [restTime]);
 
-  const _onChangeAnswer = (index: number, value: string) => {
-    const tmpArr = [
-      ...submitList.slice(0, index),
-      {
-        ...submitList[index],
-        answer: value,
-      },
-      ...submitList.slice(index + 1),
-    ];
-
-    setSubmitList(tmpArr);
-  };
-
   const renderAnswers = (): React.ReactElement[] => {
     return submitList.map((item, index) => {
-      const {questionUID, answer, question} = item;
+      const {questionUID, submitValue, question} = item;
       return (
         <QuestionWrapper>
           <QuestionNumber>{index + 1}번</QuestionNumber>
@@ -70,8 +57,8 @@ function Layout(props: Props): React.ReactElement {
             key={questionUID}
             title={question}
             textInputProps={{
-              value: answer,
-              onChangeText: (text: string) => _onChangeAnswer(index, text),
+              value: submitValue,
+              onChangeText: (text: string) => onChangeAnswer(index, text),
               placeholder: '답을 입력해주세요.',
             }}
           />

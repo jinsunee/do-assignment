@@ -24,6 +24,8 @@ function Page(): React.ReactElement {
       user?.uid || '',
     );
 
+    console.log('studentMain', result);
+
     if (result) {
       setItems(result);
     }

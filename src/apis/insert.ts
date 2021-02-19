@@ -1,4 +1,9 @@
-import {AssignmentQuestion, UserType} from '../types';
+import {
+  AssignmentQuestion,
+  MarkStatus,
+  SubmitAnswersType,
+  UserType,
+} from '../types';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -209,6 +214,61 @@ export async function insertStartAssignment(
         userName: studentName,
         startAt,
       });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function insertSubmitAnswers(
+  classRoomUID: string,
+  assignmentUID: string,
+  studentUID: string,
+  submitList: SubmitAnswersType[],
+): Promise<boolean> {
+  try {
+    // console.log('submitList', submitList);
+    const db = firestore();
+
+    const submitTime = firestore.Timestamp.fromDate(new Date());
+
+    const assignmentRef = db
+      .collection('classRooms')
+      .doc(classRoomUID)
+      .collection('assignments')
+      .doc(assignmentUID);
+
+    await assignmentRef.collection('submitList').doc(studentUID).update({
+      submitTime,
+    });
+
+    for (let s of submitList) {
+      const snapshot = await assignmentRef
+        .collection('answers')
+        .doc(s.questionUID)
+        .get();
+
+      const data = snapshot.data();
+      if (data) {
+        await assignmentRef
+          .collection('submitList')
+          .doc(studentUID)
+          .collection('submitAnswers')
+          .doc(s.questionUID)
+          .set({
+            index: s.index,
+            question: s.question,
+            answer: data.answer,
+            submitValue: s.submitValue,
+            markStatus:
+              s.submitValue === data.answer
+                ? MarkStatus.CORRECT
+                : MarkStatus.INCORRECT,
+          });
+      }
+    }
 
     return true;
   } catch (error) {

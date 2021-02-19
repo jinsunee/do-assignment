@@ -43,10 +43,12 @@ export type StackParamList = {
     classRoomUID: string;
   };
   HomeworkResult: {
+    classRoomUID: string;
     assingmentUID: string;
     studentUID: string;
     studentName: string;
     submitStatus: StudentSubmitStatusType;
+    submitTime?: Date;
   };
   EditHomework: {
     assignment?: Assignment;

@@ -1,8 +1,11 @@
-import {MarkStatus, SubmitAnswersType} from '../../types';
+import {MarkStatus, SubmitAnswersType, UserType} from '../../types';
 
 import React from 'react';
+import StudentMarkStatus from './StudentMarkStatus';
+import TeacherMarkStatusButton from './TeacherMarkStatusButton';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
+import useUser from '../../hooks/useUser';
 
 interface Props {
   item: SubmitAnswersType;
@@ -15,32 +18,19 @@ function SubmitAnswerItem(props: Props) {
     changeMarkStatus,
   } = props;
 
-  const renderMarkStatusButton = (): React.ReactElement => {
-    if (markStatus === MarkStatus.CORRECT) {
+  const {user} = useUser();
+
+  const renderMarkStatusElement = (): React.ReactElement => {
+    if (user?.userType === UserType.TEACHER) {
       return (
-        <MarkStatusButtonWrapper>
-          <MarkedStatus onPress={changeMarkStatus}>
-            <MarkStatusText color={colors.blueGray[0]}>오답</MarkStatusText>
-          </MarkedStatus>
-          <MarkedStatus onPress={changeMarkStatus}>
-            <MarkStatusText color={colors.light}>정답</MarkStatusText>
-          </MarkedStatus>
-          <MarkedCorrect />
-        </MarkStatusButtonWrapper>
+        <TeacherMarkStatusButton
+          markStatus={markStatus}
+          changeMarkStatus={changeMarkStatus}
+        />
       );
     }
 
-    return (
-      <MarkStatusButtonWrapper>
-        <MarkedStatus onPress={changeMarkStatus}>
-          <MarkStatusText color={colors.light}>오답</MarkStatusText>
-        </MarkedStatus>
-        <MarkedStatus onPress={changeMarkStatus}>
-          <MarkStatusText color={colors.blueGray[0]}>정답</MarkStatusText>
-        </MarkedStatus>
-        <MarkedIncorrect />
-      </MarkStatusButtonWrapper>
-    );
+    return <StudentMarkStatus markStatus={markStatus} />;
   };
 
   return (
@@ -50,9 +40,9 @@ function SubmitAnswerItem(props: Props) {
           color={
             markStatus === MarkStatus.CORRECT ? colors.primary : colors.negative
           }>
-          {index}번
+          {index + 1}번
         </IndexNumber>
-        {renderMarkStatusButton()}
+        {renderMarkStatusElement()}
       </RowWrapper>
       <Question>{question}</Question>
       <SubmitAnswer
@@ -92,53 +82,6 @@ const RowWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`;
-
-const MarkStatusButtonWrapper = styled.View`
-  border-radius: 20px;
-  border-width: 1px;
-  border-color: ${colors.blueGray[0]};
-  flex-direction: row;
-  width: 95px;
-  height: 40px;
-  align-items: center;
-`;
-
-const MarkedStatus = styled.TouchableOpacity`
-  z-index: 99;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-const MarkStatusText = styled.Text<ColorStyleProps>`
-  color: ${({color}) => color};
-  margin: 5px 10px;
-  font-size: 14px;
-`;
-
-const MarkedIncorrect = styled.View`
-  z-index: 0;
-  position: absolute;
-  left: -1;
-  width: 50px;
-  height: 40px;
-  border-radius: 20px;
-  border-width: 1px;
-  border-color: ${colors.negative};
-  background-color: ${colors.negative};
-`;
-
-const MarkedCorrect = styled.View`
-  z-index: 0;
-  position: absolute;
-  right: -1;
-  width: 50px;
-  height: 40px;
-  border-radius: 20px;
-  border-width: 1px;
-  border-color: ${colors.primary};
-  background-color: ${colors.primary};
 `;
 
 const Question = styled.Text`

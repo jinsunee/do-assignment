@@ -18,6 +18,7 @@ export interface Assignment {
   expireDate: Date;
   limitTime: string;
   status: AssignmentStatus;
+  submitTime?: Date;
 }
 
 export enum AssignmentStatus {
@@ -29,6 +30,7 @@ export enum AssignmentStatus {
 
 export interface StudentSubmitStatus extends StudentListItemType {
   submitStatus: StudentSubmitStatusType;
+  submitTime?: Date;
 }
 
 export enum StudentSubmitStatusType {
@@ -50,10 +52,9 @@ export interface AssignmentQuestion {
 }
 
 export interface SubmitAnswersType {
-  submitAnswerUID: string;
+  questionUID: string;
   index: number;
   question: string;
-  questionUID: string;
   answer: string;
   submitValue: string;
   markStatus: MarkStatus;

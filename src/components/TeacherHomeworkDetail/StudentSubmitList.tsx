@@ -6,13 +6,14 @@ import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
 
 interface Props {
+  classRoomUID: string;
   loading: boolean;
   items: StudentSubmitStatus[] | null | undefined;
   assignmentUID: string;
 }
 
 function StudentSubmitList(props: Props): React.ReactElement {
-  const {loading, items, assignmentUID} = props;
+  const {loading, items, assignmentUID, classRoomUID} = props;
 
   if (loading) {
     return (
@@ -32,6 +33,7 @@ function StudentSubmitList(props: Props): React.ReactElement {
             key={item.studentUID}
             item={item}
             assignmentUID={assignmentUID}
+            classRoomUID={classRoomUID}
           />
         )}
       />

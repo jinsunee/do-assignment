@@ -44,12 +44,12 @@ function Page(): React.ReactElement {
   };
 
   const goToForm = async () => {
-    // await insertStartAssignment(
-    //   classRoomUID,
-    //   assignment.assignmentUID,
-    //   user?.uid || '',
-    //   user?.displayName || '',
-    // );
+    await insertStartAssignment(
+      classRoomUID,
+      assignment.assignmentUID,
+      user?.uid || '',
+      user?.displayName || '',
+    );
     navigation.dispatch(
       CommonActions.reset({
         index: 0,

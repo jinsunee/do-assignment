@@ -205,10 +205,9 @@ export async function fetchQuestions(
 
       if (data) {
         rtn.push({
-          submitAnswerUID: '',
+          questionUID: q.id,
           index: data.index,
           question: data.question,
-          questionUID: q.id,
           answer: '',
           submitValue: '',
           markStatus: MarkStatus.INCORRECT,
@@ -230,40 +229,52 @@ export async function fetchSubmitList(
   try {
     const db = firestore();
 
+    // <userUID: string, SubmitStudent: StudentSubmitStatus>
+    const map = new Map<string, StudentSubmitStatus>();
+
     const classRoomRef = db.collection('classRooms').doc(classRoomUID);
 
-    const snapshot = await Promise.all([
-      await classRoomRef
-        .collection('assignments')
-        .doc(assignmentUID)
-        .collection('submitList')
-        .get(),
-      await classRoomRef.collection('students').get(),
-    ]);
+    const studentsQuery = await classRoomRef.collection('students').get();
 
-    const submitListRef = snapshot[0];
-    const studentListRef = snapshot[1];
-
-    const submitedUserUIDList = new Set();
-    // 제출 리스트 userUID를 set에 담는다.
-
-    submitListRef.forEach((s) => submitedUserUIDList.add(s.id));
-
-    const rtn: StudentSubmitStatus[] = [];
-    studentListRef.forEach((s) => {
+    studentsQuery.forEach((s) => {
       const data = s.data();
-      const submitStatus = submitedUserUIDList.has(s.id)
-        ? StudentSubmitStatusType.COMPLETED
-        : StudentSubmitStatusType.NOT_YET;
 
       if (data) {
-        rtn.push({
+        map.set(s.id, {
           studentUID: s.id,
           studentName: data.userName,
-          submitStatus,
+          submitStatus: StudentSubmitStatusType.NOT_YET,
         });
       }
     });
+
+    const rtn: StudentSubmitStatus[] = [];
+
+    for (let s of map.keys()) {
+      const submitQuery = await classRoomRef
+        .collection('assignments')
+        .doc(assignmentUID)
+        .collection('submitList')
+        .doc(s)
+        .get();
+
+      const data = submitQuery.data();
+
+      const mapObject = map.get(s);
+
+      if (mapObject) {
+        if (data) {
+          rtn.push({
+            studentUID: mapObject.studentUID,
+            studentName: mapObject.studentName,
+            submitStatus: StudentSubmitStatusType.COMPLETED,
+            submitTime: data.submitTime.toDate(),
+          });
+        } else {
+          rtn.push(mapObject);
+        }
+      }
+    }
 
     return rtn || null;
   } catch (error) {
@@ -368,13 +379,65 @@ export async function fetchAssignmentStudent(
         .doc(studentUID)
         .get();
 
-      rtn.push({
-        ...t,
-        status: query.data()
-          ? AssignmentStatus.COMPLETED
-          : AssignmentStatus.NOT_YET,
-      });
+      const data = query.data();
+
+      if (data?.submitTime) {
+        rtn.push({
+          ...t,
+          status: AssignmentStatus.COMPLETED,
+          submitTime: data.submitTime.toDate(),
+        });
+      } else {
+        rtn.push({
+          ...t,
+          status: AssignmentStatus.NOT_YET,
+        });
+      }
     }
+
+    return rtn || null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function fetchSubmitResult(
+  classRoomUID: string,
+  assignmentUID: string,
+  studentUID: string,
+): Promise<SubmitAnswersType[] | null> {
+  try {
+    const db = firestore();
+
+    const snapshot = await db
+      .collection('classRooms')
+      .doc(classRoomUID)
+      .collection('assignments')
+      .doc(assignmentUID)
+      .collection('submitList')
+      .doc(studentUID)
+      .collection('submitAnswers')
+      .orderBy('index')
+      .get();
+
+    const rtn: SubmitAnswersType[] = [];
+
+    console.log('size', snapshot.size, classRoomUID, assignmentUID, studentUID);
+    snapshot.forEach((s) => {
+      const data = s.data();
+
+      if (data) {
+        rtn.push({
+          questionUID: s.id,
+          index: data.index,
+          question: data.question,
+          answer: data.answer,
+          submitValue: data.submitValue,
+          markStatus: data.markStatus,
+        });
+      }
+    });
 
     return rtn || null;
   } catch (error) {

@@ -4,20 +4,25 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 
 import Layout from './Layout';
 import {StackParamList} from '../../navigation/RootStackNavigator';
-import {dummySubmitAnswers} from '../../../assets/dummy/submitAnswers';
+import {fetchSubmitResult} from '../../apis/fetch';
 
 function Page(): React.ReactElement {
   const route = useRoute<RouteProp<StackParamList, 'HomeworkResult'>>();
   const navigation = useNavigation();
-  const {studentUID, studentName, assingmentUID, submitStatus} = route.params;
+  const {
+    classRoomUID,
+    studentUID,
+    studentName,
+    assignmentUID,
+    submitStatus,
+    submitTime,
+  } = route.params;
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [submitTime, setSubmitTime] = useState<Date>();
   const [submitAnswers, setSubmitAnswers] = useState<SubmitAnswersType[]>();
 
   const changeMarkStatus = (index: number) => {
-    console.log(index, submitAnswers);
     if (submitAnswers) {
       const tmp = [
         ...submitAnswers.slice(0, index),
@@ -35,14 +40,20 @@ function Page(): React.ReactElement {
     }
   };
 
-  const fetchItems = () => {
+  const fetchItems = async () => {
     setLoading(true);
 
-    setSubmitTime(new Date());
-    setSubmitAnswers(dummySubmitAnswers);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const result = await fetchSubmitResult(
+      classRoomUID,
+      assignmentUID,
+      studentUID,
+    );
+
+    if (result) {
+      setSubmitAnswers(result);
+    }
+
+    setLoading(false);
   };
 
   useEffect(() => {
