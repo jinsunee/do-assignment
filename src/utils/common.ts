@@ -40,13 +40,19 @@ export function millisToHoursAndMinutesAndSeconds(millis: number): string {
   let minutes = Math.floor(millis / 1000 / 60);
   let seconds = ((millis % 60000) / 1000).toFixed(0);
 
-  console.log(millis, hours, minutes, seconds);
-
   return (
-    (hours < 10 ? '0' + hours : hours) +
+    getDateString(hours) +
     ':' +
-    (minutes < 10 ? '0' + minutes : minutes) +
+    getDateString(minutes) +
     ':' +
-    (parseInt(seconds) < 10 ? '0' + seconds : seconds)
+    getDateString(parseInt(seconds))
   );
 }
+
+export const getDateString = (input: number) => {
+  if (Math.floor(input / 10) === 0) {
+    return '0' + input;
+  }
+
+  return input;
+};

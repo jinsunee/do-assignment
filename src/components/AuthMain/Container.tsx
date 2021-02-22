@@ -1,5 +1,6 @@
+import React, {useEffect} from 'react';
+
 import Layout from './Layout';
-import React from 'react';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
@@ -30,6 +31,16 @@ async function onAppleButtonPress() {
 function Page(): React.ReactElement {
   const navigation = useNavigation();
 
+  useEffect(() => {
+    if (appleAuth.isSupported) {
+      return appleAuth.onCredentialRevoked(async () => {
+        console.warn(
+          'If this function executes, User Credentials have been Revoked',
+        );
+      });
+    }
+  }, []);
+
   const goToFirstEmail = (): void => {
     if (navigation) {
       navigation.navigate('AuthMail');
@@ -37,7 +48,11 @@ function Page(): React.ReactElement {
   };
 
   return (
-    <Layout onPressEmail={goToFirstEmail} onPressApple={onAppleButtonPress} />
+    <Layout
+      onPressEmail={goToFirstEmail}
+      onPressApple={onAppleButtonPress}
+      appleIsSupported={appleAuth.isSupported}
+    />
   );
 }
 

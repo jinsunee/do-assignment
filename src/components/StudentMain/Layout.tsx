@@ -57,7 +57,7 @@ function Layout(props: Props): React.ReactElement {
 
   const renderLoading = (): React.ReactElement | null => {
     if (loading) {
-      return <LoadingScreen />;
+      return <LoadingScreen opacity={1} />;
     }
 
     return null;

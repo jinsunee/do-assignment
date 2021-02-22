@@ -3,6 +3,7 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {fetchClassRoom, fetchUserType} from '../apis/fetch';
 
 import Spinner from 'react-native-spinkit';
+import SplashScreen from 'react-native-splash-screen';
 import styled from '@emotion/native';
 import useAssignment from '../hooks/useAssignment';
 import useClassRoom from '../hooks/useClassRoom';
@@ -60,6 +61,8 @@ function AuthHandler({children}: Props) {
   }
 
   useEffect(() => {
+    SplashScreen.hide();
+
     // @ts-ignore
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;

@@ -65,7 +65,7 @@ function DatePicker(props: Props): React.ReactElement {
       return (
         <>
           <ExpireDateButton onPress={showDatePicker}>
-            <ExpireDateText>날짜 선택</ExpireDateText>
+            <ExpireDateText>제출 기한 선택</ExpireDateText>
           </ExpireDateButton>
           <DateTimePickerModal
             date={expireDate}
@@ -78,7 +78,7 @@ function DatePicker(props: Props): React.ReactElement {
             locale="ko"
             confirmTextIOS="확인"
             cancelTextIOS="취소"
-            headerTextIOS="날짜 선택"
+            headerTextIOS="제출 기한 선택"
           />
         </>
       );
@@ -88,7 +88,7 @@ function DatePicker(props: Props): React.ReactElement {
       return (
         <>
           <ExpireDateButton onPress={showDatePicker}>
-            <ExpireDateText>날짜 선택</ExpireDateText>
+            <ExpireDateText>제출 기한 선택</ExpireDateText>
           </ExpireDateButton>
         </>
       );
@@ -136,14 +136,6 @@ const ExpireDateText = styled.Text<{
   font-weight: 500;
   color: ${({focusedColor}) => focusedColor || colors.blueGray[0]};
   margin-top: 5px;
-`;
-
-const ExpireDateValueText = styled.Text`
-  font-size: 16px;
-  font-weight: 500;
-  color: ${({theme}) => theme.font};
-  padding: 5px 0;
-  padding-top: 10px;
 `;
 
 export default DatePicker;

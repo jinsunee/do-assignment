@@ -2,19 +2,27 @@ import React from 'react';
 import Spinner from 'react-native-spinkit';
 import styled from '@emotion/native';
 
-function LoadingScreen(): React.ReactElement {
+interface Props {
+  opacity?: number;
+}
+
+function LoadingScreen(props: Props): React.ReactElement {
   return (
-    <Container>
+    <Container opacity={props.opacity}>
       <Spinner type={'ThreeBounce'} />
     </Container>
   );
 }
 
-const Container = styled.View`
+type ContainerStyleProps = {
+  opacity?: number;
+};
+
+const Container = styled.View<ContainerStyleProps>`
   width: 100%;
   height: 100%;
   background-color: ${({theme}) => theme.background};
-  opacity: 0.7;
+  opacity: ${({opacity}) => opacity || 0.7};
   padding-top: 200px;
   align-items: center;
   position: absolute;

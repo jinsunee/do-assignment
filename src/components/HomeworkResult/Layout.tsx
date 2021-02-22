@@ -5,6 +5,7 @@ import React from 'react';
 import Spinner from 'react-native-spinkit';
 import SubmitAnswerItem from './SubmitAnswerItem';
 import {colors} from '../../utils/theme';
+import {getDateString} from '../../utils/common';
 import styled from '@emotion/native';
 
 interface Props {
@@ -26,6 +27,22 @@ function Layout(props: Props): React.ReactElement {
     changeMarkStatus,
   } = props;
 
+  const renderDate = (): React.ReactElement | null => {
+    if (submitTime) {
+      return (
+        <SubmitTime>{`${submitTime.getFullYear()}/${getDateString(
+          submitTime.getMonth() + 1,
+        )}/${getDateString(submitTime.getDate())} ${getDateString(
+          submitTime.getHours(),
+        )}:${getDateString(submitTime.getMinutes())}:${getDateString(
+          submitTime.getSeconds(),
+        )}`}</SubmitTime>
+      );
+    }
+
+    return null;
+  };
+
   const flatListHeader = (): React.ReactElement => {
     return (
       <FlatListHeader>
@@ -37,11 +54,7 @@ function Layout(props: Props): React.ReactElement {
             <SubmitStatusText fontColor={colors.primary}>
               제출 완료
             </SubmitStatusText>
-            {submitTime ? (
-              <SubmitTime>{`${submitTime.getFullYear()}/${
-                submitTime.getMonth() + 1
-              }/${submitTime.getDate()} ${submitTime.getHours()}:${submitTime.getMinutes()}:${submitTime.getSeconds()}`}</SubmitTime>
-            ) : null}
+            {renderDate()}
           </Submit>
         </TopWrapper>
       </FlatListHeader>

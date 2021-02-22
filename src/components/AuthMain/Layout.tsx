@@ -8,11 +8,22 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 interface Props {
   onPressEmail: () => void;
   onPressApple: () => void;
+  appleIsSupported: boolean;
 }
 
 function Layout(props: Props): React.ReactElement {
-  const {onPressApple, onPressEmail} = props;
+  const {onPressApple, onPressEmail, appleIsSupported} = props;
   const insets = useSafeAreaInsets();
+
+  const renderAppleButton = (): React.ReactElement | null => {
+    if (appleIsSupported) {
+      return (
+        <SignInButton type={SignInType.APPLE} onPressButton={onPressApple} />
+      );
+    }
+
+    return null;
+  };
 
   return (
     <Container paddingTop={insets.top}>
@@ -21,7 +32,7 @@ function Layout(props: Props): React.ReactElement {
         <SubTitle>선생님이야에 오신 것을 환영합니다.</SubTitle>
         <SignButtonaWrapper>
           <SignInButton type={SignInType.EMAIL} onPressButton={onPressEmail} />
-          <SignInButton type={SignInType.APPLE} onPressButton={onPressApple} />
+          {renderAppleButton()}
         </SignButtonaWrapper>
       </Wrapper>
     </Container>

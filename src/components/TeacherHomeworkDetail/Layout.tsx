@@ -13,6 +13,7 @@ import {RenderListType} from './Container';
 import StudentSubmitList from './StudentSubmitList';
 import {SvgMore} from '../../utils/Icons';
 import {colors} from '../../utils/theme';
+import {getDateString} from '../../utils/common';
 import styled from '@emotion/native';
 
 interface Props {
@@ -66,9 +67,11 @@ function Layout(props: Props): React.ReactElement {
     if (date) {
       return (
         <Date>
-          <BoldText>{`${date?.getFullYear()}/${
-            date?.getMonth() + 1
-          }/${date?.getDate()} ${date?.getHours()}:${date?.getMinutes()}:${date?.getSeconds()}`}</BoldText>
+          <BoldText>
+            {date.getFullYear()}/{getDateString(date.getMonth() + 1)}/
+            {getDateString(date.getDate())} {getDateString(date.getHours())}:
+            {getDateString(date.getMinutes())}
+          </BoldText>
           까지 제출
         </Date>
       );

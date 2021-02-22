@@ -16,13 +16,10 @@ function Page(): React.ReactElement {
   const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<Assignment[]>();
 
-  const fetchItems = async () => {
+  const fetchItems = async (classRoomUID: string, userUID: string) => {
     setLoading(true);
 
-    const result = await fetchAssignmentStudent(
-      classRoom?.classRoomUID || '',
-      user?.uid || '',
-    );
+    const result = await fetchAssignmentStudent(userUID, classRoomUID);
 
     if (result) {
       setItems(result);
@@ -32,9 +29,11 @@ function Page(): React.ReactElement {
   };
 
   useEffect(() => {
-    fetchItems();
+    if (user?.uid && classRoom?.classRoomUID) {
+      fetchItems(user.uid, classRoom.classRoomUID);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user, classRoom]);
 
   const goToSetting = () => {
     if (navigation) {

@@ -3,6 +3,7 @@ import {Assignment, AssignmentStatus, StudentSubmitStatusType} from '../types';
 import React from 'react';
 import {View} from 'react-native';
 import {colors} from '../utils/theme';
+import {getDateString} from '../utils/common';
 import styled from '@emotion/native';
 import useClassRooms from '../hooks/useClassRoom';
 import {useNavigation} from '@react-navigation/native';
@@ -59,9 +60,13 @@ function AssignmentItem(props: Props): React.ReactElement {
               <Title>{title}</Title>
             </TitleWrapper>
             {expireDate ? (
-              <ExpireDate>{`${expireDate?.getFullYear()}/${
-                expireDate?.getMonth() + 1
-              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}} 까지 제출`}</ExpireDate>
+              <ExpireDate>{`${expireDate?.getFullYear()}/${getDateString(
+                expireDate?.getMonth() + 1,
+              )}/${getDateString(expireDate?.getDate())} ${getDateString(
+                expireDate?.getHours(),
+              )}:${getDateString(
+                expireDate?.getMinutes(),
+              )} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
         </Container>
@@ -77,9 +82,13 @@ function AssignmentItem(props: Props): React.ReactElement {
               <Title>{title}</Title>
             </TitleWrapper>
             {expireDate ? (
-              <ExpireDate>{`${expireDate?.getFullYear()}/${
-                expireDate?.getMonth() + 1
-              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()} 까지 제출`}</ExpireDate>
+              <ExpireDate>{`${expireDate?.getFullYear()}/${getDateString(
+                expireDate?.getMonth() + 1,
+              )}/${getDateString(expireDate?.getDate())} ${getDateString(
+                expireDate?.getHours(),
+              )}:${getDateString(
+                expireDate?.getMinutes(),
+              )} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
           <Submit>
@@ -97,10 +106,13 @@ function AssignmentItem(props: Props): React.ReactElement {
               <Title color={colors.blueGray[0]}>{title}</Title>
             </TitleWrapper>
             {expireDate ? (
-              <ExpireDate
-                color={colors.blueGray[0]}>{`${expireDate?.getFullYear()}/${
-                expireDate?.getMonth() + 1
-              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()} 까지 제출`}</ExpireDate>
+              <ExpireDate>{`${expireDate?.getFullYear()}/${getDateString(
+                expireDate?.getMonth() + 1,
+              )}/${getDateString(expireDate?.getDate())} ${getDateString(
+                expireDate?.getHours(),
+              )}:${getDateString(
+                expireDate?.getMinutes(),
+              )} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
           <CompletedSubmit>
@@ -121,10 +133,13 @@ function AssignmentItem(props: Props): React.ReactElement {
               <Title color={colors.blueGray[0]}>{title}</Title>
             </TitleWrapper>
             {expireDate ? (
-              <ExpireDate
-                color={colors.blueGray[0]}>{`${expireDate?.getFullYear()}/${
-                expireDate?.getMonth() + 1
-              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()} 까지 제출`}</ExpireDate>
+              <ExpireDate>{`${expireDate?.getFullYear()}/${getDateString(
+                expireDate?.getMonth() + 1,
+              )}/${getDateString(expireDate?.getDate())} ${getDateString(
+                expireDate?.getHours(),
+              )}:${getDateString(
+                expireDate?.getMinutes(),
+              )} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
         </Container>

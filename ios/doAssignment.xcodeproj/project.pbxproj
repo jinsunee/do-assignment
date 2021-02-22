@@ -17,8 +17,8 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* doAssignmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* doAssignmentTests.m */; };
 		37E17D5C86F034A10E025D33 /* libPods-doAssignment-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F455FE5485531EFBE21A447A /* libPods-doAssignment-tvOS.a */; };
+		6EAA9F0025E40ED300A9DFC1 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EAA9EFF25E40ED300A9DFC1 /* SplashScreen.storyboard */; };
 		6EB36F7625D620AC00FDAD66 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EB36F7525D620AC00FDAD66 /* GoogleService-Info.plist */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9A4A89E6A303E4040FF18F7F /* libPods-doAssignment-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFC28BA4911B18F9102D26D /* libPods-doAssignment-tvOSTests.a */; };
 		C03ABE4765600D9956834B9A /* libPods-doAssignment.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CBE9DCBEDB60D34170A80294 /* libPods-doAssignment.a */; };
 /* End PBXBuildFile section */
@@ -56,12 +56,13 @@
 		2D02E47B1E0B4A5D006451C7 /* doAssignment-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "doAssignment-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* doAssignment-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "doAssignment-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36443A110F58A7E946504644 /* Pods-doAssignment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doAssignment.debug.xcconfig"; path = "Target Support Files/Pods-doAssignment/Pods-doAssignment.debug.xcconfig"; sourceTree = "<group>"; };
+		6EAA9EFF25E40ED300A9DFC1 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
+		6EAF604425E3F801005228E4 /* doAssignment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = doAssignment.entitlements; path = doAssignment/doAssignment.entitlements; sourceTree = "<group>"; };
 		6EB36F7525D620AC00FDAD66 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7197433ADE066C420D6B77E4 /* Pods-doAssignment-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doAssignment-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-doAssignment-tvOSTests/Pods-doAssignment-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		74868BF10CAF12275622C118 /* Pods-doAssignment-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doAssignment-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-doAssignment-tvOS/Pods-doAssignment-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		75B495DE5A0CC1F83C46A63A /* Pods-doAssignment-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doAssignment-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-doAssignment-tvOSTests/Pods-doAssignment-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		7ABFCEAAA8CDC9622F097D39 /* Pods-doAssignment-doAssignmentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doAssignment-doAssignmentTests.debug.xcconfig"; path = "Target Support Files/Pods-doAssignment-doAssignmentTests/Pods-doAssignment-doAssignmentTests.debug.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = doAssignment/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		922283DC8AAD51E084B098D3 /* Pods-doAssignment-doAssignmentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doAssignment-doAssignmentTests.release.xcconfig"; path = "Target Support Files/Pods-doAssignment-doAssignmentTests/Pods-doAssignment-doAssignmentTests.release.xcconfig"; sourceTree = "<group>"; };
 		CBE9DCBEDB60D34170A80294 /* libPods-doAssignment.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-doAssignment.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0FC643755A7051D6E81B88E /* Pods-doAssignment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doAssignment.release.xcconfig"; path = "Target Support Files/Pods-doAssignment/Pods-doAssignment.release.xcconfig"; sourceTree = "<group>"; };
@@ -127,12 +128,12 @@
 		13B07FAE1A68108700A75B9A /* doAssignment */ = {
 			isa = PBXGroup;
 			children = (
+				6EAF604425E3F801005228E4 /* doAssignment.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = doAssignment;
@@ -176,6 +177,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				6EAA9EFF25E40ED300A9DFC1 /* SplashScreen.storyboard */,
 				6EB36F7525D620AC00FDAD66 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* doAssignment */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -344,8 +346,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				6EAA9F0025E40ED300A9DFC1 /* SplashScreen.storyboard in Resources */,
 				6EB36F7625D620AC00FDAD66 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -674,6 +676,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = doAssignment/doAssignment.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HR7RM9RAMK;
 				ENABLE_BITCODE = NO;
@@ -699,6 +702,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = doAssignment/doAssignment.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HR7RM9RAMK;
 				INFOPLIST_FILE = doAssignment/Info.plist;

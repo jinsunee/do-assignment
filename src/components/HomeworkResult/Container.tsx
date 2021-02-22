@@ -1,6 +1,6 @@
 import {MarkStatus, SubmitAnswersType} from '../../types';
 import React, {useEffect, useState} from 'react';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 
 import Layout from './Layout';
 import {StackParamList} from '../../navigation/RootStackNavigator';
@@ -28,14 +28,6 @@ function Page(): React.ReactElement {
         submitAnswers[index].markStatus === MarkStatus.CORRECT
           ? MarkStatus.INCORRECT
           : MarkStatus.CORRECT;
-
-      console.log(
-        classRoomUID,
-        assignmentUID,
-        studentUID,
-        submitAnswers[index].questionUID,
-        markStatus,
-      );
 
       await updateMarkStatus(
         classRoomUID,
