@@ -14,7 +14,7 @@ interface Props {
 
 function AuthHandler({children}: Props) {
   const {setUser, resetUser} = useUser();
-  const {setClassRoom, resetClassRoom, classRoom} = useClassRoom();
+  const {setClassRoom} = useClassRoom();
   const {assignment} = useAssignment();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -64,10 +64,6 @@ function AuthHandler({children}: Props) {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
-
-  useEffect(() => {
-    console.log('12312312312313', assignment);
-  }, [assignment]);
 
   if (loading) {
     return (

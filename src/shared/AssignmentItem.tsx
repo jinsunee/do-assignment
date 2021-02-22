@@ -10,7 +10,6 @@ import useUser from '../hooks/useUser';
 
 interface Props {
   item: Assignment;
-  onPressItem: () => {};
 }
 
 function AssignmentItem(props: Props): React.ReactElement {
@@ -20,8 +19,6 @@ function AssignmentItem(props: Props): React.ReactElement {
   const navigation = useNavigation();
   const {user} = useUser();
   const {classRoom} = useClassRooms();
-
-  console.log('submitTime', submitTime);
 
   const goToHomeworkDetail = () => {
     if (status === AssignmentStatus.DEFAULT) {
@@ -64,7 +61,7 @@ function AssignmentItem(props: Props): React.ReactElement {
             {expireDate ? (
               <ExpireDate>{`${expireDate?.getFullYear()}/${
                 expireDate?.getMonth() + 1
-              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}:${expireDate?.getSeconds()} 까지 제출`}</ExpireDate>
+              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
         </Container>
@@ -82,7 +79,7 @@ function AssignmentItem(props: Props): React.ReactElement {
             {expireDate ? (
               <ExpireDate>{`${expireDate?.getFullYear()}/${
                 expireDate?.getMonth() + 1
-              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}:${expireDate?.getSeconds()} 까지 제출`}</ExpireDate>
+              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
           <Submit>
@@ -103,7 +100,7 @@ function AssignmentItem(props: Props): React.ReactElement {
               <ExpireDate
                 color={colors.blueGray[0]}>{`${expireDate?.getFullYear()}/${
                 expireDate?.getMonth() + 1
-              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}:${expireDate?.getSeconds()} 까지 제출`}</ExpireDate>
+              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
           <CompletedSubmit>
@@ -127,7 +124,7 @@ function AssignmentItem(props: Props): React.ReactElement {
               <ExpireDate
                 color={colors.blueGray[0]}>{`${expireDate?.getFullYear()}/${
                 expireDate?.getMonth() + 1
-              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()}:${expireDate?.getSeconds()} 까지 제출`}</ExpireDate>
+              }/${expireDate?.getDate()} ${expireDate?.getHours()}:${expireDate?.getMinutes()} 까지 제출`}</ExpireDate>
             ) : null}
           </View>
         </Container>

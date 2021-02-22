@@ -1,10 +1,10 @@
 import Header from '../../shared/Header';
 import {HeaderElementType} from '../../types';
 import {KeyboardWrapper} from '../../shared';
+import {LoadingScreen} from '../../shared';
 import React from 'react';
 import TextInputBox from '../../shared/TextInputBox';
 import styled from '@emotion/native';
-
 interface Props {
   loading: boolean;
   classRoomName: string;
@@ -35,9 +35,18 @@ function Layout(props: Props): React.ReactElement {
     },
   ];
 
+  const renderLoading = (): React.ReactElement | null => {
+    if (loading) {
+      return <LoadingScreen />;
+    }
+
+    return null;
+  };
+
   return (
     <Container>
       <Header rightElements={rightElements} />
+      {renderLoading()}
       <KeyboardWrapper>
         <Wrapper>
           <TitleText>클래스 정보 수정</TitleText>

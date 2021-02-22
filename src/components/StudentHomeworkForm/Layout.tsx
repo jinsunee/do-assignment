@@ -7,6 +7,7 @@ import KeyboardWrapper from '../../shared/KeyboardWrapper';
 import {colors} from '../../utils/theme';
 import {millisToHoursAndMinutesAndSeconds} from '../../utils/common';
 import styled from '@emotion/native';
+import useAssignment from '../../hooks/useAssignment';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Props {
@@ -20,7 +21,7 @@ interface Props {
 
 function Layout(props: Props): React.ReactElement {
   const {
-    assignment: {limitTime},
+    assignment: {limitTime, title, description, expireDate},
     submitList,
     loading,
     onPressSubmit,
@@ -32,12 +33,16 @@ function Layout(props: Props): React.ReactElement {
   const [restTime, setRestTime] = useState<string>('');
 
   // const로 입장시간부터 입력받는다.
-  const endTimeMilli = (parseInt(limitTime) - 1) * 60000 + Date.now();
+  const endTimeMilli =
+    limitTime === '1'
+      ? Date.now() + 60000
+      : parseInt(limitTime) * 60000 + Date.now();
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setRestTime(millisToHoursAndMinutesAndSeconds(endTimeMilli - Date.now()));
     }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -91,8 +96,8 @@ function Layout(props: Props): React.ReactElement {
             제출까지 <BoldText>{restTime} </BoldText> 남음
           </TimeText>
         </TimeButton>
-        <Title>제목제목</Title>
-        <Description>설명입니다 설명설명</Description>
+        <Title>{title}</Title>
+        <Description>{description}</Description>
       </TopWrapper>
       <KeyboardWrapper>
         <Wrapper bottom={insets.bottom}>

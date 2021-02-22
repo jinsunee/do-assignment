@@ -1,6 +1,7 @@
 import Header from '../../shared/Header';
 import {HeaderElementType} from '../../types';
 import {KeyboardWrapper} from '../../shared';
+import {LoadingScreen} from '../../shared';
 import React from 'react';
 import TextInputBox from '../../shared/TextInputBox';
 import styled from '@emotion/native';
@@ -21,6 +22,7 @@ function Layout(props: Props): React.ReactElement {
     warningUserName,
     onPressSubmit,
   } = props;
+
   const rightElements: HeaderElementType[] = [
     {
       key: 'filter button',
@@ -29,9 +31,18 @@ function Layout(props: Props): React.ReactElement {
     },
   ];
 
+  const renderLoading = (): React.ReactElement | null => {
+    if (loading) {
+      return <LoadingScreen />;
+    }
+
+    return null;
+  };
+
   return (
     <Container>
       <Header rightElements={rightElements} />
+      {renderLoading()}
       <KeyboardWrapper>
         <Wrapper>
           <TitleText>프로필 정보 수정</TitleText>

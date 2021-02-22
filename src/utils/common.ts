@@ -37,13 +37,15 @@ export const dataForSearching = (userName: string): string[] => {
 
 export function millisToHoursAndMinutesAndSeconds(millis: number): string {
   let hours = Math.floor(millis / 1000 / 60 / 60);
-  let minutes = ((millis / 1000 / 60) % 60).toFixed(0);
+  let minutes = Math.floor(millis / 1000 / 60);
   let seconds = ((millis % 60000) / 1000).toFixed(0);
+
+  console.log(millis, hours, minutes, seconds);
 
   return (
     (hours < 10 ? '0' + hours : hours) +
     ':' +
-    (parseInt(minutes) < 10 ? '0' + minutes : minutes) +
+    (minutes < 10 ? '0' + minutes : minutes) +
     ':' +
     (parseInt(seconds) < 10 ? '0' + seconds : seconds)
   );

@@ -2,6 +2,7 @@ import {Assignment, HeaderElementType} from '../../types';
 
 import {AssignmentItem} from '../../shared';
 import {Header} from '../../shared';
+import {LoadingScreen} from '../../shared';
 import React from 'react';
 import {SvgSetting} from '../../utils/Icons';
 import {colors} from '../../utils/theme';
@@ -11,10 +12,11 @@ import useTheme from '../../hooks/useTheme';
 interface Props {
   items?: Assignment[];
   onPressSetting: () => void;
+  loading: boolean;
 }
 
 function Layout(props: Props): React.ReactElement {
-  const {items, onPressSetting} = props;
+  const {items, onPressSetting, loading} = props;
   const {theme} = useTheme();
 
   const leftElements: HeaderElementType[] = [
@@ -26,11 +28,6 @@ function Layout(props: Props): React.ReactElement {
   ];
 
   const rightElements: HeaderElementType[] = [
-    // {
-    //   key: 'filter button',
-    //   element: <SvgFilter fill={theme.font} />,
-    //   onPressElement: () => console.log(),
-    // },
     {
       key: 'setting button',
       element: <SvgSetting fill={theme.font} />,
@@ -58,9 +55,18 @@ function Layout(props: Props): React.ReactElement {
     );
   };
 
+  const renderLoading = (): React.ReactElement | null => {
+    if (loading) {
+      return <LoadingScreen />;
+    }
+
+    return null;
+  };
+
   return (
     <Container>
       <Header leftElements={leftElements} rightElements={rightElements} />
+      {renderLoading()}
       {renderAssignments()}
     </Container>
   );

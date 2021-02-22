@@ -1,8 +1,8 @@
-import {AssignmentStatus, UserType} from '../../types';
 import React, {useEffect, useState} from 'react';
 
 import {Assignment} from '../../types';
 import Layout from './Layout';
+import {UserType} from '../../types';
 import {fetchAssignmentStudent} from '../../apis/fetch';
 import useClassRoom from '../../hooks/useClassRoom';
 import {useNavigation} from '@react-navigation/native';
@@ -13,7 +13,7 @@ function Page(): React.ReactElement {
   const {classRoom} = useClassRoom();
   const {user} = useUser();
 
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [items, setItems] = useState<Assignment[]>();
 
   const fetchItems = async () => {
@@ -24,13 +24,11 @@ function Page(): React.ReactElement {
       user?.uid || '',
     );
 
-    console.log('studentMain', result);
-
     if (result) {
       setItems(result);
     }
 
-    setLoading(true);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -44,7 +42,9 @@ function Page(): React.ReactElement {
     }
   };
 
-  return <Layout items={items} onPressSetting={goToSetting} />;
+  return (
+    <Layout loading={loading} items={items} onPressSetting={goToSetting} />
+  );
 }
 
 export default Page;

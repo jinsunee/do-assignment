@@ -445,3 +445,17 @@ export async function fetchSubmitResult(
     return null;
   }
 }
+
+export async function validateAccessCode(accessCode: string): Promise<boolean> {
+  try {
+    const snapshot = await firestore()
+      .collection('classRooms')
+      .where('accessCode', '==', accessCode)
+      .get();
+
+    return snapshot.size <= 0;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

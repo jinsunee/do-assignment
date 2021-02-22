@@ -1,5 +1,6 @@
 import {Assignment, AssignmentQuestion, MarkStatus} from '../types';
 
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 export async function updateAssignment(
@@ -85,6 +86,51 @@ export async function updateMarkStatus(
       .update({
         markStatus,
       });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+// upate class Room information
+export async function updateClassRoomInformation(
+  classRoomUID: string,
+  classRoomName: string,
+  accessCode: string,
+): Promise<boolean> {
+  try {
+    await firestore().collection('classRooms').doc(classRoomUID).update({
+      classRoomName,
+      accessCode,
+    });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+// update user information
+export async function updateUserInformation(
+  userUID: string,
+  userName: string,
+): Promise<boolean> {
+  try {
+    const currentUser = auth().currentUser;
+
+    if (currentUser) {
+      await Promise.all([
+        await currentUser.updateProfile({
+          displayName: userName,
+        }),
+        await firestore().collection('users').doc(userUID).update({
+          userName,
+        }),
+      ]);
+    }
 
     return true;
   } catch (error) {

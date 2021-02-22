@@ -1,18 +1,21 @@
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {
   SettingMenuItemType,
   UpdateInfromationScreenType,
   UserType,
 } from '../../types';
 
-import Layout from './Layout';
 import React from 'react';
-import {StackParamList} from '../../navigation/StudentStackNavigator';
+import StudentLayout from './StudentLayout';
+import TeacherLayout from './TeacherLayout';
 import {signOut} from '../../apis/delete';
+import useClassRoom from '../../hooks/useClassRoom';
+import {useNavigation} from '@react-navigation/native';
+import useUser from '../../hooks/useUser';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<StackParamList, 'Setting'>>();
+  const {user} = useUser();
+  const {classRoom} = useClassRoom();
 
   const goToUpdateInformation = (screenName: string, paramsObject?: Object) => {
     if (paramsObject) {
@@ -23,26 +26,39 @@ function Page(): React.ReactElement {
     navigation?.navigate(screenName);
   };
 
-  const updateInformation: SettingMenuItemType[] = [
-    {
-      key: '클래스 정보',
-      leftString: '클래스 정보',
-      onPressMenuItem: () =>
-        goToUpdateInformation('UpdateInformation', {
-          screenType: UpdateInfromationScreenType.CLASS_INFORMATION,
-          classRoomUID: '123',
-        }),
-    },
-    {
-      key: '프로필 정보',
-      leftString: '프로필 정보',
-      onPressMenuItem: () =>
-        goToUpdateInformation('UpdateInformation', {
-          screenType: UpdateInfromationScreenType.PROFILE,
-          classRoomUID: '123',
-        }),
-    },
-  ];
+  const updateInformation: SettingMenuItemType[] =
+    user?.userType === UserType.TEACHER
+      ? [
+          {
+            key: '클래스 정보',
+            leftString: '클래스 정보',
+            onPressMenuItem: () =>
+              goToUpdateInformation('UpdateInformation', {
+                screenType: UpdateInfromationScreenType.CLASS_INFORMATION,
+                classRoomUID: classRoom?.classRoomUID,
+              }),
+          },
+          {
+            key: '프로필 정보',
+            leftString: '프로필 정보',
+            onPressMenuItem: () =>
+              goToUpdateInformation('UpdateInformation', {
+                screenType: UpdateInfromationScreenType.PROFILE,
+                classRoomUID: classRoom?.classRoomUID,
+              }),
+          },
+        ]
+      : [
+          {
+            key: '프로필 정보',
+            leftString: '프로필 정보',
+            onPressMenuItem: () =>
+              goToUpdateInformation('UpdateInformation', {
+                screenType: UpdateInfromationScreenType.PROFILE,
+                classRoomUID: classRoom?.classRoomUID,
+              }),
+          },
+        ];
 
   const aboutApp: SettingMenuItemType[] = [
     {
@@ -64,12 +80,24 @@ function Page(): React.ReactElement {
     await signOut();
   };
 
+  if (user?.userType === UserType.TEACHER) {
+    return (
+      <TeacherLayout
+        updateInformation={updateInformation}
+        aboutApp={aboutApp}
+        onPressSignOut={requestSignOut}
+        classRoomName={classRoom?.classRoomName || ''}
+        userName={user?.displayName || ''}
+      />
+    );
+  }
+
   return (
-    <Layout
+    <StudentLayout
       updateInformation={updateInformation}
       aboutApp={aboutApp}
       onPressSignOut={requestSignOut}
-      userType={route?.params?.userType || UserType.TEACHER}
+      userName={user?.displayName || ''}
     />
   );
 }
