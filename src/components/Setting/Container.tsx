@@ -7,6 +7,7 @@ import {
 import React from 'react';
 import StudentLayout from './StudentLayout';
 import TeacherLayout from './TeacherLayout';
+import VersionCheck from 'react-native-version-check';
 import {signOut} from '../../apis/delete';
 import useClassRoom from '../../hooks/useClassRoom';
 import {useNavigation} from '@react-navigation/native';
@@ -72,7 +73,7 @@ function Page(): React.ReactElement {
     {
       key: '앱 버전',
       leftString: '앱 버전',
-      rightString: '0.0.1',
+      rightString: VersionCheck.getCurrentVersion(),
     },
   ];
 

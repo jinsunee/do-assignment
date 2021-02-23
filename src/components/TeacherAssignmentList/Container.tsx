@@ -11,16 +11,19 @@ function Page(): React.ReactElement {
   const {assignment, setAssignments} = useAssignment();
   const {classRoom} = useClassroom();
 
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    fetchItems();
-  }, []);
+    if (classRoom?.classRoomUID) {
+      fetchItems(classRoom.classRoomUID);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [classRoom]);
 
-  const fetchItems = async () => {
+  const fetchItems = async (classRoomUID: string) => {
     setLoading(true);
 
-    const result = await fetchAssignmentTeacher(classRoom?.classRoomUID || '');
+    const result = await fetchAssignmentTeacher(classRoomUID);
 
     if (result) {
       setAssignments(result);
@@ -33,7 +36,13 @@ function Page(): React.ReactElement {
     }
   };
 
-  return <Layout onPressAddButton={goToEditHomework} items={assignment} />;
+  return (
+    <Layout
+      onPressAddButton={goToEditHomework}
+      items={assignment}
+      loading={loading}
+    />
+  );
 }
 
 export default Page;

@@ -39,7 +39,7 @@ function Layout(props: Props): React.ReactElement {
   );
 }
 
-const Wrapper = styled.View`
+const Wrapper = styled.ScrollView`
   margin-top: 92px;
   padding: 0 26px;
 `;

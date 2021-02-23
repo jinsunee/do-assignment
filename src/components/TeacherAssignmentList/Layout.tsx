@@ -2,6 +2,7 @@ import {Assignment, HeaderElementType} from '../../types';
 
 import {AssignmentItem} from '../../shared';
 import {Header} from '../../shared';
+import {LoadingScreen} from '../../shared';
 import React from 'react';
 import {SvgPlus2} from '../../utils/Icons';
 import {colors} from '../../utils/theme';
@@ -11,10 +12,11 @@ import useClassRoom from '../../hooks/useClassRoom';
 interface Props {
   items?: Assignment[] | null;
   onPressAddButton: () => void;
+  loading: boolean;
 }
 
 function Layout(props: Props): React.ReactElement {
-  const {items, onPressAddButton} = props;
+  const {items, onPressAddButton, loading} = props;
   const {classRoom} = useClassRoom();
 
   const leftElements: HeaderElementType[] = [
@@ -59,9 +61,18 @@ function Layout(props: Props): React.ReactElement {
     );
   };
 
+  const renderLoading = (): React.ReactElement | null => {
+    if (loading) {
+      return <LoadingScreen opacity={1} />;
+    }
+
+    return null;
+  };
+
   return (
     <Container>
       <Header leftElements={leftElements} />
+      {renderLoading()}
       {renderAssignments()}
     </Container>
   );
