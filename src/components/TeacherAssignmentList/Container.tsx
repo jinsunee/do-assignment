@@ -28,6 +28,7 @@ function Page(): React.ReactElement {
     if (result) {
       setAssignments(result);
     }
+    setLoading(false);
   };
 
   const goToEditHomework = () => {

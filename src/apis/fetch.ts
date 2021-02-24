@@ -198,7 +198,6 @@ export async function fetchQuestions(
       .collection('questions')
       .get();
 
-    console.log('123', query.size);
     const rtn: SubmitAnswersType[] = [];
     query.forEach((q) => {
       const data = q.data();
@@ -423,7 +422,6 @@ export async function fetchSubmitResult(
 
     const rtn: SubmitAnswersType[] = [];
 
-    console.log('size', snapshot.size, classRoomUID, assignmentUID, studentUID);
     snapshot.forEach((s) => {
       const data = s.data();
 

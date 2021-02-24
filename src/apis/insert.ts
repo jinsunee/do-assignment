@@ -229,7 +229,6 @@ export async function insertSubmitAnswers(
   submitList: SubmitAnswersType[],
 ): Promise<boolean> {
   try {
-    // console.log('submitList', submitList);
     const db = firestore();
 
     const submitTime = firestore.Timestamp.fromDate(new Date());
