@@ -61,7 +61,9 @@ function AuthHandler({children}: Props) {
   }
 
   useEffect(() => {
-    SplashScreen.hide();
+    setTimeout(function hideSplash() {
+      SplashScreen.hide();
+    }, 2000);
 
     // @ts-ignore
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
