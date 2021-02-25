@@ -34,6 +34,7 @@ function QuestionList(props: Props): React.ReactElement {
       data={items}
       keyExtractor={(item, index): string => index.toString()}
       renderItem={({item, index}) => (
+        // @ts-ignore
         <Question key={item.questionUID} item={item} index={index} />
       )}
     />
@@ -41,7 +42,7 @@ function QuestionList(props: Props): React.ReactElement {
 }
 
 const Container = styled.View`
-  padding: 50px 15px;
+  padding: 50px 0;
   justify-content: center;
   align-items: center;
 `;
@@ -54,7 +55,7 @@ const EmptyText = styled.Text`
 `;
 
 const ListContainer = styled.FlatList`
-  padding: 15px 10px;
+  padding: 15px 0;
 `;
 
 export default QuestionList;

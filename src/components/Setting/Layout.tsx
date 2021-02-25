@@ -7,6 +7,8 @@ import React from 'react';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
 import {useActionSheet} from '@expo/react-native-action-sheet';
+import useClassRoom from '../../hooks/useClassRoom';
+import useUser from '../../hooks/useUser';
 
 interface Props {
   updateInformation: SettingMenuItemType[];
@@ -24,6 +26,8 @@ function Layout(props: Props): React.ReactElement {
   } = props;
 
   const {showActionSheetWithOptions} = useActionSheet();
+  const {classRoom} = useClassRoom();
+  const {user} = useUser();
 
   const _pressLogout = () => {
     const options = ['로그아웃', '취소'];
@@ -47,8 +51,8 @@ function Layout(props: Props): React.ReactElement {
 
   const leftElements: HeaderElementType[] = [
     {
-      key: '자주학원 코딩선생님 박진선',
-      element: <ClassRoomName>자주학원 코딩선생님 박진선</ClassRoomName>,
+      key: classRoom?.classRoomName || '123',
+      element: <ClassRoomName>{classRoom?.classRoomName}</ClassRoomName>,
       onPressElement: () => console.log(),
     },
   ];
@@ -69,7 +73,7 @@ function Layout(props: Props): React.ReactElement {
         <Header leftElements={leftElements} />
         <ProfileWrapper>
           <UserNameText>
-            <BoldText>박진선</BoldText>선생님
+            <BoldText>{user?.displayName || ''}</BoldText>선생님
           </UserNameText>
           <SvgTeacherBlack />
         </ProfileWrapper>
@@ -92,7 +96,7 @@ function Layout(props: Props): React.ReactElement {
       <Header />
       <ProfileWrapper>
         <UserNameText>
-          <BoldText>박진선</BoldText>학생
+          <BoldText>{user?.displayName || ''}</BoldText>학생
         </UserNameText>
         <SvgStudentBlack />
       </ProfileWrapper>

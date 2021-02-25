@@ -7,6 +7,7 @@ import React from 'react';
 import {SvgSetting} from '../../utils/Icons';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
+import useClassRoom from '../../hooks/useClassRoom';
 import useTheme from '../../hooks/useTheme';
 
 interface Props {
@@ -18,11 +19,12 @@ interface Props {
 function Layout(props: Props): React.ReactElement {
   const {items, onPressSetting, loading} = props;
   const {theme} = useTheme();
+  const {classRoom} = useClassRoom();
 
   const leftElements: HeaderElementType[] = [
     {
-      key: '자주학원 코딩선생님 박진선',
-      element: <Title>자주학원 코딩선생님 박진선</Title>,
+      key: classRoom?.classRoomName || '',
+      element: <Title>{classRoom?.classRoomName}</Title>,
       onPressElement: () => console.log(),
     },
   ];

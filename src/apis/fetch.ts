@@ -228,7 +228,6 @@ export async function fetchSubmitList(
   try {
     const db = firestore();
 
-    // <userUID: string, SubmitStudent: StudentSubmitStatus>
     const map = new Map<string, StudentSubmitStatus>();
 
     const classRoomRef = db.collection('classRooms').doc(classRoomUID);
@@ -262,7 +261,7 @@ export async function fetchSubmitList(
       const mapObject = map.get(s);
 
       if (mapObject) {
-        if (data) {
+        if (data?.submitTime) {
           rtn.push({
             studentUID: mapObject.studentUID,
             studentName: mapObject.studentName,

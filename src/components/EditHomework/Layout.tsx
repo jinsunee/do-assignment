@@ -1,10 +1,10 @@
 import {AssignmentQuestion, HeaderElementType} from '../../types';
+import {Keyboard, Platform} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {SvgPlus2, SvgTime} from '../../utils/Icons';
 
 import DatePicker from './DatePicker';
 import Header from '../../shared/Header';
-import {Keyboard} from 'react-native';
 import {LayoutType} from './Container';
 import {LoadingScreen} from '../../shared';
 import QuestionItem from './QuestionItem';
@@ -127,7 +127,7 @@ function Layout(props: Props): React.ReactElement {
     <Container>
       <Header rightElements={rightElements} />
       {renderLoading()}
-      <KeyboardView behavior={'padding'}>
+      <KeyboardView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <Wrapper>
           <TitleWrapper>{renderLayoutTitle()}</TitleWrapper>
           <AssignmentTitleInput
@@ -190,7 +190,7 @@ const Wrapper = styled.ScrollView`
 `;
 
 const TitleWrapper = styled.View`
-  padding: 10px 0 20px 0;
+  padding: 10px 0;
 `;
 
 const Title = styled.Text`

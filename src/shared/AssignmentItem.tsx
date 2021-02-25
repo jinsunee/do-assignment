@@ -1,7 +1,7 @@
 import {Assignment, AssignmentStatus, StudentSubmitStatusType} from '../types';
+import {Platform, View} from 'react-native';
 
 import React from 'react';
-import {View} from 'react-native';
 import {colors} from '../utils/theme';
 import {getDateString} from '../utils/common';
 import styled from '@emotion/native';
@@ -76,7 +76,6 @@ function AssignmentItem(props: Props): React.ReactElement {
       return (
         <Container onPress={goToHomeworkDetail}>
           <LeftLine />
-
           <View>
             <TitleWrapper>
               <Title>{title}</Title>
@@ -100,7 +99,6 @@ function AssignmentItem(props: Props): React.ReactElement {
     case AssignmentStatus.COMPLETED: {
       return (
         <Container onPress={goToHomeworkDetail} color={colors.blueGray[0]}>
-          <LeftLine />
           <View>
             <TitleWrapper>
               <Title color={colors.blueGray[0]}>{title}</Title>
@@ -126,8 +124,6 @@ function AssignmentItem(props: Props): React.ReactElement {
     default: {
       return (
         <Container onPress={goToHomeworkDetail} color={colors.blueGray[0]}>
-          <LeftLine />
-
           <View>
             <TitleWrapper>
               <Title color={colors.blueGray[0]}>{title}</Title>
@@ -160,7 +156,8 @@ const Container = styled.TouchableOpacity<Color>`
   justify-content: space-between;
   align-items: center;
   background-color: ${({theme}) => theme.background};
-  box-shadow: 0px 0px 2px #c1c8dd;
+  border-width: 2px;
+  border-color: ${colors.gray[0]};
 `;
 
 const LeftLine = styled.View`

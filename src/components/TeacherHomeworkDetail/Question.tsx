@@ -1,4 +1,5 @@
 import {AssignmentQuestion} from '../../types';
+import {Platform} from 'react-native';
 import React from 'react';
 import {colors} from '../../utils/theme';
 import styled from '@emotion/native';
@@ -13,6 +14,7 @@ function StudentSubmitList(props: Props) {
     index,
     item: {question, answer},
   } = props;
+
   return (
     <Container>
       <IndexNumber>{index + 1}번</IndexNumber>
@@ -26,9 +28,10 @@ function StudentSubmitList(props: Props) {
 
 const Container = styled.View`
   background: ${({theme}) => theme.background};
-  box-shadow: 0px 0px 4px #e0e0e0;
   padding: 15px;
   margin: 10px 0;
+  border-width: 2px;
+  border-color: ${colors.gray[0]};
 `;
 
 const IndexNumber = styled.Text`

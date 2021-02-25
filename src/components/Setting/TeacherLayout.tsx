@@ -42,14 +42,13 @@ function Layout(props: Props): React.ReactElement {
         if (buttonIndex === 0) {
           onPressSignOut();
         }
-        // Do something here depending on the button index selected
       },
     );
   };
 
   const leftElements: HeaderElementType[] = [
     {
-      key: '자주학원 코딩선생님 박진선',
+      key: classRoomName,
       element: <ClassRoomName>{classRoomName}</ClassRoomName>,
       onPressElement: () => console.log(),
     },
@@ -96,7 +95,6 @@ const Container = styled.View`
 const ClassRoomName = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  line-height: 21px;
   color: ${({theme}) => theme.font};
 `;
 

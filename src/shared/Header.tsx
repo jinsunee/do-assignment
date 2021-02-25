@@ -63,9 +63,11 @@ function Header(props: Props): React.ReactElement {
   );
 }
 
-const Container = styled.View<{
+type ViewPropsStyle = {
   paddingTop: number;
-}>`
+};
+
+const Container = styled.View<ViewPropsStyle>`
   flex-direction: row;
   padding: ${({paddingTop}) => paddingTop + 15}px 15px 15px 15px;
   margin: 0px 5px;

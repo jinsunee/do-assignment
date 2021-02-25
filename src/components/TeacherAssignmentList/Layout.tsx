@@ -86,7 +86,6 @@ const Container = styled.View`
 const Title = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  line-height: 21px;
   color: ${({theme}) => theme.font};
 `;
 

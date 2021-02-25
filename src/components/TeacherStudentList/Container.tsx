@@ -9,7 +9,6 @@ function Page(): React.ReactElement {
   const [items, setItems] = useState<StudentListItemType[]>(studentItems);
 
   useEffect(() => {
-    console.log(studentItems);
     setItems(studentItems);
   }, []);
 

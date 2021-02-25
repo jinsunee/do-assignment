@@ -47,8 +47,9 @@ function QuestionItem(props: Props) {
 const Container = styled.View`
   margin: 10px 0;
   padding: 20px 10px 10px 10px;
-  box-shadow: 0px 0px 4px #e0e0e0;
   background-color: ${({theme}) => theme.background};
+  border-width: 2px;
+  border-color: ${colors.gray[0]};
 `;
 
 const IndexNumber = styled.Text`

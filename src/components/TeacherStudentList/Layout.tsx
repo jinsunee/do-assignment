@@ -5,6 +5,7 @@ import {Header} from '../../shared';
 import React from 'react';
 import StudentItem from './StudentItem';
 import styled from '@emotion/native';
+import useClassRoom from '../../hooks/useClassRoom';
 
 interface Props {
   loading: boolean;
@@ -13,10 +14,12 @@ interface Props {
 
 function Layout(props: Props): React.ReactElement {
   const {loading, items} = props;
+  const {classRoom} = useClassRoom();
+
   const leftElements: HeaderElementType[] = [
     {
-      key: '자주학원 코딩선생님 박진선',
-      element: <Title>자주학원 코딩선생님 박진선</Title>,
+      key: classRoom?.classRoomUID || '',
+      element: <Title>{classRoom?.classRoomUID}</Title>,
       onPressElement: () => console.log(),
     },
   ];
@@ -55,7 +58,6 @@ const Container = styled.View`
 const Title = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  line-height: 21px;
   color: ${({theme}) => theme.font};
 `;
 
