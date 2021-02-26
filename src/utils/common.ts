@@ -36,16 +36,16 @@ export const dataForSearching = (userName: string): string[] => {
 };
 
 export function millisToHoursAndMinutesAndSeconds(millis: number): string {
-  let hours = Math.floor(millis / 1000 / 60 / 60);
-  let minutes = Math.floor(millis / 1000 / 60);
-  let seconds = ((millis % 60000) / 1000).toFixed(0);
+  let seconds = Math.floor((millis / 1000) % 60),
+    minutes = Math.floor((millis / (1000 * 60)) % 60),
+    hours = Math.floor((millis / (1000 * 60 * 60)) % 24);
 
   return (
     getDateString(hours) +
     ':' +
     getDateString(minutes) +
     ':' +
-    getDateString(parseInt(seconds))
+    getDateString(seconds)
   );
 }
 

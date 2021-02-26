@@ -17,31 +17,42 @@ function ButtonFixedOnButtom(props: Props): React.ReactElement {
 
   if (loading) {
     return (
-      <Container onPress={onPressSubmit} paddingBottom={insets.bottom}>
-        <Spinner type={'ThreeBounce'} color={colors.light} />
+      <Container
+        onPress={onPressSubmit}
+        style={{
+          paddingBottom: insets.bottom,
+        }}>
+        <Wrapper>
+          <Spinner type={'ThreeBounce'} color={colors.light} />
+        </Wrapper>
       </Container>
     );
   }
 
   return (
-    <Container onPress={onPressSubmit} paddingBottom={insets.bottom}>
-      <StyledText>시작하기</StyledText>
+    <Container
+      onPress={onPressSubmit}
+      style={{
+        paddingBottom: insets.bottom,
+      }}>
+      <Wrapper>
+        <StyledText>시작하기</StyledText>
+      </Wrapper>
     </Container>
   );
 }
 
-type ContainerStyleProps = {
-  paddingBottom: number;
-};
-
-const Container = styled(Pressable)<ContainerStyleProps>`
+const Container = styled(Pressable)`
   width: 100%;
-  height: 60px;
   position: absolute;
   bottom: 0;
+  background-color: ${({theme}) => theme.primary};
+`;
+
+const Wrapper = styled.View`
+  height: 60px;
   justify-content: center;
   align-items: center;
-  background-color: ${({theme}) => theme.primary};
 `;
 
 const StyledText = styled.Text`

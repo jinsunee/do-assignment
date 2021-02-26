@@ -18,7 +18,7 @@ function AuthHandler({children}: Props) {
   const {setClassRoom, resetClassRoom} = useClassRoom();
   const {resetAssignments} = useAssignments();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   async function onAuthStateChanged(firebaseUser: FirebaseAuthTypes.User) {
     if (!firebaseUser) {
@@ -47,7 +47,6 @@ function AuthHandler({children}: Props) {
         displayName: firebaseUser.displayName,
       });
     }
-
     setLoading(false);
   }
 
@@ -69,13 +68,11 @@ function AuthHandler({children}: Props) {
 
   const requestClassRoom = async (userUID: string) => {
     setLoading(true);
-
     const result = await fetchClassRoom(userUID);
 
     if (result) {
       setClassRoom(result);
     }
-
     setLoading(false);
   };
 

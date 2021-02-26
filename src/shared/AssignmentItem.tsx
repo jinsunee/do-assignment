@@ -1,7 +1,7 @@
 import {Assignment, AssignmentStatus, StudentSubmitStatusType} from '../types';
-import {Platform, View} from 'react-native';
 
 import React from 'react';
+import {View} from 'react-native';
 import {colors} from '../utils/theme';
 import {getDateString} from '../utils/common';
 import styled from '@emotion/native';
@@ -103,15 +103,6 @@ function AssignmentItem(props: Props): React.ReactElement {
             <TitleWrapper>
               <Title color={colors.blueGray[0]}>{title}</Title>
             </TitleWrapper>
-            {expireDate ? (
-              <ExpireDate>{`${expireDate?.getFullYear()}/${getDateString(
-                expireDate?.getMonth() + 1,
-              )}/${getDateString(expireDate?.getDate())} ${getDateString(
-                expireDate?.getHours(),
-              )}:${getDateString(
-                expireDate?.getMinutes(),
-              )} 까지 제출`}</ExpireDate>
-            ) : null}
           </View>
           <CompletedSubmit>
             <CompletedText>제출완료</CompletedText>
@@ -156,8 +147,8 @@ const Container = styled.TouchableOpacity<Color>`
   justify-content: space-between;
   align-items: center;
   background-color: ${({theme}) => theme.background};
-  border-width: 2px;
-  border-color: ${colors.gray[0]};
+  border-width: 1px;
+  border-color: ${colors.blueGray[0]};
 `;
 
 const LeftLine = styled.View`
