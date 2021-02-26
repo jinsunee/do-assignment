@@ -5,7 +5,7 @@ import {fetchClassRoom, fetchUserType} from '../apis/fetch';
 import Spinner from 'react-native-spinkit';
 import SplashScreen from 'react-native-splash-screen';
 import styled from '@emotion/native';
-import useAssignment from '../hooks/useAssignment';
+import useAssignments from '../hooks/useAssignments';
 import useClassRoom from '../hooks/useClassRoom';
 import useUser from '../hooks/useUser';
 
@@ -14,35 +14,30 @@ interface Props {
 }
 
 function AuthHandler({children}: Props) {
-  const {setUser, resetUser} = useUser();
-  const {setClassRoom} = useClassRoom();
-  const {assignment} = useAssignment();
+  const {user, setUser, resetUser} = useUser();
+  const {setClassRoom, resetClassRoom} = useClassRoom();
+  const {resetAssignments} = useAssignments();
 
   const [loading, setLoading] = useState<boolean>(false);
 
   async function onAuthStateChanged(firebaseUser: FirebaseAuthTypes.User) {
-    setLoading(true);
     if (!firebaseUser) {
       resetUser();
+      resetClassRoom();
+      resetAssignments();
       setLoading(false);
       return;
     }
 
-    const result = await Promise.all([
-      await fetchUserType(firebaseUser.uid),
-      await fetchClassRoom(firebaseUser.uid),
-    ]);
+    const result = await fetchUserType(firebaseUser.uid);
 
-    const userTypeResult = result[0];
-    const classRoomResult = result[1];
-
-    if (userTypeResult) {
+    if (result) {
       setUser({
         uid: firebaseUser.uid,
         email: firebaseUser.email,
         emailVerified: firebaseUser.emailVerified,
         displayName: firebaseUser.displayName,
-        userType: userTypeResult,
+        userType: result,
       });
     } else {
       setUser({
@@ -51,10 +46,6 @@ function AuthHandler({children}: Props) {
         emailVerified: firebaseUser.emailVerified,
         displayName: firebaseUser.displayName,
       });
-    }
-
-    if (classRoomResult) {
-      setClassRoom(classRoomResult);
     }
 
     setLoading(false);
@@ -69,6 +60,24 @@ function AuthHandler({children}: Props) {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
+
+  useEffect(() => {
+    if (user?.displayName && user?.emailVerified) {
+      requestClassRoom(user.uid);
+    }
+  }, [user]);
+
+  const requestClassRoom = async (userUID: string) => {
+    setLoading(true);
+
+    const result = await fetchClassRoom(userUID);
+
+    if (result) {
+      setClassRoom(result);
+    }
+
+    setLoading(false);
+  };
 
   if (loading) {
     return (

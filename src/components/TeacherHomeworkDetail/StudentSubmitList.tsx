@@ -23,27 +23,29 @@ function StudentSubmitList(props: Props): React.ReactElement {
     );
   }
 
-  if (items) {
+  if (items === undefined || items === null || !items || items.length <= 0) {
     return (
-      <ListContainer
-        data={items}
-        keyExtractor={(item, index): string => index.toString()}
-        renderItem={({item}) => (
-          <StudentSubmitItem
-            key={item.studentUID}
-            item={item}
-            assignmentUID={assignmentUID}
-            classRoomUID={classRoomUID}
-          />
-        )}
-      />
+      <Container>
+        <EmptyText>클래스에 가입한 학생이 없어요 :(</EmptyText>
+      </Container>
     );
   }
 
   return (
-    <Container>
-      <EmptyText>클래스에 가입한 학생이 없어요 :(</EmptyText>
-    </Container>
+    <ListContainer
+      data={items}
+      keyExtractor={(item, index): string => index.toString()}
+      renderItem={({item}) => (
+        <StudentSubmitItem
+          // @ts-ignore
+          key={item.studentUID}
+          // @ts-ignore
+          item={item}
+          assignmentUID={assignmentUID}
+          classRoomUID={classRoomUID}
+        />
+      )}
+    />
   );
 }
 

@@ -6,7 +6,7 @@ import {fetchQuestionsAnswers, fetchSubmitList} from '../../apis/fetch';
 import Layout from './Layout';
 import {StackParamList} from '../../navigation/RootStackNavigator';
 import {deleteAssignment} from '../../apis/delete';
-import useAssignment from '../../hooks/useAssignment';
+import useAssignments from '../../hooks/useAssignments';
 import useClassRoom from '../../hooks/useClassRoom';
 
 export enum RenderListType {
@@ -17,7 +17,7 @@ export enum RenderListType {
 function Page(): React.ReactElement {
   const route = useRoute<RouteProp<StackParamList, 'TeacherHomeworkDetail'>>();
   const {classRoom} = useClassRoom();
-  const {assignment, setAssignments} = useAssignment();
+  const {assignments, setAssignments} = useAssignments();
   const navigation = useNavigation();
 
   const {
@@ -108,7 +108,7 @@ function Page(): React.ReactElement {
   };
 
   const onPressRemove = async () => {
-    if (classRoom?.classRoomUID && assignment) {
+    if (classRoom?.classRoomUID && assignments) {
       setLoading(true);
       setShownModal(false);
       const result = await deleteAssignment(
@@ -117,7 +117,7 @@ function Page(): React.ReactElement {
       );
 
       if (result) {
-        const newAssignments = assignment.filter(
+        const newAssignments = assignments.filter(
           (a) => a.assignmentUID !== assignmentUID,
         );
         setAssignments(newAssignments);

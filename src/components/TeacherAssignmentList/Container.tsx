@@ -2,16 +2,16 @@ import React, {useEffect, useState} from 'react';
 
 import Layout from './Layout';
 import {fetchAssignmentTeacher} from '../../apis/fetch';
-import useAssignment from '../../hooks/useAssignment';
+import useAssignments from '../../hooks/useAssignments';
 import useClassroom from '../../hooks/useClassRoom';
 import {useNavigation} from '@react-navigation/native';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
-  const {assignment, setAssignments} = useAssignment();
+  const {assignments, setAssignments} = useAssignments();
   const {classRoom} = useClassroom();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (classRoom?.classRoomUID) {
@@ -40,7 +40,7 @@ function Page(): React.ReactElement {
   return (
     <Layout
       onPressAddButton={goToEditHomework}
-      items={assignment}
+      items={assignments}
       loading={loading}
     />
   );

@@ -9,7 +9,7 @@ export const validateEmail = (email: string): boolean => {
 };
 
 export const validatePassword = (password: string): boolean => {
-  const re = /^.*(?=.{6,15})(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+  const re = /^.*(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
   return re.test(password);
 };
 
@@ -50,6 +50,10 @@ export function millisToHoursAndMinutesAndSeconds(millis: number): string {
 }
 
 export const getDateString = (input: number) => {
+  if (input <= 0) {
+    return '00';
+  }
+
   if (Math.floor(input / 10) === 0) {
     return '0' + input;
   }

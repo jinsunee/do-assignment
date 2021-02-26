@@ -1,3 +1,4 @@
+import {AssignmentStatus, SubmitAnswersType} from '../../types';
 import {
   CommonActions,
   RouteProp,
@@ -9,16 +10,17 @@ import React, {useState} from 'react';
 import {Alert} from 'react-native';
 import Layout from './Layout';
 import {StackParamList} from '../../navigation/StudentStackNavigator';
-import {SubmitAnswersType} from '../../types';
 import {insertSubmitAnswers} from '../../apis/insert';
+import useAssignments from '../../hooks/useAssignments';
 import useUser from '../../hooks/useUser';
 
 function Page(): React.ReactElement {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<StackParamList, 'StudentHomeworkForm'>>();
-  const {classRoomUID, assignment, questions} = route.params;
+  const {assignment, classRoomUID, questions} = route.params;
 
   const {user} = useUser();
+  const {assignments, setAssignments} = useAssignments();
 
   const [submitList, setSubmitList] = useState<SubmitAnswersType[]>(questions);
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,6 +37,8 @@ function Page(): React.ReactElement {
   };
 
   const requestSubmit = async () => {
+    setLoading(true);
+
     const result = await insertSubmitAnswers(
       classRoomUID,
       assignment.assignmentUID,
@@ -45,6 +49,38 @@ function Page(): React.ReactElement {
     if (result) {
       goToStudentMain();
     }
+  };
+
+  const autoSubmit = async () => {
+    setLoading(true);
+
+    const result = await insertSubmitAnswers(
+      classRoomUID,
+      assignment.assignmentUID,
+      user?.uid || '',
+      submitList,
+    );
+
+    if (result) {
+      const index =
+        assignments?.findIndex(
+          (a) => a.assignmentUID === assignment.assignmentUID,
+        ) || -1;
+
+      if (assignments && index !== -1) {
+        setAssignments([
+          ...assignments.slice(0, index),
+          {
+            ...assignments[index],
+            status: AssignmentStatus.COMPLETED,
+          },
+          ...assignments.slice(index + 1),
+        ]);
+      }
+    }
+
+    Alert.alert('시험이 종료되었습니다.');
+    goToStudentMain();
   };
 
   const goToStudentMain = () => {
@@ -97,6 +133,7 @@ function Page(): React.ReactElement {
       onPressSubmit={pressSubmitAnswers}
       goToStudentMain={goToStudentMain}
       onChangeAnswer={_onChangeAnswer}
+      autoSubmit={autoSubmit}
     />
   );
 }

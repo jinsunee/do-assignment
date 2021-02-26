@@ -1,8 +1,9 @@
-import {ActivityIndicator, TextStyle, ViewStyle} from 'react-native';
+import {TextStyle, ViewStyle} from 'react-native';
 
 import React from 'react';
+import Spinner from 'react-native-spinkit';
+import {colors} from '../utils/theme';
 import styled from '@emotion/native';
-import useTheme from '../hooks/useTheme';
 
 interface Props {
   value: string;
@@ -20,12 +21,11 @@ function Shared(props: Props): React.ReactElement {
     containerStyle,
     textStyle,
   } = props;
-  const {theme} = useTheme();
 
   if (loading) {
     return (
       <Container onPress={onPressButton} style={containerStyle}>
-        <ActivityIndicator size={16} color={theme.background} />
+        <Spinner type={'ThreeBounce'} color={colors.light} />
       </Container>
     );
   }

@@ -1,13 +1,12 @@
-import {ActivityIndicator, Alert} from 'react-native';
 import {Assignment, SubmitAnswersType} from '../../types';
 import {BoldText, TextInputBox} from '../../shared';
 import React, {useEffect, useState} from 'react';
 
 import KeyboardWrapper from '../../shared/KeyboardWrapper';
+import {LoadingScreen} from '../../shared';
 import {colors} from '../../utils/theme';
 import {millisToHoursAndMinutesAndSeconds} from '../../utils/common';
 import styled from '@emotion/native';
-import useAssignment from '../../hooks/useAssignment';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Props {
@@ -17,16 +16,18 @@ interface Props {
   onPressSubmit: () => void;
   goToStudentMain: () => void;
   onChangeAnswer: (index: number, value: string) => void;
+  autoSubmit: () => void;
 }
 
 function Layout(props: Props): React.ReactElement {
   const {
-    assignment: {limitTime, title, description, expireDate},
+    assignment: {limitTime, title, description, expireDate, assignmentUID},
     submitList,
     loading,
     onPressSubmit,
     goToStudentMain,
     onChangeAnswer,
+    autoSubmit,
   } = props;
   const insets = useSafeAreaInsets();
 
@@ -39,16 +40,16 @@ function Layout(props: Props): React.ReactElement {
       : parseInt(limitTime) * 60000 + Date.now();
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = setInterval(function SettinrestTime() {
       setRestTime(millisToHoursAndMinutesAndSeconds(endTimeMilli - Date.now()));
     }, 1000);
+
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     if (restTime === '00:00:00') {
-      Alert.alert('시험이 종료되었습니다.');
-      goToStudentMain();
+      autoSubmit();
     }
   }, [restTime]);
 
@@ -72,24 +73,17 @@ function Layout(props: Props): React.ReactElement {
     });
   };
 
-  const renderSubmitButton = (): React.ReactElement => {
+  const renderLoading = (): React.ReactElement | null => {
     if (loading) {
-      return (
-        <SubmitButton disabled={loading}>
-          <ActivityIndicator size={16} color={colors.light} />
-        </SubmitButton>
-      );
+      return <LoadingScreen opacity={0.3} />;
     }
 
-    return (
-      <SubmitButton onPress={onPressSubmit}>
-        <SubmitText>제출하기</SubmitText>
-      </SubmitButton>
-    );
+    return null;
   };
 
   return (
     <Container>
+      {renderLoading()}
       <TopWrapper style={{paddingTop: insets.top + 15}}>
         <TimeButton>
           <TimeText>
@@ -102,7 +96,9 @@ function Layout(props: Props): React.ReactElement {
       <KeyboardWrapper>
         <Wrapper bottom={insets.bottom}>
           {renderAnswers()}
-          {renderSubmitButton()}
+          <SubmitButton onPress={onPressSubmit}>
+            <SubmitText>제출하기</SubmitText>
+          </SubmitButton>
         </Wrapper>
       </KeyboardWrapper>
     </Container>
@@ -151,10 +147,11 @@ const Wrapper = styled.ScrollView<{
 
 const QuestionWrapper = styled.View`
   background-color: ${({theme}) => theme.background};
-  box-shadow: 0px 0px 4px #e0e0e0;
   padding: 15px 15px 0 15px;
   justify-content: center;
   margin-bottom: 15px;
+  border-width: 2px;
+  border-color: ${colors.gray[0]};
 `;
 
 const QuestionNumber = styled.Text`

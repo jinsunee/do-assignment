@@ -379,12 +379,19 @@ export async function fetchAssignmentStudent(
 
       const data = query.data();
 
-      if (data?.submitTime) {
-        rtn.push({
-          ...t,
-          status: AssignmentStatus.COMPLETED,
-          submitTime: data.submitTime.toDate(),
-        });
+      if (data) {
+        if (data?.submitTime) {
+          rtn.push({
+            ...t,
+            status: AssignmentStatus.COMPLETED,
+            submitTime: data.submitTime.toDate(),
+          });
+        } else {
+          rtn.push({
+            ...t,
+            status: AssignmentStatus.COMPLETED,
+          });
+        }
       } else {
         rtn.push({
           ...t,

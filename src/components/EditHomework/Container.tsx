@@ -8,7 +8,7 @@ import {StackParamList} from '../../navigation/RootStackNavigator';
 import {fetchQuestionsAnswers} from '../../apis/fetch';
 import {insertAssignment} from '../../apis/insert';
 import {updateAssignment} from '../../apis/update';
-import useAssignment from '../../hooks/useAssignment';
+import useAssignments from '../../hooks/useAssignments';
 import useClassRoom from '../../hooks/useClassRoom';
 
 export enum LayoutType {
@@ -21,7 +21,7 @@ function Page(): React.ReactElement {
   const navigation = useNavigation();
 
   const {classRoom} = useClassRoom();
-  const {assignment, setAssignments} = useAssignment();
+  const {assignments, setAssignments} = useAssignments();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -157,9 +157,9 @@ function Page(): React.ReactElement {
     );
 
     if (result) {
-      if (assignment) {
+      if (assignments) {
         setAssignments([
-          ...assignment,
+          ...assignments,
           {
             assignmentUID: result,
             title,
@@ -235,13 +235,13 @@ function Page(): React.ReactElement {
       questions,
     );
 
-    if (result && assignment) {
-      const index = assignment.findIndex(
+    if (result && assignments) {
+      const index = assignments.findIndex(
         (a) => a.assignmentUID === assignmentUID,
       );
 
       setAssignments([
-        ...assignment.slice(0, index),
+        ...assignments.slice(0, index),
         {
           title,
           expireDate,
@@ -250,11 +250,11 @@ function Page(): React.ReactElement {
           assignmentUID,
           status: AssignmentStatus.DEFAULT,
         },
-        ...assignment.slice(index + 1),
+        ...assignments.slice(index + 1),
       ]);
     }
-    setLoading(false);
 
+    setLoading(false);
     navigation.goBack();
   };
 

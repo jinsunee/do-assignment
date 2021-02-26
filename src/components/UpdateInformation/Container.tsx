@@ -52,7 +52,7 @@ function Page(): React.ReactElement {
 
     const validate = await validateAccessCode(accessCode);
 
-    if (!validate) {
+    if (accessCode !== classRoom?.accessCode && !validate) {
       setWarningAccessCode('다른 접속코드를 입력해주세요.');
       setWarningClassRoomName('');
       setLoading(false);

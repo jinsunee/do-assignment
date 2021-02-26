@@ -63,9 +63,10 @@ function SubmitAnswerItem(props: Props) {
 
 const Container = styled.View`
   background-color: ${({theme}) => theme.background};
-  box-shadow: 0px 0px 4px #e0e0e0;
   padding: 15px;
   margin: 10px 15px;
+  border-width: 2px;
+  border-color: ${colors.gray[0]};
 `;
 
 type ColorStyleProps = {

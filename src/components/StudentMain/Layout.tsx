@@ -11,7 +11,7 @@ import useClassRoom from '../../hooks/useClassRoom';
 import useTheme from '../../hooks/useTheme';
 
 interface Props {
-  items?: Assignment[];
+  items?: Assignment[] | null;
   onPressSetting: () => void;
   loading: boolean;
 }
@@ -82,7 +82,6 @@ const Container = styled.View`
 const Title = styled.Text`
   font-weight: bold;
   font-size: 20px;
-  line-height: 21px;
   color: ${({theme}) => theme.font};
 `;
 

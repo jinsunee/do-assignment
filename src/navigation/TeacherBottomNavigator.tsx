@@ -3,17 +3,15 @@ import {
   createMaterialBottomTabNavigator,
 } from '@react-navigation/material-bottom-tabs';
 import React, {ReactElement} from 'react';
-import {SvgList, SvgSetting, SvgStudentCheck} from '../utils/Icons';
+import {SvgList, SvgSetting} from '../utils/Icons';
 
 import Setting from '../components/Setting';
 import TeacherAssignmentList from '../components/TeacherAssignmentList';
-import TeacherStudentList from '../components/TeacherStudentList';
 import {colors} from '../utils/theme';
 import useTheme from '../hooks/useTheme';
 
 export type __BottomTabParamList = {
   TeacherAssignmentList: undefined;
-  TeacherStudentList: undefined;
   Setting: undefined;
 };
 
@@ -46,18 +44,6 @@ function TeacherBottomNavigator(): ReactElement {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="TeacherStudentList"
-        component={TeacherStudentList}
-        options={{
-          tabBarLabel: '학생관리',
-          tabBarIcon: ({focused}: {focused: boolean}): React.ReactElement => (
-            <SvgStudentCheck
-              fill={focused ? colors.primary : colors.blueGray[0]}
-            />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="Setting"
         component={Setting}

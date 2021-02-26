@@ -4,6 +4,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {ModeType} from '../../types';
 import {SvgCalendar} from '../../utils/Icons';
 import {colors} from '../../utils/theme';
+import {getDateString} from '../../utils/common';
 import styled from '@emotion/native';
 import useTheme from '../../hooks/useTheme';
 
@@ -41,9 +42,13 @@ function DatePicker(props: Props): React.ReactElement {
           <>
             <ExpireDateButton onPress={showDatePicker}>
               <ExpireDateText
-                focusedColor={theme.font}>{`${expireDate.getFullYear()}/${
-                expireDate.getMonth() + 1
-              }/${expireDate.getDate()} ${expireDate.getHours()}:${expireDate.getMinutes()}:${expireDate.getSeconds()}`}</ExpireDateText>
+                focusedColor={
+                  theme.font
+                }>{`${expireDate.getFullYear()}/${getDateString(
+                expireDate.getMonth() + 1,
+              )}/${getDateString(expireDate.getDate())} ${getDateString(
+                expireDate.getHours(),
+              )}:${getDateString(expireDate.getMinutes())}`}</ExpireDateText>
             </ExpireDateButton>
             <DateTimePickerModal
               date={expireDate}
@@ -97,9 +102,13 @@ function DatePicker(props: Props): React.ReactElement {
     return (
       <ExpireDateButton onPress={showDatePicker}>
         <ExpireDateText
-          focusedColor={theme.font}>{`${expireDate.getFullYear()}/${
-          expireDate.getMonth() + 1
-        }/${expireDate.getDate()} ${expireDate.getHours()}:${expireDate.getMinutes()}:${expireDate.getSeconds()}`}</ExpireDateText>
+          focusedColor={
+            theme.font
+          }>{`${expireDate.getFullYear()}/${getDateString(
+          expireDate.getMonth() + 1,
+        )}/${getDateString(expireDate.getDate())} ${getDateString(
+          expireDate.getHours(),
+        )}:${getDateString(expireDate.getMinutes())}`}</ExpireDateText>
       </ExpireDateButton>
     );
   };

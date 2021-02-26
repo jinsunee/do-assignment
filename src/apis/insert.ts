@@ -5,6 +5,7 @@ import {
   UserType,
 } from '../types';
 
+import {appleAuth} from '@invertase/react-native-apple-authentication';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
@@ -275,3 +276,28 @@ export async function insertSubmitAnswers(
     return false;
   }
 }
+
+export async function pressAppleButton() {
+  const appleAuthRequestResponse = await appleAuth.performRequest({
+    requestedOperation: appleAuth.Operation.LOGIN,
+    requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+  });
+
+  const {identityToken, nonce} = appleAuthRequestResponse;
+
+  if (identityToken) {
+    const appleCredential = auth.AppleAuthProvider.credential(
+      identityToken,
+      nonce,
+    );
+
+    const userCredential = await auth().signInWithCredential(appleCredential);
+
+    console.warn(
+      `Firebase authenticated via Apple, UID: ${userCredential.user.uid}`,
+    );
+  } else {
+  }
+}
+
+export {appleAuth};

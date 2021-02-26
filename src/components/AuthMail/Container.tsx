@@ -25,7 +25,7 @@ function Page(): React.ReactElement {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>();
   const [warning, setWarning] = useState<string>();
   const [warningConfirm, setWarningConfirm] = useState<string>();
 
@@ -131,8 +131,10 @@ function Page(): React.ReactElement {
         try {
           setLoading(true);
 
-          if (!validatePassword(password)) {
-            setWarning('6자 이상의 비밀번호를 입력해주세요.');
+          if (password.length < 6 && !validatePassword(password)) {
+            setWarning(
+              '숫자, 문자, 특수문자 조합의 6자 이상의 비밀번호를 입력해주세요.',
+            );
             setWarningConfirm('');
             setLoading(false);
             return;

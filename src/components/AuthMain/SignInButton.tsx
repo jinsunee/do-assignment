@@ -20,14 +20,14 @@ function LoginButton(props: Props) {
       return (
         <Wrapper>
           <SvgEmail />
-          <StyledText>이메일로 로그인하기</StyledText>
+          <StyledText>이메일로 계속하기</StyledText>
         </Wrapper>
       );
     }
 
     return (
       <Wrapper>
-        <SvgApple fill={colors.black} />
+        <SvgApple fill={colors.black[0]} />
         <StyledText>Apple로 계속하기</StyledText>
       </Wrapper>
     );

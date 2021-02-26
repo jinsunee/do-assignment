@@ -158,7 +158,6 @@ function Layout(props: Props): React.ReactElement {
               placeholder={'과제수행시간(분)'}
               placeholderTextColor={colors.blueGray[0]}
               // maxLength={10}
-              returnKeyType="done"
               keyboardType="number-pad"
             />
             {limitTime ? <LimitTimeUnit>분</LimitTimeUnit> : null}
