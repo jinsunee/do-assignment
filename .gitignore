@@ -67,3 +67,5 @@ GoogleService-Info.plist
 
 config.ts
 *.keystore
+*.jks
+gradle.properties

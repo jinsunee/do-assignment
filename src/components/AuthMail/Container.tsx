@@ -25,7 +25,7 @@ function Page(): React.ReactElement {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
 
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [warning, setWarning] = useState<string>();
   const [warningConfirm, setWarningConfirm] = useState<string>();
 
