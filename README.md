@@ -11,6 +11,27 @@
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ![화면 기록 2021-02-21 오후 5 39 23 오후 12 26 22](https://user-images.githubusercontent.com/31176502/109502478-6329a700-7adc-11eb-88d3-c32afd002fd3.gif) | ![화면 기록 2021-02-21 오후 5 35 36](https://user-images.githubusercontent.com/31176502/109502453-5b6a0280-7adc-11eb-9a80-3808e5c265b8.gif) | ![화면 기록 2021-02-22 오전 4 11 13](https://user-images.githubusercontent.com/31176502/109502490-6886f180-7adc-11eb-8ec5-7c47fb87eaac.gif) |
 
+## Component Structure
+
+```
+function App(): React.ReactElement {
+  return (
+    <RootProvider>
+      <AuthHandler>
+        <RootNavigator />
+      </AuthHandler>
+    </RootProvider>
+  );
+}
+```
+
+![Frame 9](https://user-images.githubusercontent.com/31176502/109785263-4e215500-7c4f-11eb-831b-c1b19478e461.png)
+
+## Backend Data Modeling
+
+firebase firestore을 사용했기때문에 Document 기반 nosql 데이터 구조를 설계하여 serverless로 구현했습니다.
+![MacBook - 1](https://user-images.githubusercontent.com/31176502/109785862-e9b2c580-7c4f-11eb-95d2-3b5534e120e6.png)
+
 ## Skill Stacks
 
 - react-native
