@@ -20,7 +20,9 @@ function AuthHandler({children}: Props) {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  async function onAuthStateChanged(firebaseUser: FirebaseAuthTypes.User) {
+  async function onAuthStateChanged(
+    firebaseUser: FirebaseAuthTypes.User | null,
+  ) {
     if (!firebaseUser) {
       resetUser();
       resetClassRoom();
@@ -55,7 +57,6 @@ function AuthHandler({children}: Props) {
       SplashScreen.hide();
     }, 2000);
 
-    // @ts-ignore
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
