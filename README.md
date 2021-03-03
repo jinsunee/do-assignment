@@ -11,7 +11,16 @@
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ![화면 기록 2021-02-21 오후 5 39 23 오후 12 26 22](https://user-images.githubusercontent.com/31176502/109502478-6329a700-7adc-11eb-88d3-c32afd002fd3.gif) | ![화면 기록 2021-02-21 오후 5 35 36](https://user-images.githubusercontent.com/31176502/109502453-5b6a0280-7adc-11eb-9a80-3808e5c265b8.gif) | ![화면 기록 2021-02-22 오전 4 11 13](https://user-images.githubusercontent.com/31176502/109502490-6886f180-7adc-11eb-8ec5-7c47fb87eaac.gif) |
 
-## Component Structure
+## Skill Stacks
+
+- react-native
+- react-navigation
+- typescript
+- emotion
+- redux
+- firebase
+
+### 1. Component Structure
 
 ```
 function App(): React.ReactElement {
@@ -27,20 +36,11 @@ function App(): React.ReactElement {
 
 ![Frame 9](https://user-images.githubusercontent.com/31176502/109785263-4e215500-7c4f-11eb-831b-c1b19478e461.png)
 
-## Backend Data Modeling
+### 2. Backend Data Modeling
 
 firebase firestore을 사용했기때문에 Document 기반 nosql 데이터 구조를 설계하여 serverless로 구현했습니다.
 ![MacBook - 1](https://user-images.githubusercontent.com/31176502/109785862-e9b2c580-7c4f-11eb-95d2-3b5534e120e6.png)
 
-## Skill Stacks
-
-- react-native
-- react-navigation
-- typescript
-- emotion
-- redux
-- firebase
-
-### Download
+## Download
 
 <a href="https://apps.apple.com/kr/app/%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%B4%EC%95%BC/id1545616526#"><img src="https://user-images.githubusercontent.com/27461460/77502559-8c8a8d80-6e9e-11ea-9f8e-0f58c704eed6.png" width="200"/></a><a href="https://play.google.com/store/apps/details?id=com.zazu.doassignment"><img src="https://user-images.githubusercontent.com/27461460/77502571-90b6ab00-6e9e-11ea-9e93-235a319ebb41.png" width="200"/></a>
