@@ -32,8 +32,7 @@ function Page(): React.ReactElement {
   const navigation = useNavigation();
 
   switch (screenType) {
-    case ScreenType.INSERT_EMAIL:
-    default: {
+    case ScreenType.INSERT_EMAIL: {
       const requestConfirmJoined = async () => {
         try {
           setLoading(true);
@@ -110,7 +109,8 @@ function Page(): React.ReactElement {
         />
       );
     }
-    case ScreenType.SIGN_UP: {
+    case ScreenType.SIGN_UP:
+    default: {
       const goToVerifyEmail = (emailInput: string) => {
         navigation.dispatch(
           CommonActions.reset({
