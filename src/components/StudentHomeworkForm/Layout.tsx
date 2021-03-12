@@ -51,7 +51,7 @@ function Layout(props: Props): React.ReactElement {
     if (restTime === '00:00:00') {
       autoSubmit();
     }
-  }, [restTime]);
+  }, [restTime, autoSubmit]);
 
   const renderAnswers = (): React.ReactElement[] => {
     return submitList.map((item, index) => {

@@ -106,7 +106,9 @@ const Title = styled.Text`
   color: ${({theme}) => theme.font};
 `;
 
-const SignOutButton = styled.TouchableOpacity``;
+const SignOutButton = styled.TouchableOpacity`
+  padding-bottom: 20px;
+`;
 
 const SignOutText = styled.Text`
   color: ${colors.negative};
